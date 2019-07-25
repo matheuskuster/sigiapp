@@ -1,0 +1,113 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+h3 {
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+}
+.barra-cima {
+  padding: 0px;
+  width: 100%;
+  height: 60px;
+  background-color: #36c1b6;
+  position: absolute;
+}
+
+.bot {
+  background-color: #36c1b6;
+  color: white;
+  border: none;
+  margin-top: 5px;
+  width: 50%;
+  height: 50px;
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  margin-left: 0;
+  border-radius: 0;
+}
+
+.botsend {
+  background-color: #36c1b6;
+  color: white;
+  border: none;
+  margin-top: 5px;
+  width: 40%;
+  height: 50px;
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  float: right;
+  border-radius: 0;
+}
+
+.formulario {
+  border-radius: 0px;
+  height: 35px;
+  font-family: "Open Sans", sans-serif;
+  border: 0px solid white;
+  margin: 0px;
+  padding: 0px;
+  border-bottom: 2px solid #36c1b6;
+}
+
+.formularioolho {
+  background-color: #ffffff;
+  border: 0px solid white;
+  border-bottom: 2px solid #36c1b6;
+  height: 20px !important;
+}
+
+.simbol {
+  margin-right: 10px;
+}
+
+label {
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+}
+
+.quadro {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  height: 100%;
+  margin-top: 80px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.aberto {
+  cursor: pointer;
+  font-size: 22px;
+  float: right;
+  color: #36c1b6;
+  position: absolute;
+  right: 55px;
+  top: 212px;
+  padding: 9px 8px;
+  transition: 0.3s;
+}
+
+.fechado {
+  display: none;
+  cursor: pointer;
+  font-size: 22px;
+  float: right;
+  color: #36c1b6;
+  position: absolute;
+  right: 55px;
+  top: 212px;
+  padding: 9px 8px;
+  transition: 0.3s;
+}
+
+.mensagemerro {
+  display: none;
+  font-family: "Open Sans", sans-serif;
+  text-align: right;
+  font-size: 14px;
+}
+
+.fixartamanho {
+  height: 20px;
+  display: none;
+}
