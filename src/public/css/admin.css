@@ -115,8 +115,28 @@ body {
 
 .content .user-box .title {
   border-bottom: 1px solid #cacaca;
-  font-size: 30px;
   padding-bottom: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content .user-box .title div {
+  font-size: 30px;
+}
+
+.content .user-box .title form button {
+  font-size: 20px;
+  background: none;
+  border: none;
+
+  color: #cacaca;
+  outline: 0;
+}
+
+.content .user-box .title form button:hover {
+  opacity: 0.8;
 }
 
 .content .user-box ul {

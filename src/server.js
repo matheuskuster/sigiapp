@@ -6,6 +6,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const LokiStore = require('connect-loki')(session)
+const flash = require('connect-flash')
 
 const databaseConfig = require('./config/database')
 
@@ -29,11 +30,13 @@ class App {
 
   middlewares () {
     this.express.use(express.urlencoded({ extended: true }))
+    this.express.use(flash())
     this.express.use(express.static(path.resolve(__dirname, 'public')))
     this.express.use(express.json({ urlencoded: true }))
 
     this.express.use(
       session({
+        name: 'root',
         store: new LokiStore({
           path: path.resolve(__dirname, '..', 'tmp', 'sessions.db')
         }),

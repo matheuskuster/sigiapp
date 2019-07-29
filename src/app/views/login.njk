@@ -82,6 +82,11 @@
                   <span class="glyphicon glyphicon-eye-open aberto" aria-hidden="true" onclick="fecha(0)" id="aberto" style="right: 55px; top: 212px; padding: 9px 8px; transition: 0.3s;"></span></div>
                 <span class="glyphicon glyphicon-eye-close fechado" aria-hidden="true" onclick="fecha(1)" id="fechado" style="right: 55px; top: 212px; padding: 9px 8px; transition: 0.3s;"></span>
               </span>
+
+              {% for message in flashError %}
+                <p class="mensagemerro">{{ message }}</p>
+              {% endfor %}
+
               <div class="buttons">
 
                 <button type="submit" id="botao">ENTRAR</button>

@@ -101,9 +101,9 @@ label {
 }
 
 .mensagemerro {
-  display: none;
   font-family: "Open Sans", sans-serif;
-  text-align: right;
+  text-align: left;
+  color: #f00;
   font-size: 14px;
 }
 

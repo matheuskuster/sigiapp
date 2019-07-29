@@ -7,11 +7,12 @@ class SessionController {
     const user = await User.findOne({ login })
 
     if (!user) {
+      req.flash('error', 'Usuário não encontrado')
       return res.redirect('/')
     }
 
     if (!(await user.compareHash(password))) {
-      console.log('Senha incorreta')
+      req.flash('error', 'Senha incorreta')
       return res.redirect('/')
     }
 
@@ -22,6 +23,13 @@ class SessionController {
 
   async create (req, res) {
     return res.render('login')
+  }
+
+  destroy (req, res) {
+    req.session.destroy(() => {
+      res.clearCookie('root')
+      return res.redirect('/')
+    })
   }
 }
 

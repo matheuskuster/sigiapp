@@ -290,4 +290,13 @@ function sendSchedule() {
   })
 }
 
+function notify() {
+  swal({
+    text:
+      'Estamos trabalhando a todo vapor para lhes trazer uma experiência nova, moderna e tecnológica para que a SiGI cresça cada vez mais. Fique tranquilo, você será notificado quando as próximas funcionalidades estiverem disponíveis. Obrigado pela compreensão!',
+    icon: 'warning',
+    title: 'Estamos correndo!'
+  })
+}
+
 renderTopics()

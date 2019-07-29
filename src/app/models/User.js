@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const Committe = require('./Committe')
 
 const User = new mongoose.Schema(
   {
@@ -46,6 +47,14 @@ User.pre('save', async function (next) {
   }
 
   this.password = await bcrypt.hash(this.password, 8)
+})
+
+User.pre('remove', async function (next) {
+  await Committe.findByIdAndRemove(this.committe, {
+    useFindAndModify: false
+  })
+
+  next()
 })
 
 User.methods = {

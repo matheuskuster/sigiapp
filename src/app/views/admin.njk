@@ -2,43 +2,98 @@
 <html lang="pt-br">
   <head>
     <title>SiGIAPP</title>
-    <meta charset="utf-8"/>
-    <link rel="shortcut icon" href="imagens/favicon.ico"/>
-    <meta name="theme-color" content="#36C1B6 "/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="imagens/favicon.ico" />
+    <meta name="theme-color" content="#36C1B6 " />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
-    <link rel="stylesheet" href="../css/navbar.css"/>
-    <link rel="stylesheet" href="../css/admin.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.min.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/sweetalert2.min.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
     <script src="../script/mobilepc.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css?family=Squada+One"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Oswald"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <!--ICONES PARA MOBILE-->
-    <link href="../imagens/apple-touch-icon.png" rel="ícone do toque da maçã"/>
-    <link href="../imagens/apple-touch-icon-120x120.png" rel="apple-touch-icon" tamanhos="120x120"/>
-    <link href="../imagens/apple-touch-icon-76x76.png" rel="apple-touch-icon" tamanhos="76x76"/>
-    <link href="../imagens/apple-touch-icon-152x152.png" rel="apple-touch-icon" tamanhos="152x152"/>
-    <link href="../imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
-    <link href="../imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+    <link href="../imagens/apple-touch-icon.png" rel="ícone do toque da maçã" />
+    <link
+      href="../imagens/apple-touch-icon-120x120.png"
+      rel="apple-touch-icon"
+      tamanhos="120x120"
+    />
+    <link
+      href="../imagens/apple-touch-icon-76x76.png"
+      rel="apple-touch-icon"
+      tamanhos="76x76"
+    />
+    <link
+      href="../imagens/apple-touch-icon-152x152.png"
+      rel="apple-touch-icon"
+      tamanhos="152x152"
+    />
+    <link
+      href="../imagens/apple-touch-icon-180x180.png"
+      rel="apple-touch-icon"
+      tamanhos="180x180"
+    />
+    <link href="../imagens/icon-normal.png" rel="icon" tamanhos="128x128" />
   </head>
 
   <body>
     <div class="load hidden-sm hidden-xs" id="loaddesk">
-      <img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"/>
+      <img
+        src="../imagens/gif-carregamento.gif"
+        style="height: 100px; width: 100px;"
+      />
     </div>
     <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%">
-      <img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"/>
+      <img
+        src="../imagens/gif-carregamento.gif"
+        style="height: 100px; width: 100px;"
+      />
     </div>
     <nav class="navbar navbar-default">
       <div class="container">
         <center>
-          <a href="feed.html"><img src="../imagens/iconebranco.png" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;"/></a>
+          <a href="feed.html"
+            ><img
+              src="../imagens/iconebranco.png"
+              style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;"
+          /></a>
         </center>
       </div>
     </nav>
@@ -64,65 +119,80 @@
                 Novo comitê
               </div>
               <form action="./admin/user" method="POST" class="form">
-                <input type="email" placeholder="Digite o e-mail do comitê" name="email" required="required"/>
+                <input
+                  type="email"
+                  placeholder="Digite o e-mail do comitê"
+                  name="email"
+                  required="required"
+                />
                 <button type="submit">CRIAR</button>
               </form>
             </div>
 
             {% for committe in users %}
 
-              <div class="user-box">
-                <div class="title">
+            <div class="user-box">
+              <div class="title">
+                <div>
                   {% if committe.committe %}
-                    {{ committe.committe.title | upper }}
+                  {{ committe.committe.title | upper }}
                   {% else %}
-                    {{ committe.login }}
+                  {{ committe.login }}
                   {% endif %}
                 </div>
-
-                <ul>
-                  <li>
-                    {% if committe.firstAccess == false %}
-                      <i class="fas fa-check-circle check"></i>
-                      <p class="check-text">Redefinir senha</p>
-                    {% else %}
-                      <i class="fas fa-times-circle not-check"></i>
-                      <p>Redefinir senha</p>
-                    {% endif %}
-                  </li>
-                  <li>
-                    {% if committe.committe %}
-                      <i class="fas fa-check-circle check"></i>
-                      <p class="check-text">Criação do comitê</p>
-                    {% else %}
-                      <i class="fas fa-times-circle not-check"></i>
-                      <p>Criação do comitê</p>
-                    {% endif %}
-                  </li>
-
-                  <li>
-                    {% if committe.committe and committe.committe.delegations.length > 0 %}
-                      <i class="fas fa-check-circle check"></i>
-                      <p class="check-text">Escolha das delegações</p>
-                    {% else %}
-                      <i class="fas fa-times-circle not-check"></i>
-                      <p>Escolha das delegações</p>
-                    {% endif %}
-                  </li>
-                  <li>
-                    {% if committe.committe.schedule.length > 0 %}
-                      <i class="fas fa-check-circle check"></i>
-                      <p class="check-text">Tópicos da agenda</p>
-                    {% else %}
-                      <i class="fas fa-times-circle not-check"></i>
-                      <p>Tópicos da agenda</p>
-                    {% endif %}
-                  </li>
-                </ul>
-
+                <form
+                  method="POST"
+                  action="/app/user/remove/{{ committe._id }}"
+                  id="delete-form"
+                >
+                  <button type="submit">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
               </div>
-            {% endfor %}
 
+              <ul>
+                <li>
+                  {% if committe.firstAccess == false %}
+                  <i class="fas fa-check-circle check"></i>
+                  <p class="check-text">Redefinir senha</p>
+                  {% else %}
+                  <i class="fas fa-times-circle not-check"></i>
+                  <p>Redefinir senha</p>
+                  {% endif %}
+                </li>
+                <li>
+                  {% if committe.committe %}
+                  <i class="fas fa-check-circle check"></i>
+                  <p class="check-text">Criação do comitê</p>
+                  {% else %}
+                  <i class="fas fa-times-circle not-check"></i>
+                  <p>Criação do comitê</p>
+                  {% endif %}
+                </li>
+
+                <li>
+                  {% if committe.committe and
+                  committe.committe.delegations.length > 0 %}
+                  <i class="fas fa-check-circle check"></i>
+                  <p class="check-text">Escolha das delegações</p>
+                  {% else %}
+                  <i class="fas fa-times-circle not-check"></i>
+                  <p>Escolha das delegações</p>
+                  {% endif %}
+                </li>
+                <li>
+                  {% if committe.committe.schedule.length > 0 %}
+                  <i class="fas fa-check-circle check"></i>
+                  <p class="check-text">Tópicos da agenda</p>
+                  {% else %}
+                  <i class="fas fa-times-circle not-check"></i>
+                  <p>Tópicos da agenda</p>
+                  {% endif %}
+                </li>
+              </ul>
+            </div>
+            {% endfor %}
           </div>
         </div>
         <div class="col-md-2 hidden-xs"></div>
@@ -130,7 +200,7 @@
     </div>
 
     <script>
-      $(document).ready(function () {
+      $(document).ready(function() {
         $("#loaddesk").hide();
         $("#loadmobile").hide();
       });
@@ -138,6 +208,25 @@
       $("#create-button").click(e => {
         $(".create-user").hide();
         $(".create-user-box").slideDown(500);
+      });
+
+      $("#delete-form>button").click(e => {
+        e.preventDefault();
+
+        Swal.fire({
+          title: "Tem certeza?",
+          text: "Você não poderá desfazer essa ação!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#36c1b6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Sim, deletar!"
+        }).then(result => {
+          if (result.value) {
+            $("#delete-form").submit();
+          }
+        });
       });
     </script>
   </body>

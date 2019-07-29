@@ -5,6 +5,25 @@ const crypto = require('crypto')
 const mail = require('../../config/mail')
 
 class DelegationController {
+  async index(req, res) {
+    const delegations = await Delegation.find()
+
+    return res.json(delegations)
+  }
+
+  async remove(req, res) {
+    const { alias } = req.params
+    const { token } = req.body
+
+    if(token == process.env.ADMIN_TOKEN) {
+      const delegation = await Delegation.findOneAndRemove({ code: alias })
+      return res.json(delegation)
+    }
+
+    return res.json({ error: 'Invalid admin token' })
+
+  }
+
   async store (req, res) {
     const { code } = req.body
 

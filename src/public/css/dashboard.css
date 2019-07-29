@@ -588,3 +588,26 @@ ul {
   margin-bottom: 10px;
   width: 100%;
 }
+
+.final {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 20px;
+}
+
+.final > p {
+  font-size: 25px;
+}
+
+.final .buttons button {
+  border-radius: 3px;
+  font-size: 20px;
+  border: none;
+  color: #fff;
+  background: #36c1b6;
+
+  padding: 2px 5px 2px 5px;
+  margin-left: 7px;
+}

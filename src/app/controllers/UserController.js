@@ -50,6 +50,15 @@ class UserController {
 
     return res.json(user)
   }
+
+  async remove (req, res) {
+    const { id } = req.params
+
+    const user = await User.findById(id)
+    user.remove()
+
+    return res.redirect('/app')
+  }
 }
 
 module.exports = new UserController()
