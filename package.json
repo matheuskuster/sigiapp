@@ -17,6 +17,7 @@
     "connect-flash": "^0.1.1",
     "connect-loki": "^1.1.0",
     "dotenv": "^8.0.0",
+    "excel4node": "^1.7.2",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
     "mailgun-js": "^0.22.0",

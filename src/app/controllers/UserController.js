@@ -59,6 +59,10 @@ class UserController {
 
     return res.redirect('/app')
   }
+
+  speakers (req, res) {
+    return res.render('development')
+  }
 }
 
 module.exports = new UserController()

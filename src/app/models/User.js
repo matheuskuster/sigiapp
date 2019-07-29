@@ -34,6 +34,10 @@ const User = new mongoose.Schema(
     firstAccess: {
       type: Boolean,
       default: true
+    },
+    present: {
+      type: Number,
+      default: 0
     }
   },
   {
@@ -42,7 +46,7 @@ const User = new mongoose.Schema(
 )
 
 User.pre('save', async function (next) {
-  if (!this.isModified('password')) {
+  if (!this.isModified('password') || (!this.isCommitte && !this.isAdmin)) {
     return next()
   }
 
@@ -59,6 +63,10 @@ User.pre('remove', async function (next) {
 
 User.methods = {
   compareHash (password) {
+    if (!this.isCommitte && !this.isAdmin) {
+      return true
+    }
+
     return bcrypt.compare(password, this.password)
   }
 }

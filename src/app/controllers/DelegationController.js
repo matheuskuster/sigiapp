@@ -1,27 +1,27 @@
 const Delegation = require('../models/Delegation')
 const Token = require('../models/Token')
+const User = require('../models/User')
 const Committe = require('../models/Committe')
 const crypto = require('crypto')
 const mail = require('../../config/mail')
 
 class DelegationController {
-  async index(req, res) {
+  async index (req, res) {
     const delegations = await Delegation.find()
 
     return res.json(delegations)
   }
 
-  async remove(req, res) {
+  async remove (req, res) {
     const { alias } = req.params
     const { token } = req.body
 
-    if(token == process.env.ADMIN_TOKEN) {
+    if (token == process.env.ADMIN_TOKEN) {
       const delegation = await Delegation.findOneAndRemove({ code: alias })
       return res.json(delegation)
     }
 
     return res.json({ error: 'Invalid admin token' })
-
   }
 
   async store (req, res) {
@@ -38,7 +38,7 @@ class DelegationController {
 
   async ask (req, res) {
     const { name } = req.params
-    const user = req.session.user
+    const user = await User.findById(req.session.user._id)
 
     const token = await crypto.randomBytes(10).toString('hex')
     await Token.create({
@@ -47,6 +47,8 @@ class DelegationController {
     })
 
     const committe = await Committe.findById(user.committe)
+
+    console.log(committe)
 
     await mail.sendDelegationAskMail(user, name, committe, token)
 

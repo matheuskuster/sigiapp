@@ -8,6 +8,7 @@ const authMiddleware = require('./app/middlewares/auth')
 const guestMiddleware = require('./app/middlewares/guest')
 const adminMiddleware = require('./app/middlewares/isAdmin')
 const committeMiddleware = require('./app/middlewares/isCommitte')
+const hasUsersMiddleware = require('./app/middlewares/hasUsers')
 
 routes.use((req, res, next) => {
   res.locals.flashSuccess = req.flash('success')
@@ -30,6 +31,7 @@ routes.get('/user/show/:id', controllers.UserController.show)
 routes.post('/user/store', controllers.UserController.store)
 routes.post('/app/user/update/:id', controllers.UserController.updatePassword)
 routes.post('/app/user/remove/:id', controllers.UserController.remove)
+routes.get('/app/speakers', controllers.UserController.speakers)
 
 // SESSION
 routes.post('/signin', controllers.SessionController.store)
@@ -50,6 +52,12 @@ routes.post(
   '/app/committe/schedule',
   controllers.CommitteController.setSchedule
 )
+routes.get('/app/committe/users', controllers.CommitteController.generateUsers)
+routes.get(
+  '/app/users',
+  hasUsersMiddleware,
+  controllers.CommitteController.showUsers
+)
 
 // ORGAN
 routes.post('/organ/store', controllers.OrganController.store)
@@ -62,9 +70,12 @@ routes.post(
   controllers.DelegationController.remove
 )
 routes.get('/app/delegation/ask/:name', controllers.DelegationController.ask)
-routes.get('/delegationS', controllers.DelegationController.index)
+routes.get('/delegations', controllers.DelegationController.index)
 
 // TOKEN
 routes.get('/resolve/:token', controllers.TokenController.resolve)
+
+// SHEET
+routes.get('/app/sheet/:id', controllers.FileController.showSheet)
 
 module.exports = routes

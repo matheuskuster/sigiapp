@@ -299,4 +299,14 @@ function notify() {
   })
 }
 
+function generateUsers() {
+  $.ajax({
+    method: 'GET',
+    url: '/app/committe/users',
+    success: data => {
+      window.location.href = '/app/users'
+    }
+  })
+}
+
 renderTopics()

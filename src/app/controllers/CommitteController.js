@@ -2,7 +2,11 @@ const User = require('../models/User')
 const Organ = require('../models/Organ')
 const Committe = require('../models/Committe')
 const Delegation = require('../models/Delegation')
+const Token = require('../models/Token')
 const Topic = require('../models/Topic')
+const Sheet = require('../models/Sheet')
+const SheetController = require('../../config/sheet')
+const crypto = require('crypto')
 
 class CommitteController {
   async index (req, res) {
@@ -11,8 +15,16 @@ class CommitteController {
     )
     const organs = await Organ.find().sort('name')
     const delegations = await Delegation.find().sort('name')
+    const tokens = await Token.find({ user: user._id, for: 0 })
+    let hasDependency
 
-    return res.render('dashboard', { user, organs, delegations })
+    if (tokens.length > 0) {
+      hasDependency = true
+    } else {
+      hasDependency = false
+    }
+
+    return res.render('dashboard', { user, organs, delegations, hasDependency })
   }
 
   async store (req, res) {
@@ -64,6 +76,48 @@ class CommitteController {
       await committe.save()
       return res.json(committe)
     })
+  }
+
+  async generateUsers (req, res) {
+    const user = await User.findById(req.session.user._id)
+    const committe = await Committe.findById(user.committe).populate('organ')
+
+    const users = committe.delegations.map(async id => {
+      const delegation = await Delegation.findById(id)
+
+      const login = committe.organ.alias + committe.year + '.' + delegation.code
+
+      const password =
+        delegation.code + '.' + (await crypto.randomBytes(2).toString('hex'))
+
+      return await User.create({
+        login,
+        password,
+        committe,
+        delegation,
+        isCommitte: false,
+        isAdmin: false
+      })
+    })
+
+    Promise.all(users).then(async completed => {
+      const sheet = await SheetController.createSheet(committe, completed)
+      committe.users = true
+      await committe.save()
+
+      return res.json(sheet)
+    })
+  }
+
+  async showUsers (req, res) {
+    const user = await User.findById(req.session.user._id)
+    const delegates = await User.find({
+      committe: user.committe,
+      isCommitte: false
+    }).populate('delegation')
+    const sheet = await Sheet.findOne({ committe: user.committe })
+
+    return res.render('users', { delegates, sheet })
   }
 }
 

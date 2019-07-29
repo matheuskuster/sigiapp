@@ -1,0 +1,56 @@
+th,
+td {
+  border-bottom: 1px solid #cacaca;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 5px 0 5px 0;
+}
+
+tr:nth-child(2n) {
+  background: #fafafa;
+}
+
+.content .user-box table {
+  width: 100%;
+}
+
+.content .user-box table tr th {
+  font-size: 26px;
+}
+
+.content .user-box table tr td {
+  font-size: 20px;
+}
+
+.content .user-box .download {
+  margin-top: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.content .user-box .download p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.content .user-box .download a {
+  border-radius: 3px;
+  font-size: 25px;
+  border: none;
+  color: #fff;
+  background: #36c1b6;
+
+  border-radius: 50%;
+  margin-left: 7px;
+  cursor: pointer;
+
+  padding: 5px 10px 5px 10px;
+}
+
+.content .user-box .download a:hover {
+  opacity: 0.8;
+}
