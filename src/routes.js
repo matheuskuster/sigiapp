@@ -58,6 +58,11 @@ routes.get(
   hasUsersMiddleware,
   controllers.CommitteController.showUsers
 )
+routes.post(
+  '/committe/delegations/push/:id',
+  controllers.CommitteController.pushDelegations
+)
+routes.get('/committes', controllers.CommitteController.show)
 
 // ORGAN
 routes.post('/organ/store', controllers.OrganController.store)
@@ -71,6 +76,7 @@ routes.post(
 )
 routes.get('/app/delegation/ask/:name', controllers.DelegationController.ask)
 routes.get('/delegations', controllers.DelegationController.index)
+routes.post('/delegation/update/:id', controllers.DelegationController.update)
 
 // TOKEN
 routes.get('/resolve/:token', controllers.TokenController.resolve)

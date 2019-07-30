@@ -54,6 +54,16 @@ class DelegationController {
 
     return res.json({ name, committe })
   }
+
+  async update (req, res) {
+    const delegation = await Delegation.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    )
+
+    return res.json(delegation)
+  }
 }
 
 module.exports = new DelegationController()

@@ -9,6 +9,12 @@ const SheetController = require('../../config/sheet')
 const crypto = require('crypto')
 
 class CommitteController {
+  async show (req, res) {
+    const committes = await Committe.find().populate('delegations')
+
+    return res.json(committes)
+  }
+
   async index (req, res) {
     const user = await User.findOne({ login: req.session.user.login }).populate(
       'committe'
@@ -60,8 +66,6 @@ class CommitteController {
     const { topics } = req.body
     const user = await User.findById(req.session.user._id)
     const committe = await Committe.findById(user.committe)
-
-    console.log(committe + '\n')
 
     const schedule = topics.map(async topic => {
       return await Topic.create({
@@ -118,6 +122,18 @@ class CommitteController {
     const sheet = await Sheet.findOne({ committe: user.committe })
 
     return res.render('users', { delegates, sheet })
+  }
+
+  async pushDelegations (req, res) {
+    const { delegations } = req.body
+    const committe = await Committe.findById(req.params.id)
+
+    delegations.map(d => {
+      committe.delegations.push(d)
+    })
+
+    await committe.save()
+    return res.json(committe)
   }
 }
 
