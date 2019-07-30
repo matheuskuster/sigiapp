@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const QRCode = require('qrcode')
 
 class UserController {
   async index (req, res) {
@@ -62,6 +63,16 @@ class UserController {
 
   speakers (req, res) {
     return res.render('development')
+  }
+
+  async information (req, res) {
+    const user = await User.findById(req.params.id).populate('delegation')
+
+    const url = await QRCode.toDataURL(
+      `http://sigiapp.serra.ifes.edu.br/qrcode/${req.params.id}`
+    )
+
+    return res.render('information', { url, user })
   }
 }
 

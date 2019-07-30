@@ -4,8 +4,8 @@ var apiResponse
 var BASE_SEARCH_URL =
   'https://autocomplete.clearbit.com/v1/companies/suggest?query='
 
-var BASE_URL = 'http://sigiapp.serra.ifes.edu.br'
-// var DEV_URL = 'http://localhost:3000'
+var BASE_URL = 'http://localhost:3000'
+// var DEV_URL = ''
 
 try {
   var delegations_checkbox_list =

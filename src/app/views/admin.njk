@@ -83,9 +83,9 @@
                       {{ committe.login }}
                     {% endif %}
                   </div>
-                  <form class="delete-form" method="POST" action="/app/user/remove/{{ committe._id }}" id="delete-{{committe._id}}">
-                    <button id="{{committe._id}}" type="submit">
-                      <i id="{{committe._id}}" class="fas fa-trash"></i>
+                  <form class="delete-form" method="POST" action="/app/user/remove/{{ committe._id }}" id="delete-{{ committe._id }}">
+                    <button id="{{ committe._id }}" type="submit">
+                      <i id="{{ committe._id }}" class="fas fa-trash"></i>
                     </button>
                   </form>
                 </div>
@@ -124,12 +124,21 @@
                     {% if committe.committe.schedule.length > 0 %}
                       <i class="fas fa-check-circle check"></i>
                       <p class="check-text">Tópicos da agenda</p>
+
                     {% else %}
                       <i class="fas fa-times-circle not-check"></i>
                       <p>Tópicos da agenda</p>
                     {% endif %}
                   </li>
                 </ul>
+
+                {% if committe.committe.users %}
+                  <div class="see-users">
+                    <a target="_blank" href="/app/users/{{committe._id}}">
+                      VER USUÁRIOS
+                    </a>
+                  </div>
+                {% endif %}
               </div>
             {% endfor %}
           </div>

@@ -48,8 +48,6 @@ class DelegationController {
 
     const committe = await Committe.findById(user.committe)
 
-    console.log(committe)
-
     await mail.sendDelegationAskMail(user, name, committe, token)
 
     return res.json({ name, committe })
@@ -63,6 +61,18 @@ class DelegationController {
     )
 
     return res.json(delegation)
+  }
+
+  async fixDelegations() {
+    const delegations = await Delegation.find()
+
+    delegations.map(async d => {
+      if(d.flag.indexOf('assets') != -1) {
+        d.flag = d.flag.replace('..', '')
+        await d.save()
+        console.log(d)
+      }
+    })
   }
 }
 

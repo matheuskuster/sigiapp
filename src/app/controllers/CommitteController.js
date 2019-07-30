@@ -114,7 +114,15 @@ class CommitteController {
   }
 
   async showUsers (req, res) {
-    const user = await User.findById(req.session.user._id)
+    let user;
+
+    if(req.session.user.isCommitte) {
+      user = await User.findById(req.session.user._id)
+    } else {
+      user = await User.findById(req.params.id)
+    }
+
+
     const delegates = await User.find({
       committe: user.committe,
       isCommitte: false

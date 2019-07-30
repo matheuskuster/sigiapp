@@ -8,12 +8,16 @@ const session = require('express-session')
 const LokiStore = require('connect-loki')(session)
 const flash = require('connect-flash')
 
+const delegationController = require('./app/controllers/DelegationController')
+
 const databaseConfig = require('./config/database')
 
 class App {
   constructor () {
     this.express = express()
     this.isDev = process.env.NODE_ENV != 'production'
+
+    // delegationController.fixDelegations()
 
     this.database()
     this.middlewares()

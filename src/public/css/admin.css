@@ -171,3 +171,30 @@ body {
   margin-top: 10px;
   padding-left: 10px;
 }
+
+.see-users {
+  width: 100%;
+  border-top: 1px solid #cacaca;
+
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.see-users a {
+  border-radius: 3px;
+  border: none;
+  color: #fff;
+  background: #36c1b6;
+  font-size: 20px;
+
+  text-align: center;
+
+  padding: 10px 5px 10px 5px;
+  text-decoration: none;
+}
+
+.see-users a:hover {
+  opacity: 0.7;
+}

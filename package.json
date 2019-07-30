@@ -23,6 +23,7 @@
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.6.5",
     "nunjucks": "^3.2.0",
+    "qrcode": "^1.4.1",
     "require-dir": "^1.2.0"
   },
   "scripts": {

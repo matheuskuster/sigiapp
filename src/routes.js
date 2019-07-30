@@ -32,6 +32,7 @@ routes.post('/user/store', controllers.UserController.store)
 routes.post('/app/user/update/:id', controllers.UserController.updatePassword)
 routes.post('/app/user/remove/:id', controllers.UserController.remove)
 routes.get('/app/speakers', controllers.UserController.speakers)
+routes.get('/app/user/:id', controllers.UserController.information)
 
 // SESSION
 routes.post('/signin', controllers.SessionController.store)
@@ -40,6 +41,7 @@ routes.get('/app/logout', controllers.SessionController.destroy)
 // ADMIN
 routes.get('/app/admin', controllers.AdminController.index)
 routes.post('/app/admin/user', controllers.AdminController.storeUser)
+routes.get('/app/users/:id', controllers.CommitteController.showUsers)
 
 // COMMITTE
 routes.get('/app/dashboard', controllers.CommitteController.index)
