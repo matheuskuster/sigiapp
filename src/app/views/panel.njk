@@ -204,15 +204,15 @@
             </div>
           </div>
 
-          <div type="button" class="btn btn-default botControlesMobile" onclick="" name="zerar" id="zerar">
+          <div type="button" class="btn btn-default botControlesMobile" onclick="menuCronometro(3)" name="zerar" id="zerar">
             <i class="fas fa-history"></i>
           </div>
 
-          <div type="button" class="btn btn-default botControlesMobile" onclick="nextDelegation()" name="Proximo" id="proximo">
+          <div type="button" class="btn btn-default botControlesMobile" onclick="nextDelegation(), menuCronometro(3)" name="Proximo" id="proximo">
             <i class="fas fa-sort-amount-up"></i>
           </div>
 
-          <div type="button" class="btn btn-default botControlesMobile" name="anterior" id="anterior" onclick="previousDelegation()">
+          <div type="button" class="btn btn-default botControlesMobile" name="anterior" id="anterior" onclick="previousDelegation(), menuCronometro(3)">
             <i class="fas fa-sort-amount-down"></i>
           </div>
 
@@ -662,7 +662,8 @@
     $('#loadmobile').hide();
   });
 </script>
-
+  <script src="../script/socket.io.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="../script/panel.js"></script>
 </body>
 </html>

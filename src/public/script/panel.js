@@ -33,6 +33,7 @@ var listAdd = []
 var committeID = null
 var BASE_URL = 'http://localhost:3000'
 var list = null
+var socket = io()
 
 $('#iniciarsessao').show()
 $('#iniciada').hide()
@@ -275,16 +276,6 @@ function liberaButton () {
   $('#return-chamada').show()
 }
 
-function calQuant () {
-  quorum = nmrPv + nmrP
-  mSimples = Math.ceil(quorum / 2)
-  mQualificada = Math.ceil((quorum / 3) * 2)
-
-  $('#quorum').text(quorum + '/' + nmtrDelTotal)
-  $('#mSimples').text(mSimples)
-  $('#mQualificada').text(mQualificada)
-}
-
 function emendaList () {
   $('#delegacaoFalando').hide()
   $('#listaOradores').hide()
@@ -319,51 +310,20 @@ function call() {
 function getCommitteIdFromNJK(id) {
   committeID = id
   renderList()
+  joinSocketRoom()
+  
+}
+
+function joinSocketRoom() {
+  socket.emit('connectRoom', committeID)
 }
 
 function renderList() {
   $.ajax({
     method: 'GET',
-    url: BASE_URL + '/list/' + committeID,
+    url: '/list/' + committeID,
     success: (data) => {
-      list = data
-
-      if(list.length == 0) {
-        $('.emptyList').show()
-        $('.time').hide()
-
-      } else {
-        $('.emptyList').hide()
-        $('#listaOradores').html('')
-
-        list.forEach(({ delegation }, index) => {
-          console.log(delegation)
-
-          if(index == 0) {
-            const speakingHTML = `
-              <center>
-                <img src="${delegation.flag}" class="img-responsive bandeira1" alt="${delegation.name}" id="bandeira1" draggable="false">
-              </center>
-              <div class="nome1">${delegation.name}</div>
-            `
-
-            $('#delegacaoFalando').html(speakingHTML)
-          } else {
-            const nextHTML = `
-              <div class="flex-item-box">
-                <div class="ordemDefault">${index+1}º</div>
-                <img src="${delegation.flag}" class="img-responsive bandDefault" alt="${delegation.name}" id="bandeira1">
-                <div class="nomeDefault">${delegation.name}</div>
-              </div>
-            `
-
-            $('#listaOradores').append(nextHTML)
-          }
-        })
-
-        $('#listaOradores').show()
-        $('#delegacaoFalando').show()
-      }
+      renderSocketList(data)
     }
   })
 }
@@ -371,9 +331,9 @@ function renderList() {
 function nextDelegation() {
    $.ajax({
     method: 'GET',
-    url: BASE_URL + '/list/next/' + committeID,
+    url: '/list/next/' + committeID,
     success: data => {
-      console.log(data)
+      // RENDERIZAR LISTA (LOCAL OU DAR UM GET???)
     }
    })
 }
@@ -381,16 +341,72 @@ function nextDelegation() {
 function previousDelegation() {
   $.ajax({
     method: 'GET',
-    url: BASE_URL + '/list/previous/' + committeID,
+    url: '/list/previous/' + committeID,
     success: data => {
-      console.log(data)
+      // RENDERIZAR LISTA (LOCAL OU DAR UM GET???)
     },
     error: data => {
-      console.log('NÃO HÁ ANTERIOR')
+      if(data.responseJSON.id == 1) {
+        swal({
+          title: 'Impossível',
+          text: 'Não há nenhuma delegação anterior!',
+          icon: 'error'
+        })
+      } else if (data.responseJSON.id == 0) {
+        swal({
+          title: 'Impossível',
+          text: 'A última delegação a sair da lista de oradores já se encontra na mesma novamente!',
+          icon: 'error'
+        })
+      }
     }
    })
 }
 
+function renderSocketList(data) {
+  list = data
+
+  if(list.length == 0) {
+      $('.emptyList').show()
+      $('.time').hide()
+      $('#listaOradores').html('')
+      $('#delegacaoFalando').hide()
+  } else {
+      $('.emptyList').hide()
+      $('.time').show()
+      $('#listaOradores').html('')
+
+      list.forEach(({ delegation }, index) => {
+        if(index == 0) {
+          const speakingHTML = `
+            <center>
+              <img src="${delegation.flag}" class="img-responsive bandeira1" alt="${delegation.name}" id="bandeira1" draggable="false">
+            </center>
+            <div class="nome1">${delegation.name}</div>
+          `
+
+          $('#delegacaoFalando').html(speakingHTML)
+        } else {
+          const nextHTML = `
+            <div class="flex-item-box">
+              <div class="ordemDefault">${index+1}º</div>
+              <img src="${delegation.flag}" class="img-responsive bandDefault" alt="${delegation.name}" id="bandeira1">
+              <div class="nomeDefault">${delegation.name}</div>
+            </div>
+          `
+
+          $('#listaOradores').append(nextHTML)
+        }
+      })
+
+      $('#listaOradores').show()
+      $('#delegacaoFalando').show()
+  }
+}
+
 call()
+socket.on('list', data => {
+  renderSocketList(data)
+})
 
   

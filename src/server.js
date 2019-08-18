@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 const LokiStore = require('connect-loki')(session)
 const flash = require('connect-flash')
+const socket = require('socket.io')
 
 const delegationController = require('./app/controllers/DelegationController')
 
@@ -15,6 +16,8 @@ const databaseConfig = require('./config/database')
 class App {
   constructor () {
     this.express = express()
+    this.server = require('http').Server(this.express)
+    this.io = socket(this.server)
     this.isDev = process.env.NODE_ENV != 'production'
 
     // delegationController.fixDelegations()
@@ -33,6 +36,19 @@ class App {
   }
 
   middlewares () {
+    this.io.on('connection', socket => {
+      socket.on('connectRoom', committe => {
+        socket.join(committe)
+        console.log(committe)
+      })
+    })
+
+    this.express.use((req, res, next) => {
+      req.io = this.io
+
+      return next()
+    })
+
     this.express.use(express.urlencoded({ extended: true }))
     this.express.use(flash())
     this.express.use(express.static(path.resolve(__dirname, 'public')))
@@ -66,4 +82,4 @@ class App {
   }
 }
 
-module.exports = new App().express
+module.exports = new App().server
