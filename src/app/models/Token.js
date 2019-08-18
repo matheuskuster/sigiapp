@@ -17,6 +17,10 @@ const Token = new mongoose.Schema(
     for: {
       type: Number,
       default: 0
+    },
+    delegation: {
+      type: String,
+      required: true
     }
   },
   {

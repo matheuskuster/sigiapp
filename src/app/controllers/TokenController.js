@@ -12,6 +12,12 @@ class TokenController {
 
     return res.json({ success: 'Token resolved' })
   }
+
+  async show (req, res) {
+    const tokens = await Token.find()
+
+    return res.json(tokens)
+  }
 }
 
 module.exports = new TokenController()

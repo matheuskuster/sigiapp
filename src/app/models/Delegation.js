@@ -13,6 +13,10 @@ const Delegation = new mongoose.Schema(
     flag: {
       type: String,
       default: null
+    },
+    isCountry: {
+      type: Boolean,
+      default: false
     }
   },
   {

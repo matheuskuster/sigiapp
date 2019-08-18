@@ -35,4 +35,14 @@ const Committe = new mongoose.Schema(
   }
 )
 
+Committe.pre('remove', async function (next) {
+  const User = require('./User')
+
+  if (this.users) {
+    await User.deleteMany({ committe: this._id, isCommitte: false })
+  }
+
+  next()
+})
+
 module.exports = mongoose.model('Committe', Committe)

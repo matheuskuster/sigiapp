@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const Organ = require('../models/Organ')
 const Committe = require('../models/Committe')
+const List = require('../models/List')
 const Delegation = require('../models/Delegation')
 const Token = require('../models/Token')
 const Topic = require('../models/Topic')
@@ -114,14 +115,13 @@ class CommitteController {
   }
 
   async showUsers (req, res) {
-    let user;
+    let user
 
-    if(req.session.user.isCommitte) {
+    if (req.session.user.isCommitte) {
       user = await User.findById(req.session.user._id)
     } else {
       user = await User.findById(req.params.id)
     }
-
 
     const delegates = await User.find({
       committe: user.committe,
@@ -142,6 +142,87 @@ class CommitteController {
 
     await committe.save()
     return res.json(committe)
+  }
+
+  async removeDelegations (req, res) {
+    const delegation = req.body.delegation
+    const committe = await Committe.findById(req.params.id)
+
+    const newDelegations = committe.delegations.filter(id => {
+      return id != delegation
+    })
+
+    committe.delegations = [...newDelegations]
+    await committe.save()
+
+    return res.json(committe)
+  }
+
+  async controlPanel (req, res) {
+    const user = await User.findById(req.session.user._id)
+    const committe = await Committe.findById(user.committe).populate(['organ', 'lists'])
+    let delegates = await User.find({
+      isCommitte: false,
+      isAdmin: false,
+      committe: committe._id
+    })
+      .select(['_id', 'present', 'delegation'])
+      .populate('delegation')
+
+    delegates.sort((a,b) => (a.delegation.name > b.delegation.name) ? 1 : ((b.delegation.name > a.delegation.name) ? -1 : 0)); 
+
+    const presency = {
+      p: 0,
+      pv: 0,
+      a: 0,
+      vc: 0
+    }
+
+    delegates.map(d => {
+      if (d.present == 0) {
+        presency.a += 1
+      } else if (d.present == 1) {
+        presency.p += 1
+        if(d.delegation.isCountry) {
+          presency.vc += 1
+        }
+      } else {
+        presency.pv += 1
+        if(d.delegation.isCountry) {
+          presency.vc += 1
+        }
+      }
+    })
+
+    return res.render('panel', { user, committe, delegates, presency })
+  }
+
+  async call(req, res) {
+    const data = req.body
+    const user = await User.findById(req.session.user._id)
+    const committe = await Committe.findById(user.committe)
+    
+    const result = Object.entries(data).map(async d => {
+      const id = d[0].split('-')[1]
+      const value = parseInt(d[1])
+      
+      const user = await User.findById(id)
+      user.present = value
+      await user.save()
+    })
+
+    Promise.all(result).then(async completed => {
+      if (committe.lists.length == 0) {
+        committe.lists = [await List.create({
+          lastUser: null,
+          users: []
+        })]
+
+        await committe.save()
+      }
+
+      return res.redirect('/app/panel')
+    })
   }
 }
 

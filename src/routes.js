@@ -8,6 +8,8 @@ const authMiddleware = require('./app/middlewares/auth')
 const guestMiddleware = require('./app/middlewares/guest')
 const adminMiddleware = require('./app/middlewares/isAdmin')
 const committeMiddleware = require('./app/middlewares/isCommitte')
+const notDelegateMiddleware = require('./app/middlewares/notDelegate')
+const isDelegateMiddlewate = require('./app/middlewares/isDelegate')
 const hasUsersMiddleware = require('./app/middlewares/hasUsers')
 
 routes.use((req, res, next) => {
@@ -20,6 +22,8 @@ routes.use((req, res, next) => {
 routes.use('/app', authMiddleware)
 routes.use('/app/admin', adminMiddleware)
 routes.use('/app/dashboard', committeMiddleware)
+routes.use('/app/users', notDelegateMiddleware)
+routes.use('/app/speakers', isDelegateMiddlewate)
 
 // NAVIGATION
 routes.get('/', guestMiddleware, controllers.SessionController.create)
@@ -37,6 +41,7 @@ routes.get('/app/user/:id', controllers.UserController.information)
 // SESSION
 routes.post('/signin', controllers.SessionController.store)
 routes.get('/app/logout', controllers.SessionController.destroy)
+routes.get('/qrcode/:id', controllers.SessionController.qrcode)
 
 // ADMIN
 routes.get('/app/admin', controllers.AdminController.index)
@@ -65,6 +70,12 @@ routes.post(
   controllers.CommitteController.pushDelegations
 )
 routes.get('/committes', controllers.CommitteController.show)
+routes.post(
+  '/committe/delegations/remove/:id',
+  controllers.CommitteController.removeDelegations
+)
+routes.get('/app/panel', controllers.CommitteController.controlPanel)
+routes.post('/app/call', controllers.CommitteController.call)
 
 // ORGAN
 routes.post('/organ/store', controllers.OrganController.store)
@@ -82,8 +93,16 @@ routes.post('/delegation/update/:id', controllers.DelegationController.update)
 
 // TOKEN
 routes.get('/resolve/:token', controllers.TokenController.resolve)
+routes.get('/tokens', controllers.TokenController.show)
 
 // SHEET
 routes.get('/app/sheet/:id', controllers.FileController.showSheet)
+
+// LIST
+routes.get('/list/:id', controllers.ListController.getList)
+routes.get('/list/next/:id', controllers.ListController.next)
+routes.get('/list/previous/:id', controllers.ListController.previous)
+routes.get('/list/push/:user_id/:id', controllers.ListController.push)
+
 
 module.exports = routes

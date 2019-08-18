@@ -21,6 +21,18 @@ class SessionController {
     return res.redirect('/app')
   }
 
+  async qrcode (req, res) {
+    const user = await User.findById(req.params.id)
+
+    if (!user) {
+      req.flash('error', 'Usuário não encontrado')
+      return res.redirect('/')
+    }
+
+    req.session.user = user
+    return res.redirect('/app')
+  }
+
   async create (req, res) {
     return res.render('login')
   }

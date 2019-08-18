@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="imagens/favicon.ico">
+    <meta name="theme-color" content="#eeeeee">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="../script/mobilepc.js"></script>
+    
+    <!--FONTES-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+    <!--STYLES-->
+    <link rel="stylesheet" href="../css/material_design.css">
+    <link rel="stylesheet" href="../css/feed.css">
+    <link rel="stylesheet" href="../css/panel.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <!--ICONES PARA MOBILE-->
+    <link href="../imagens/apple-touch-icon.png" rel="ícone do toque da maçã"/>
+    <link href="../imagens/apple-touch-icon-76x76.png" rel="apple-touch-icon" tamanhos="76x76"/>
+    <link href="../imagens/apple-touch-icon-120x120.png" rel="apple-touch-icon" tamanhos="120x120"/>
+    <link href="../imagens/apple-touch-icon-152x152.png" rel="apple-touch-icon" tamanhos="152x152"/>
+    <link href="../imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+    <link href="../imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+  </head>
+  <body onload="getCommitteIdFromNJK('{{ committe._id }}')">
+
+    <div class="load hidden-sm hidden-xs" id="loaddesk"><img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+    <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%"><img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          <a href="feed.html">
+            <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
+        </center>
+        <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="feed.html">Feed</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="menu.html">Menu</a>
+          </li>
+          <li class="activeNavIcon">
+            <a style="color: #36C1B6;" href="oradores.html">Lista de Oradores</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="perfil.html">Perfil</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <center><img src="../assets/organs/{{ committe.organ.alias }}.png" class="simboloComite" draggable="false"></center>
+            <div class="titulo">{{ committe.organ.alias | upper }}:
+              {{ committe.title | upper }}
+              -
+              {{ committe.year }}
+            </div>
+          </div>          
+            {% if committe.lists | length == 0 %}
+              <div class="tituloAguardo">AGUARDANDO O INÍCIO DA SESSÃO</div>
+            {% else %}
+              <div class="apontamentos">
+                <div class="row">
+                  <div class="col-md-4">
+                    <b>
+                      <center>QUÓRUM</center>
+                    </b>
+                    <div class="quantitativo" id="quorum">                  
+                      {{ presency.pv + presency.p }}/{{ delegates | length }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <b>
+                      <center>MAIORIA SIMPLES</center>
+                    </b>
+                    <div class="quantitativo" id="mSimples">
+                      {{ ((presency.pv + presency.p) // 2) + 1 }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <b>
+                      <center>MAIORIA QUALIFICADA</center>
+                    </b>
+                    <div class="quantitativo" id="mQualificada">
+                      {{ (presency.vc // 3) * 2 }}
+                    </div>
+                  </div>                
+                </div>
+            {% endif %}
+        </div>
+      </div>
+
+      
+      <div class="row">
+        <p class="emptyList">
+          LISTA DE ORADORES VAZIA
+        </p>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <div id="delegacaoFalando" style="display: none">
+            <center>
+              <img src="bandeiras/paises/br.png" class="img-responsive bandeira1" alt="bandeira" id="bandeira1" draggable="false">
+            </center>
+            <div class="nome1">Brasil</div>
+          </div>
+          <div class="time">
+              <input type="text" name="cronometro" value="00:00" class="painelCronometro" id="tempoCronometro" disabled="true"><br/>
+          </div>          
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <div class="espacador"></div>
+          <div id="listaOradores" style="display: none"></div>
+          <div class="espacadorBaixo"></div>
+        </div>
+      </div> 
+    </div>
+    <!-- <div class="painelLateral" id="painelLateral"> <input type="text" placeholder="Delegacao" class="form-control formulario" style="margin-left: 15px; width: 280px;"id="del" value=""> <input type="text" placeholder="Sigla" class="form-control formulario" style="margin-left: 15px; width: 280px;" id="sig" value=""> <button type="button" class="btn btn-default botControles" style="margin-left: 15px;" onclick="adicionar()" id="add">ADD</button> </div> -->
+    <!--CONTROLES-->
+    <div class="container-fluid navembaixo">
+      <div class="row">
+        <div class="paineldeControle hidden-xs hidden-sm col-md-12">
+
+          <!----BOTÃO INICIAR SESSÃO-----!-->
+
+          {% if committe.lists | length == 0 %}
+            <div type="button" data-toggle="modal" data-target="#realizarChamada" class="btn btn-default botControles" onclick="iniciar()" id="iniciarsessao" style="width: 50%;">
+              <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+              INICIAR SESSÃO
+            </div>
+          {% else %}
+            <!--DISPOSITIVOS MEDIOS E GRANDES-->
+          <div class="hidden-xs hidden-sm col-md-12">
+            <center>
+              <div type="button" class="btn btn-default botControles" onclick="menuCronometro(1)" id="play" data-toggle="tooltip" data-placement="top" title="Iniciar (Barra de Espaço)">
+                <i class="fas fa-clock"></i>
+                INICIAR</div>
+              <div id="pauseBox">
+                <div type="button" class="btn btn-default botControles " onclick="menuCronometro(2)" name="Pausar" id="pause" data-toggle="tooltip" data-placement="top" title="Pausar (Barra de Espaço)">
+                  <i class="fas fa-stopwatch"></i>
+                  PAUSAR</div>
+              </div>
+
+              <div type="button" class="btn btn-default botControles " onclick="menuCronometro(4)" name="zerar" id="zerar" data-toggle="tooltip" data-placement="top" title="Zerar (Z)">
+                <i class="fas fa-history"></i>
+                ZERAR</div>
+
+              <div type="button" class="btn btn-default botControles" onclick="nextDelegation()" name="Proximo" id="proximo" data-toggle="tooltip" data-placement="top" title="Próximo (Enter)">
+                <!--<i class="fas fa-stream" ></i>-->
+                <i class="fas fa-sort-amount-up"></i>
+              </i>
+              PRÓXIMO</div>
+
+              <div type="button" class="btn btn-default botControles" name="Anterior" id="anterior" onclick="previousDelegation()">
+                <i class="fas fa-sort-amount-down"></i>
+                <!--<i class="fas fa-expand">-->
+              </i>
+              ANTERIOR</div>
+
+              <div type="button" class="btn btn-default botMoreOptions" data-toggle="modal" data-target="#listaControlePainel">
+                <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+              </div>
+              
+            </center>
+          </div>
+          {% endif %}
+
+          
+    </div>
+    <!--DISPOSITIVOS PEQUENOS-->
+    <div class="paineldeControleMobile col-xs-12 col-sm-12 hidden-md hidden-lg">
+      {% if committe.lists | length == 0 %}
+        <div type="button" data-toggle="modal" data-target="#realizarChamada" class="btn btn-default botControlesMobile" onclick="iniciar()" id="iniciarsessaoMob" style="width: 80%; border-radius: 50px; font-size: 22px; padding-top: 15px;">
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          INICIAR SESSÃO
+        </div>
+      {% endif %}
+
+      <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+        <center>
+          <div type="button" class="btn btn-default botControlesMobile" onclick="menuCronometro(1)" id="playMob">
+            <i class="fas fa-clock"></i>
+          </div>
+
+          <div id="pauseBoxMob">
+            <div type="button" class="btn btn-default botControlesMobile" onclick="menuCronometro(2)" name="Pausar" id="pause">
+              <i class="fas fa-stopwatch"></i>
+            </div>
+          </div>
+
+          <div type="button" class="btn btn-default botControlesMobile" onclick="" name="zerar" id="zerar">
+            <i class="fas fa-history"></i>
+          </div>
+
+          <div type="button" class="btn btn-default botControlesMobile" onclick="nextDelegation()" name="Proximo" id="proximo">
+            <i class="fas fa-sort-amount-up"></i>
+          </div>
+
+          <div type="button" class="btn btn-default botControlesMobile" name="anterior" id="anterior" onclick="previousDelegation()">
+            <i class="fas fa-sort-amount-down"></i>
+          </div>
+
+          <div type="button" class="btn btn-default botMoreOptionsMobile" name="Proximo" data-toggle="modal" data-target="#listaControlePainel">
+            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true" style="margin-left: -2px;"></span></div>
+
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---MODAL PAINEL---->
+<div class="modal fade" id="listaControlePainel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed',sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">PAINEL DE CONTROLE</h3>
+        </center>
+
+      </div>
+      <div class="modal-body">
+
+        <div type="button" class="btn btn-default botPainel" name="freezelist" id="reopenList" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#optionsPainel">
+          <i class="fas fa-cog"></i>
+          OPÇÕES</div>
+
+        <div type="button" class="btn btn-default botPainel" id="chamada" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#realizarChamada" onclick="liberaButton()">
+          <i class="fas fa-user-check"></i>
+          CHAMADA</div>
+
+        <div type="button" class="btn btn-default botPainel" name="freezelist" id="insertVote" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#realizarVotacao" onclick="listSetVote()">
+          <i class="fas fa-vote-yea"></i>
+          VOTAÇÃO</div>
+
+        <div type="button" class="btn btn-default botPainel" id="subCrise" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#criseSet">
+          <i class="fas fa-exclamation-triangle"></i>
+          CRISE</div>
+
+        <!-- <div type="button" class="btn btn-default botPainel" name="freezelist" id="cxEntrada"><i class="fas fa-mail-bulk"></i> CAIXA DE ENTRADA</div> -->
+
+        <div type="button" class="btn btn-default botPainel" name="freezelist" id="dbnm">
+          <i class="fas fa-comments"></i>
+          DEBATE</div>
+
+        <div type="button" class="btn btn-default botPainel" name="freezelist" id="insertDelegation" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#addDelegation" onclick="addDelegationList()">
+          <i class="fas fa-user-plus"></i>
+          ADICIONAR</div>
+
+        <a href="visualizacao.html" style="text-decoration: none;" target="_blank" class="hidden-xs hidden-sm">
+          <div type="button" class="btn btn-default botPainel" name="visualizacao" id="visualizacao">
+            <i class="fas fa-expand"></i>
+            VISUALIZAÇÃO</div>
+        </a>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default botPub" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#painelMaterial">FECHAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal OPÇÕES-->
+<div class="modal fade" id="optionsPainel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">OPÇÕES</h3>
+        </center>
+      </div>
+      <div class="modal-body">
+
+        <div type="button" class="btn btn-default botPainel" name="freezelist" id="closeList">
+          <i class="fas fa-plus-square"></i>
+          ABRIR LISTA</div>
+
+        <div type="button" class="btn btn-default botPainel" name="freezelist" id="reopenList">
+          <i class="far fa-list-alt"></i>
+          TROCAR LISTA</div>
+
+        <div type="button" class="btn btn-default botPainel" name="freezelist" id="emendalist" onclick="emendaList()">
+        <i class="far fa-window-close"></i>
+        ENCERRAR SESSÃO</div>
+
+        <!--<div type="button" class="btn btn-default botPainel" name="freezelist" id="freezelist">
+          <i class="fas fa-icicles"></i>
+          LISTA DE EMENDA</div>-->
+
+        
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#listaControlePainel">VOLTAR</button>
+        <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal CRISE-->
+<div class="modal fade" id="criseSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">CRISE</h3>
+        </center>
+      </div>
+      <div class="modal-body">
+        <form>
+          <textarea class="campo-estilo" name="crises-text" placeholder="Coloque aqui o texto da crise..."></textarea>
+          <center>
+            <div style="display: inline; font-size: 25px; color: #36C1B6; font-family: 'Open Sans Condensed', sans-serif;">Tempo:
+            </div><input type="number" min="1" max="99" placeholder="00" name="crise-duration" class="campo-estilo" style="height: 70px; width: 88px; text-align: center; font-size: 40px; border: 0; color: #36C1B6; background-color: #ffffff; border: 0 none; box-shadow: 0 0 0 0; outline: 0; font-family: Digital, sans-serif;">
+            <div style="display: inline; font-size: 25px; color: #36C1B6; font-family: 'Open Sans Condensed', sans-serif;">
+              min</div>
+          </center>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#listaControlePainel">VOLTAR</button>
+        <button type="button" class="btn btn-default botPub" data-dismiss="modal">ENVIAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---MODAL REALIZAR CHAMADA---->
+<div class="modal fade" id="realizarChamada" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed',sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">REALIZAR CHAMADA</h3>
+        </center>
+
+      </div>
+      <div class="modal-body">
+        <center><img src="../assets/organs/{{ committe.organ.alias }}.png" style="width: 70px; height: 70px; margin-bottom: 5px"></center>
+        <div style="margin-bottom: 10px" class="nomeTitulo">{{ committe.organ.alias | upper }}:
+          {{ committe.title | upper }}
+          -
+          {{ committe.year }}</div>
+        <center>
+          <div class="nD" style="font-size: 18px;">
+            <b>PV:
+            </b>Presente Votante&nbsp;&nbsp;
+            <b>P:
+            </b>Presente&nbsp;&nbsp;
+            <b>A:
+            </b>Ausente
+          </div>
+        </center>
+        <div class="line">
+          <div class="nD">
+            <b>Nome da Delegação</b>
+          </div>
+          <div class="stateOpt">
+            <div class="stateId1">
+              <b>PV</b>
+            </div>
+            <div class="stateId2">
+              <b>P</b>
+            </div>
+            <div class="stateId3">
+              <b>A</b>
+            </div>
+
+          </div>
+        </div>
+        <div id="listChamada">
+          <form action='/app/call' method="POST" id="call_form">
+            {% for d in delegates %}
+              <div class="line">
+                {% if d.delegation.name | length > 40 %}
+                  <div class="nD">
+                    {% for letter in d.delegation.name -%}
+                      {% if loop.index < 40 -%}
+                        {{ letter | upper }}
+                      {%- endif %}
+                    {%- endfor %}
+                    ...
+                  </div>
+                {% else %}
+                  <div class="nD">{{ d.delegation.name | upper }}</div>
+                {% endif %}
+                <div class="options">
+                  <label class="checkNec">
+                    {% if d.present == 2 %}
+                      <input type="radio" class="check pv" id="pv-{{d._id}}" name="s-{{d._id}}" checked="checked" value="2">
+                    {% else %}
+                      <input type="radio" class="check pv" id="pv-{{d._id}}" name="s-{{d._id}}" value="2">
+                    {% endif %}
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="checkNec">
+                    {% if d.present == 1 %}
+                      <input type="radio" class="check p" id="p-{{d._id}}" name="s-{{d._id}}" checked="checked" value="1">
+                    {% else %}
+                      <input type="radio" class="check p" id="p-{{d._id}}" name="s-{{d._id}}" value="1">
+                    {% endif %}
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="checkNec">
+                    {% if d.present == 0 %}
+                      <input type="radio" class="check a" id="a-{{d._id}}" name="s-{{d._id}}" checked="checked" value="0">
+                    {% else %}
+                      <input type="radio" class="check a" id="a-{{d._id}}" name="s-{{d._id}}" value="0">
+                    {% endif %}
+
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+            {% endfor %}
+          </form>
+        </div>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <!--hidden-xs hidden-sm-->
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>
+                <p class="hidden-sm hidden-xs" style="display: inline;">Presente</p>
+                <p class="hidden-md hidden-lg" style="display: inline;">P.</p>
+                Votante
+              </b>
+              <div class="numerosR" id="nmrPv">
+                {{ presency['pv'] }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>Presente</b>
+              <div class="numerosR" id="nmrP">
+                {{ presency['p'] }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>Ausente</b>
+              <div class="numerosR" id="nmrA">
+                {{ presency['a'] }}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>Total</b>
+              <div class="numerosR" id="nmrTotal">
+                {{ delegates.length }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <br>
+        <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#listaControlePainel" id="return-chamada">VOLTAR</button>
+
+        <button type="submit" class="btn btn-default botPub" form="call_form">SALVAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---MODAL ADICIONAR DELEGAÇÃO--->
+<div class="modal fade" id="addDelegation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed',sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">ADIONAR DELEGAÇÃO</h3>
+        </center>
+
+      </div>
+      <div class="modal-body">
+        <center><img src="comites/pnuma.png" style="width: 70px; height: 70px;"></center>
+        <div class="nomeTitulo">PNUMA: USO ABUSIVO DE AGROTÓXICOS E SEU IMPACTO NO MUNDO - 2019</div>
+        <br>
+        <div class="line">
+          <div class="nD">
+            <b>Nome da Delegação</b>
+          </div>
+          <div class="stateOpt">
+            <div class="stateId3">
+              <b>Adiconar</b>
+            </div>
+          </div>
+        </div>
+        <div id="listAddDelegation"></div>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <!--hidden-xs hidden-sm-->
+        <br>
+        <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#listaControlePainel">VOLTAR</button>
+
+        <button type="button" class="btn btn-default botPub" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#painelMaterial" onclick="">ADICIONAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---MODAL REALIZAR VOTAÇÂO---->
+<div class="modal fade" id="realizarVotacao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed',sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">REALIZAR VOTAÇÃO</h3>
+        </center>
+
+      </div>
+      <div class="modal-body">
+        <center><img src="comites/pnuma.png" style="width: 70px; height: 70px;"></center>
+        <div class="nomeTitulo">PNUMA: USO ABUSIVO DE AGROTÓXICOS E SEU IMPACTO NO MUNDO - 2019</div>
+        <center>
+          <div class="nD" style="font-size: 18px;">
+            Legenda:
+            <b>AF:
+            </b>A Favor;
+            <b>C:
+            </b>Contra;
+            <b>FD:
+            </b>A Favor com Direiros;
+            <b>CD:
+            </b>Contra com Direitos;
+            <b>AB:
+            </b>Abstenção;
+          </div>
+        </center>
+        <div class="line">
+          <div class="nD">
+            <b>Delegação</b>
+          </div>
+          <div class="stateOpt">
+            <div class="votId1">
+              <b>AF</b>
+            </div>
+            <div class="votId2">
+              <b>CO</b>
+            </div>
+            <div class="votId3">
+              <b>FD</b>
+            </div>
+            <div class="votId4">
+              <b>CD</b>
+            </div>
+            <div class="votId5">
+              <b>AB</b>
+            </div>
+          </div>
+        </div>
+        <div id="listVote"></div>
+        <br>
+      </div>
+      <div class="modal-footer">
+        <!--hidden-xs hidden-sm-->
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>A Favor</b>
+              <div class="numerosR" id="nmrAF">
+                0</div>
+            </div>
+          </div>
+
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>Contra</b>
+              <div class="numerosR" id="nmrCO">
+                0</div>
+            </div>
+          </div>
+
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>Abstenção</b>
+              <div class="numerosR" id="nmrAB">
+                0</div>
+            </div>
+          </div>
+
+          <div class="col-xs-3">
+            <div class="numerosD">
+              <b>Total</b>
+              <div class="numerosR" id="nmrTotalVot">
+                0</div>
+            </div>
+          </div>
+
+        </div>
+
+        <br>
+        <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#listaControlePainel" id="return-chamada">VOLTAR</button>
+
+        <button type="button" class="btn btn-default botPub" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#painelMaterial" onclick="calQuant()">ENVIAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid navembaixo hidden-md hidden-lg">
+  <div class="row">
+    <div class="col-md-12 icones hidden-md hidden-lg">
+      <a href="feed.html">
+        <i class="material-icons-outlined naveg">home</i>
+      </a>
+      <a href="menu.html">
+        <i class="material-icons-outlined naveg">dashboard</i>
+      </a>
+      <a href="oradores.html">
+        <i class="material-icons naveg">view_list</i>
+      </a>
+      <a href="perfil.html">
+        <i class="material-icons-outlined naveg2">person</i>
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $('#loaddesk').hide();
+    $('#loadmobile').hide();
+  });
+</script>
+
+  <script src="../script/panel.js"></script>
+</body>
+</html>

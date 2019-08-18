@@ -6,7 +6,7 @@ const List = new mongoose.Schema(
       type: Number,
       default: 0
     },
-    lastDelegation: { type: mongoose.Schema.Types.ObjectId, ref: 'Delegation' },
+    lastUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
   },
   {

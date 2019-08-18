@@ -54,9 +54,10 @@ User.pre('save', async function (next) {
 })
 
 User.pre('remove', async function (next) {
-  await Committe.findByIdAndRemove(this.committe, {
-    useFindAndModify: false
-  })
+  if (this.committe != null) {
+    const committe = await Committe.findById(this.committe)
+    await committe.remove()
+  }
 
   next()
 })

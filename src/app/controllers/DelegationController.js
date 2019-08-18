@@ -43,7 +43,8 @@ class DelegationController {
     const token = await crypto.randomBytes(10).toString('hex')
     await Token.create({
       token,
-      user
+      user,
+      delegation: name
     })
 
     const committe = await Committe.findById(user.committe)

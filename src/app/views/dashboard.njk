@@ -47,7 +47,10 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <center>
-          <a href="feed.html"><img src="../imagens/iconebranco.png" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;"/></a>
+          <a href="feed.html">
+            <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
         </center>
       </div>
     </nav>
@@ -327,7 +330,7 @@
                         <button onclick="generateUsers()">GERAR USUÁRIOS</button>
                       {% endif %}
 
-                      <button onclick="window.location.href='/app/speakers'">ACESSAR PAINEL</button>
+                      <button onclick="window.location.href='/app/panel'">ACESSAR PAINEL</button>
                     </div>
                   </div>
                 {% endif %}

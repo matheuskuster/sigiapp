@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Committe = require('../models/Committe')
 const QRCode = require('qrcode')
 
 class UserController {
@@ -61,8 +62,40 @@ class UserController {
     return res.redirect('/app')
   }
 
-  speakers (req, res) {
-    return res.render('development')
+  async speakers (req, res) {
+    const user = await User.findById(req.session.user._id)
+    const committe = await Committe.findById(user.committe).populate(['organ', 'list'])
+    let delegates = await User.find({
+      isCommitte: false,
+      isAdmin: false,
+      committe: committe._id
+    })
+      .select(['_id', 'present', 'delegation'])
+      .populate('delegation')
+
+    delegates.sort((a,b) => (a.delegation.name > b.delegation.name) ? 1 : ((b.delegation.name > a.delegation.name) ? -1 : 0)); 
+
+    const presency = {
+      p: 0,
+      pv: 0,
+      a: 0,
+      vc: 0
+    }
+
+    delegates.map(d => {
+      if (d.present == 0) {
+        presency.a += 1
+      } else if (d.present == 1) {
+        presency.p += 1
+        if(d.delegation.isCountry) {
+          presency.vc += 1
+        }
+      } else {
+        presency.pv += 1
+      }
+    })
+
+    return res.render('speakers', { user, committe, delegates, presency })
   }
 
   async information (req, res) {
