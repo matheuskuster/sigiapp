@@ -18,6 +18,15 @@ const Committe = new mongoose.Schema(
       type: Date,
       default: null
     },
+    crisis: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Crisis',
+      default: null
+    },
+    showingSchedule: {
+      type: Boolean,
+      default: false
+    },
     delegations: [
       { type: mongoose.Schema.Types.ObjectId, ref: 'Delegation', default: [] }
     ],

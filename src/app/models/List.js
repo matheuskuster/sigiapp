@@ -6,6 +6,10 @@ const List = new mongoose.Schema(
       type: Number,
       default: 0
     },
+    name: {
+      type: String,
+      default: 'BASE'
+    },
     lastUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
   },

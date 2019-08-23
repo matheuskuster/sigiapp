@@ -76,6 +76,16 @@ routes.post(
 )
 routes.get('/app/panel', controllers.CommitteController.controlPanel)
 routes.post('/app/call', controllers.CommitteController.call)
+routes.get('/app/shutsession/:id', controllers.CommitteController.shutSession)
+routes.post('/app/newlist/:id', controllers.CommitteController.newList)
+routes.get(
+  '/app/changelist/:committe/:list',
+  controllers.CommitteController.changeList
+)
+routes.post('/app/crisis/:id', controllers.CommitteController.crisis)
+routes.get('/app/endcrisis/:id', controllers.CommitteController.endCrisis)
+routes.get('/app/scheduleview/:id', controllers.CommitteController.scheduleView)
+routes.get('/view/:id', controllers.CommitteController.project)
 
 // ORGAN
 routes.post('/organ/store', controllers.OrganController.store)
@@ -103,6 +113,5 @@ routes.get('/list/:id', controllers.ListController.getList)
 routes.get('/list/next/:id', controllers.ListController.next)
 routes.get('/list/previous/:id', controllers.ListController.previous)
 routes.get('/list/push/:user_id/:id', controllers.ListController.push)
-
 
 module.exports = routes

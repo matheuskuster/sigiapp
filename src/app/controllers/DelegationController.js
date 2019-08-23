@@ -64,11 +64,11 @@ class DelegationController {
     return res.json(delegation)
   }
 
-  async fixDelegations() {
+  async fixDelegations () {
     const delegations = await Delegation.find()
 
     delegations.map(async d => {
-      if(d.flag.indexOf('assets') != -1) {
+      if (d.flag.indexOf('assets') != -1) {
         d.flag = d.flag.replace('..', '')
         await d.save()
         console.log(d)

@@ -1,39 +1,21 @@
 var interval
 var segundo = 0 + '0'
 var minuto = 0 + '0'
-var aux = 0
-var contEsp = 0
 var winW = $(window).width()
 var winH = $(window).height()
-var numdeOra = 2
-var primeiro = true
-var oradores = []
-var codOradores = []
-var listaDelegacoes = []
-var listaSiglas = []
-var qntOradores = 0
-var nmrPv = 0
-var nmrP = 0
-var allS = []
-var quorum = 0
-var mSimples = 0
-var mQualificada = 0
-var selList = []
-var nmtrDelTotal = selList.length
-var nmrA = nmtrDelTotal
 var listVote = []
 var listPresent = []
 var allVotes = []
 var atualVote = ''
-var nmrAF = 0
-var nmrCO = 0
-var nmrAB = 0
-var allDelegation = []
-var listAdd = []
+
+var recent = []
 var committeID = null
-var BASE_URL = 'http://localhost:3000'
+var BASE_URL = 'http://sigiapp.serra.ifes.edu.br'
 var list = null
 var socket = io()
+
+var aux = 0
+var contEsp = 0
 
 $('#iniciarsessao').show()
 $('#iniciada').hide()
@@ -83,28 +65,6 @@ function listSetVote () {
         ')"><span class="checkmark"></span></label></div></div>'
     )
     $('#listVote').append(listVote[i])
-  }
-}
-
-function addDelegationList () {
-  $('listVote').html('')
-  for (var i = 0; i < listPresent.length; i++) {
-    at = listPresent[i]
-    listAdd.push(
-      '<div class="line">' +
-        '<div class="nD">' +
-        selList[at] +
-        '</div>' +
-        '<div class="central">' +
-        '<div class="options"><center>' +
-        '<label class="checkNec removeMargin">' +
-        '<input type="checkbox" id="' +
-        selList[at] +
-        '" name="ad">' +
-        '<span class="checkmark"></span></label></center></div></div>' +
-        '</div>'
-    )
-    $('#listAddDelegation').append(listAdd[i])
   }
 }
 
@@ -249,6 +209,7 @@ function menuCronometro (opt) {
 }
 
 $(document).keypress(function (e) {
+
   if (contEsp == 0) {
     if (e.which == 32) $('#play').click()
     contEsp = 1
@@ -257,46 +218,26 @@ $(document).keypress(function (e) {
     contEsp = 0
   }
   if (e.which == 13) $('#proximo').click()
+
+  if (e.which == 122) $('#zerar').click()
 })
-
-function iniciar () {
-  $('#aguardando2').hide()
-  $('#aguardando1').show()
-  $('#iniciada').show()
-  $('#iniciadaPeq').show()
-
-  for (var i = 0; i < nmtrDelTotal; i++) {
-    allS[i] = 'a'
-  }
-  $('#return-chamada').hide()
-  // console.log(allS);
-}
-
-function liberaButton () {
-  $('#return-chamada').show()
-}
 
 function emendaList () {
   $('#delegacaoFalando').hide()
   $('#listaOradores').hide()
   $('#favorContraList').show()
-  console.log('click')
 }
 
-function call() {
+function call () {
   const checkboxes = document.querySelectorAll('.check')
-  
-  let ausency = $('#nmrA').html()
-  let present = $('#nmrP').html()
-  let votingPresent = $('#nmrPv').html()
 
   checkboxes.forEach(c => {
-    c.addEventListener('click', function() {
+    c.addEventListener('click', function () {
       renderCallNumbers()
     })
   })
 
-  function renderCallNumbers() {
+  function renderCallNumbers () {
     const ausencyCheckboxes = document.querySelectorAll('.a:checked')
     const presentCheckboxes = document.querySelectorAll('.p:checked')
     const votingPresentCheckboxes = document.querySelectorAll('.pv:checked')
@@ -307,38 +248,38 @@ function call() {
   }
 }
 
-function getCommitteIdFromNJK(id) {
+function getCommitteIdFromNJK (id) {
+  console.log(id)
   committeID = id
   renderList()
   joinSocketRoom()
-  
 }
 
-function joinSocketRoom() {
+function joinSocketRoom () {
   socket.emit('connectRoom', committeID)
 }
 
-function renderList() {
+function renderList () {
   $.ajax({
     method: 'GET',
     url: '/list/' + committeID,
-    success: (data) => {
+    success: data => {
       renderSocketList(data)
     }
   })
 }
 
-function nextDelegation() {
-   $.ajax({
+function nextDelegation () {
+  $.ajax({
     method: 'GET',
     url: '/list/next/' + committeID,
     success: data => {
       // RENDERIZAR LISTA (LOCAL OU DAR UM GET???)
     }
-   })
+  })
 }
 
-function previousDelegation() {
+function previousDelegation () {
   $.ajax({
     method: 'GET',
     url: '/list/previous/' + committeID,
@@ -346,67 +287,169 @@ function previousDelegation() {
       // RENDERIZAR LISTA (LOCAL OU DAR UM GET???)
     },
     error: data => {
-      if(data.responseJSON.id == 1) {
-        swal({
+      if (data.responseJSON.id == 1) {
+        Swal.fire({
           title: 'Impossível',
           text: 'Não há nenhuma delegação anterior!',
-          icon: 'error'
+          type: 'error',
+          confirmButtonColor: '#36c1b6',
+          confirmButtonText: 'Fechar'
         })
       } else if (data.responseJSON.id == 0) {
-        swal({
+        Swal.fire({
           title: 'Impossível',
-          text: 'A última delegação a sair da lista de oradores já se encontra na mesma novamente!',
-          icon: 'error'
+          text:
+            'A última delegação a sair da lista de oradores já se encontra na mesma novamente!',
+          type: 'error',
+          confirmButtonColor: '#36c1b6',
+          confirmButtonText: 'Fechar'
         })
       }
     }
-   })
+  })
 }
 
-function renderSocketList(data) {
+function renderSocketList (data) {
   list = data
 
-  if(list.length == 0) {
-      $('.emptyList').show()
-      $('.time').hide()
-      $('#listaOradores').html('')
-      $('#delegacaoFalando').hide()
+  if (list.length == 0) {
+    $('.emptyList').show()
+    $('.time').hide()
+    $('#listaOradores').html('')
+    $('#delegacaoFalando').hide()
   } else {
-      $('.emptyList').hide()
-      $('.time').show()
-      $('#listaOradores').html('')
+    $('.emptyList').hide()
+    $('.time').show()
+    $('#listaOradores').html('')
 
-      list.forEach(({ delegation }, index) => {
-        if(index == 0) {
-          const speakingHTML = `
+    list.forEach(({ delegation }, index) => {
+      if (index == 0) {
+        const speakingHTML = `
             <center>
-              <img src="${delegation.flag}" class="img-responsive bandeira1" alt="${delegation.name}" id="bandeira1" draggable="false">
+              <img src="${
+  delegation.flag
+}" class="img-responsive bandeira1" alt="${
+  delegation.name
+}" id="bandeira1" draggable="false">
             </center>
             <div class="nome1">${delegation.name}</div>
           `
 
-          $('#delegacaoFalando').html(speakingHTML)
-        } else {
-          const nextHTML = `
+        $('#delegacaoFalando').html(speakingHTML)
+      } else {
+        const nextHTML = `
             <div class="flex-item-box">
-              <div class="ordemDefault">${index+1}º</div>
-              <img src="${delegation.flag}" class="img-responsive bandDefault" alt="${delegation.name}" id="bandeira1">
+              <div class="ordemDefault">${index + 1}º</div>
+              <img src="${
+  delegation.flag
+}" class="img-responsive bandDefault" alt="${
+  delegation.name
+}" id="bandeira1">
               <div class="nomeDefault">${delegation.name}</div>
             </div>
           `
 
-          $('#listaOradores').append(nextHTML)
-        }
-      })
+        $('#listaOradores').append(nextHTML)
+      }
+    })
 
-      $('#listaOradores').show()
-      $('#delegacaoFalando').show()
+    $('#listaOradores').show()
+    $('#delegacaoFalando').show()
   }
 }
 
+$('.shut_session>button').click(e => {
+  e.preventDefault()
+
+  Swal.fire({
+    title: 'Tem certeza?',
+    text:
+      'Todas as listas de oradores são excluídas. Você não poderá desfazer essa ação!',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#36c1b6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Sim, encerrar!'
+  }).then(result => {
+    if (result.value) {
+      $(`.shut_session`).submit()
+    }
+  })
+})
+
+$('.crisis-button').click(e => {
+  e.preventDefault()
+
+  Swal.fire({
+    title: 'Tem certeza?',
+    text: 'A tela de visualização mostrará apenas a descrição e o tempo restante. A lista de oradores continuará funcionando normalmente para os diretores e delegados.',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#36c1b6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Sim, entrar!'
+  }).then(result => {
+    if (result.value) {
+      $('#crisis-form').submit()
+    }
+  })
+})
+
+function renderRecentDelegations () {
+  if (recent.length == 0) {
+    $('.recent_title').hide()
+    $('#listRecentDelegations').hide()
+  } else {
+    $('.recent_title').show()
+    $('#listRecentDelegations').html('')
+
+    recent.map(rec => {
+      const html = `
+      <div class="line">
+        <div class="nD">
+          <a href="" style="font-family: 'Quicksand'; font-size: 22px; text-decoration: none" class="nD" onclick="addDelegation(this,'${
+  rec.id
+}')" data-dismiss="modal">${rec.name}</a>
+        </div>
+      </div>
+      `
+
+      $('#listRecentDelegations').append(html)
+    })
+
+    $('#listRecentDelegations').show()
+  }
+}
+
+function addDelegation (e, id) {
+  recent = recent.filter(rec => rec.id != id)
+
+  recent.push({ name: e.innerHTML, id })
+
+  $.ajax({
+    url: `/list/push/${id}/${committeID}`,
+    method: 'GET',
+    success: data => {
+      renderRecentDelegations()
+    }
+  })
+}
+
+function setCrisis () {
+  $('.navbar').css('background-color', '#ff3838')
+  $('.paineldeControle').css('background-color', '#ff3838')
+  $('.icones').css('background-color', '#ff3838')
+  $('.botControlesMobile').css('background-color', '#ff3838')
+  $('.botMoreOptionsMobile').css('background-color', '#ff3838')
+  $('.activeNavIcon>a').css('color', '#ff3838')
+  $('.naveg').addClass('crisis')
+  $('.naveg2').addClass('crisis')
+}
+
 call()
+renderRecentDelegations()
 socket.on('list', data => {
   renderSocketList(data)
 })
-
-  

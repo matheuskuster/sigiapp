@@ -64,8 +64,11 @@ class UserController {
 
   async speakers (req, res) {
     const user = await User.findById(req.session.user._id)
-    const committe = await Committe.findById(user.committe).populate(['organ', 'list'])
-    let delegates = await User.find({
+    const committe = await Committe.findById(user.committe).populate([
+      'organ',
+      'list'
+    ])
+    const delegates = await User.find({
       isCommitte: false,
       isAdmin: false,
       committe: committe._id
@@ -73,7 +76,13 @@ class UserController {
       .select(['_id', 'present', 'delegation'])
       .populate('delegation')
 
-    delegates.sort((a,b) => (a.delegation.name > b.delegation.name) ? 1 : ((b.delegation.name > a.delegation.name) ? -1 : 0)); 
+    delegates.sort((a, b) =>
+      a.delegation.name > b.delegation.name
+        ? 1
+        : b.delegation.name > a.delegation.name
+          ? -1
+          : 0
+    )
 
     const presency = {
       p: 0,
@@ -87,7 +96,7 @@ class UserController {
         presency.a += 1
       } else if (d.present == 1) {
         presency.p += 1
-        if(d.delegation.isCountry) {
+        if (d.delegation.isCountry) {
           presency.vc += 1
         }
       } else {
@@ -106,6 +115,24 @@ class UserController {
     )
 
     return res.render('information', { url, user })
+  }
+
+  async eraseDelegatesUserFromCommitte (req, res) {
+    const { id } = req.params
+    const { token } = req.body
+    const committe = Committe.findById(id)
+
+    if (token != process.env.ADMIN_TOKEN) {
+      return res.json({ error: 'Invalid admin token' })
+    }
+
+    await User.deleteMany({ committe: committe._id, isCommitte: false })
+    committe.users = false
+    await committe.save()
+
+    return res.json({
+      success: `Users from ${committe.title} were all deleted`
+    })
   }
 }
 
