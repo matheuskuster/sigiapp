@@ -3,6 +3,8 @@ var list = []
 var committeID = null
 var userID = null
 var socket = io()
+var started = null;
+var time = null;
 
 function getUserIdFromNJK (id) {
   userID = id
@@ -113,6 +115,39 @@ function setCrisis () {
   $('.activeNavIcon>a').css('color', '#ff3838')
   $('.naveg').addClass('crisis')
   $('.naveg2').addClass('crisis')
+}
+
+function setDebate () {
+  $('.navbar').css('background-color', '#FAA98B')
+  $('.paineldeControle').css('background-color', '#FAA98B')
+  $('.icones').css('background-color', '#FAA98B')
+  $('.botControlesMobile').css('background-color', '#FAA98B')
+  $('.botMoreOptionsMobile').css('background-color', '#FAA98B')
+  $('.activeNavIcon>a').css('color', '#FAA98B')
+  $('.naveg').addClass('crisis')
+  $('.naveg2').addClass('crisis')
+}
+
+function initDebateTimer(debateTime, debateStarted) {
+  started = debateStarted
+  time = debateTime
+
+  setDebateTimer()
+  setInterval(setDebateTimer, 1000)
+}
+
+function setDebateTimer () {
+  const finishTime = moment(started).add(time, 'minutes')
+  const diff = finishTime.diff(moment(), 'milliseconds', true)
+  const timer = moment.duration(diff)
+
+  let seconds = parseInt(timer.seconds())
+  if (seconds < 0) {
+    seconds *= -1
+  }
+
+  $('#minutes').html(timer.minutes().toString().padStart(2, '0'))
+  $('#seconds').html(seconds.toString().padStart(2, '0'))
 }
 
 socket.on('list', data => {

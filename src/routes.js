@@ -86,6 +86,8 @@ routes.post('/app/crisis/:id', controllers.CommitteController.crisis)
 routes.get('/app/endcrisis/:id', controllers.CommitteController.endCrisis)
 routes.get('/app/scheduleview/:id', controllers.CommitteController.scheduleView)
 routes.get('/view/:id', controllers.CommitteController.project)
+routes.post('/app/debate/:id', controllers.CommitteController.debate)
+routes.get('/app/enddebate/:id', controllers.CommitteController.endDebate)
 
 // ORGAN
 routes.post('/organ/store', controllers.OrganController.store)
@@ -113,5 +115,17 @@ routes.get('/list/:id', controllers.ListController.getList)
 routes.get('/list/next/:id', controllers.ListController.next)
 routes.get('/list/previous/:id', controllers.ListController.previous)
 routes.get('/list/push/:user_id/:id', controllers.ListController.push)
+
+routes.get('/app/profile', (req, res) => {
+  return res.render('development')
+})
+
+routes.get('/feed', (req, res) => {
+  return res.render('development')
+})
+
+routes.get('/news', (req, res) => {
+  return res.render('development')
+})
 
 module.exports = routes

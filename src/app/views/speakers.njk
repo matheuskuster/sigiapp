@@ -191,24 +191,30 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <center>
-          <a href="feed.html">
-            <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
-            <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
-          </a>
+          {% if committe.crisis == null %}
+            <a href="/feed">
+              <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+              <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% else %}
+            <a href="/feed">
+              <img src="../imagens/iconebranco.png" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% endif %}
         </center>
         <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
           <li class="itemNav">
-            <a style="color: #ffffff;" href="feed.html">Feed</a>
+            <a style="color: #ffffff;" href="/feed">Feed</a>
           </li>
           <li class="itemNav">
-            <a style="color: #ffffff;" href="menu.html">
-              Menu</a>
+            <a style="color: #ffffff;" href="/news">
+              Notícias</a>
           </li>
           <li class="activeNavIcon">
-            <a style="color: #36C1B6;" href="oradores.html">Lista de Oradores</a>
+            <a style="color: #36C1B6;" href="/app/speakers">Lista de Oradores</a>
           </li>
           <li class="itemNav">
-            <a style="color: #ffffff;" href="perfil.html">Perfil</a>
+            <a style="color: #ffffff;" href="/app/profile">Perfil</a>
           </li>
         </ul>
       </div>
@@ -231,7 +237,7 @@
       </div>
     </div>
 
-    {% if committe.lists | length != 0 %}
+    {% if committe.lists | length != 0 and committe.debate == null %}
       <div class="row">
         <p class="emptyList">
           LISTA DE ORADORES VAZIA
@@ -263,6 +269,20 @@
         </div>
 
       </div>
+      {% elif committe.debate != null %}
+
+        <div class="row">
+            <p class="debate" style="font-size: 60px;">
+              COMITÊ EM DEBATE
+            </p>
+
+            <div class="timer">
+                <p id="minutes">00</p>
+                <p>:</p>
+                <p id="seconds">00</p>
+              </div>          
+          </div>    
+
     {% endif %}
   </div>
 
@@ -317,16 +337,16 @@
   <div class="container-fluid navembaixo hidden-md hidden-lg">
     <div class="row">
       <div class="col-md-12 icones hidden-md hidden-lg">
-        <a href="feed.html">
+        <a href="/feed">
           <i class="material-icons-outlined naveg">home</i>
         </a>
-        <a href="menu.html">
-          <i class="material-icons-outlined naveg">dashboard</i>
+        <a href="/news">
+          <i class="material-icons naveg">receipt</i>
         </a>
-        <a href="oradores.html">
+        <a href="/app/speakers">
           <i class="material-icons naveg">view_list</i>
         </a>
-        <a href="perfil.html">
+        <a href="/app/profile">
           <i class="material-icons-outlined naveg2">person</i>
         </a>
       </div>
@@ -340,15 +360,21 @@
   </script>
 
   <script src="../script/socket.io.js"></script>
+  <script src="../script/moment.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="../script/speakers.js"></script>
 
-  {% if committe.crisis != null %}
+  {% if committe.crisis != null and committe.debate == null %}
 
-  <script>
-    setCrisis()
-  </script>
+    <script>
+      setCrisis()
+    </script>
 
-{% endif %}
+  {% elif committe.debate != null %}
+    <script>
+      setDebate()
+      initDebateTimer('{{ committe.debate.time }}', '{{ committe.debate.createdAt }}')
+    </script>
+  {% endif %}
 </body>
 </html>

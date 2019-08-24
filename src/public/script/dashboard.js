@@ -26,7 +26,7 @@ $('#form-request').submit(e => {
 
   $.ajax({
     method: 'GET',
-    url: BASE_URL + '/app/delegation/ask/' + name,
+    url: '/app/delegation/ask/' + name,
     success: data => {
       $('.modal').modal('hide')
       swal({
@@ -93,7 +93,7 @@ function subscribeDelegation(i) {
 
   $.ajax({
     method: 'POST',
-    url: BASE_URL + '/delegation/store',
+    url: '/delegation/store',
     dataType: 'json',
     data: json,
     success: data => {
@@ -281,7 +281,7 @@ function sendSchedule() {
 
   $.ajax({
     method: 'POST',
-    url: BASE_URL + '/app/committe/schedule',
+    url: '/app/committe/schedule',
     dataType: 'json',
     data: json,
     success: data => {

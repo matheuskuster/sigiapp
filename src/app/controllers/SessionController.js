@@ -11,7 +11,12 @@ class SessionController {
       return res.redirect('/')
     }
 
-    if (!(await user.compareHash(password))) {
+    if(!user.isAdmin  && !user.isCommitte) {
+      if(user.password != password) {
+        req.flash('error', 'Senha incorreta')
+        return res.redirect('/')
+      }
+    } else if (!(await user.compareHash(password))) {
       req.flash('error', 'Senha incorreta')
       return res.redirect('/')
     }

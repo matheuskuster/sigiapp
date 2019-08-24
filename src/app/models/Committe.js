@@ -23,6 +23,11 @@ const Committe = new mongoose.Schema(
       ref: 'Crisis',
       default: null
     },
+    debate: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Debate',
+      default: null
+    },
     showingSchedule: {
       type: Boolean,
       default: false

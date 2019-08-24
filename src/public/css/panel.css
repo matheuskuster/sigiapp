@@ -67,6 +67,13 @@ h3 {
   margin-top: 20px;
 }
 
+.debate {
+  text-align: center;
+  font-size: 24px;
+  font-family: "Quicksand", sans-serif;
+  margin-top: 20px;
+}
+
 .titulo {
   font-size: 25px;
   color: black;
@@ -509,4 +516,62 @@ h3 {
 
 .topic > ul li > .number {
   font-size: 18px;
+}
+
+#info {
+  font-family: 'Quicksand', sans-serif;
+  margin-top: 120px;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+#info .maiority {
+  font-size: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#rights {
+  font-family: 'Quicksand', sans-serif;
+  margin-top: 50px;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+#rights .right-content {
+  font-size: 14px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#rights .right-content .rights-title {
+  font-size: 18px;
+}
+
+#rights .right-content ul {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 80px;
+  font-family: Digital;
+  color: #ff3838;
+
+  margin-top: 40px;
 }

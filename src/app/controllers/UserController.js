@@ -66,7 +66,8 @@ class UserController {
     const user = await User.findById(req.session.user._id)
     const committe = await Committe.findById(user.committe).populate([
       'organ',
-      'list'
+      'list',
+      'debate'
     ])
     const delegates = await User.find({
       isCommitte: false,

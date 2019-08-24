@@ -3,10 +3,6 @@ var segundo = 0 + '0'
 var minuto = 0 + '0'
 var winW = $(window).width()
 var winH = $(window).height()
-var listVote = []
-var listPresent = []
-var allVotes = []
-var atualVote = ''
 
 var recent = []
 var committeID = null
@@ -17,6 +13,9 @@ var socket = io()
 var aux = 0
 var contEsp = 0
 
+var time = null
+var started = null
+
 $('#iniciarsessao').show()
 $('#iniciada').hide()
 $('#favorContraList').hide()
@@ -24,128 +23,6 @@ $('#favorContraList').hide()
 $(document).ready(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-
-function listSetVote () {
-  $('#listVote').html('')
-  for (var i = 0; i < listPresent.length; i++) {
-    ind = listPresent[i]
-    listVote.push(
-      '<div class="line"><div class="nD">' +
-        selList[ind] +
-        '</div><div class="options"><label class="checkNec"><input type="radio" id="af' +
-        i +
-        '" name="v' +
-        i +
-        '" onclick="voteControl(' +
-        i +
-        ')"><span class="checkmark"></span></label><label class="checkNec"><input type="radio" id="co' +
-        i +
-        '" name="v' +
-        i +
-        '" onclick="voteControl(' +
-        i +
-        ')"><span class="checkmark"></span></label> <label class="checkNec"><input type="radio" id="fd' +
-        i +
-        '" name="v' +
-        i +
-        '" onclick="voteControl(' +
-        i +
-        ')"><span class="checkmark"></span></label><label class="checkNec"><input type="radio" id="cd' +
-        i +
-        '" name="v' +
-        i +
-        '" onclick="voteControl(' +
-        i +
-        ')"><span class="checkmark"></span></label><label class="checkNec"><input type="radio" id="ab' +
-        i +
-        '" name="v' +
-        i +
-        '" onclick="voteControl(' +
-        i +
-        ')"><span class="checkmark"></span></label></div></div>'
-    )
-    $('#listVote').append(listVote[i])
-  }
-}
-
-function voteControl (id) {
-  var af = $("input[id='af" + id + "']:checked").val()
-  var co = $("input[id='co" + id + "']:checked").val()
-  var fd = $("input[id='fd" + id + "']:checked").val()
-  var cd = $("input[id='cd" + id + "']:checked").val()
-  var ab = $("input[id='ab" + id + "']:checked").val()
-
-  if (af) {
-    atualVote = 'af'
-  }
-  if (co) {
-    atualVote = 'co'
-  }
-  if (fd) {
-    atualVote = 'fd'
-  }
-  if (cd) {
-    atualVote = 'cd'
-  }
-  if (ab) {
-    atualVote = 'ab'
-  }
-
-  if (atualVote != allVotes[id]) {
-    if (atualVote == 'af' && allVotes[id] != 'fd') {
-      votes(id)
-    }
-    if (atualVote == 'fd' && allVotes[id] != 'af') {
-      votes(id)
-    }
-    if (atualVote == 'co' && allVotes[id] != 'cd') {
-      votes(id)
-    }
-    if (atualVote == 'cd' && allVotes[id] != 'co') {
-      votes(id)
-    }
-    if (atualVote == 'ab') {
-      votes(id)
-    }
-  }
-}
-
-function votes (id) {
-  if (atualVote == 'co' || atualVote == 'cd') {
-    if (allVotes[id] == 'af' || (allVotes[id] == 'fd' && nmrAF > 0)) {
-      nmrAF--
-    }
-    if (allVotes[id] == 'ab' && nmrAB > 0) {
-      nmrAB--
-    }
-    nmrCO++
-  }
-  if (atualVote == 'af' || atualVote == 'fd') {
-    if (allVotes[id] == 'co' || (allVotes[id] == 'cd' && nmrCO > 0)) {
-      nmrCO--
-    }
-    if (allVotes[id] == 'ab' && nmrAB > 0) {
-      nmrAB--
-    }
-    nmrAF++
-  }
-
-  if (atualVote == 'ab') {
-    if (allVotes[id] == 'af' || (allVotes[id] == 'fd' && nmrAF > 0)) {
-      nmrAF--
-    }
-    if (allVotes[id] == 'co' || (allVotes[id] == 'cd' && nmrCO > 0)) {
-      nmrCO--
-    }
-    nmrAB++
-  }
-
-  allVotes[id] = atualVote
-
-  $('#nmrAF').text(nmrAF)
-  $('#nmrCO').text(nmrCO)
-  $('#nmrAB').text(nmrAB)
-}
 
 function tempo () {
   if (segundo < 59) {
@@ -228,6 +105,125 @@ function emendaList () {
   $('#favorContraList').show()
 }
 
+function vote () {
+  const checkboxes = document.querySelectorAll('.vote')
+
+  checkboxes.forEach(c => {
+    c.addEventListener('click', function () {
+      renderVoteNumbers()
+      enableButton()
+    })
+  })
+
+  document.querySelector('.voteResult').addEventListener('click', function () {
+      showResult()
+  })
+
+  function enableButton() {
+    const favorCheckboxes = document.querySelectorAll('.af:checked')
+    const againstCheckboxes = document.querySelectorAll('.co:checked')
+    const rightFavorCheckboxes = document.querySelectorAll('.fd:checked')
+    const rightAgainstCheckboxes = document.querySelectorAll('.cd:checked')
+    const absCheckboxes = document.querySelectorAll('.ab:checked')
+
+    if(favorCheckboxes.length + againstCheckboxes.length + rightFavorCheckboxes.length + rightAgainstCheckboxes.length + absCheckboxes.length == (checkboxes.length / 5)) {
+      $('.voteResult').attr('disabled', false)
+    }
+  }
+
+  function showResult() {
+    const favorCheckboxes = document.querySelectorAll('.af:checked')
+    const againstCheckboxes = document.querySelectorAll('.co:checked')
+    const rightFavorCheckboxes = document.querySelectorAll('.fd:checked')
+    const rightAgainstCheckboxes = document.querySelectorAll('.cd:checked')
+    const absCheckboxes = document.querySelectorAll('.ab:checked')
+
+    const favorCountry = document.querySelectorAll('.country-af-true:checked')
+    const rightFavorCountry = document.querySelectorAll('.country-fd-true:checked')
+    const favorCountryVotes = favorCountry.length + rightFavorCountry.length
+
+    const simple = parseInt(document.querySelector('#mSimples').innerHTML)
+    const qualify = parseInt(document.querySelector('#mQualificada').innerHTML)
+
+    const favorVotes = favorCheckboxes.length + rightFavorCheckboxes.length
+
+    if(favorVotes >= simple) {
+      $('.simple').html('<p>Maioria Simples</p><i class="fas fa-check" style="color: #36C1B6"></i>')
+    } else {
+      $('.simple').html('<p>Maioria Simples</p><i class="fas fa-times" style="color: #ff3838"></i>')
+    }
+
+    if(favorCountryVotes >= qualify) {
+      $('.qualify').html('<p>Maioria Qualificada</p><i class="fas fa-check" style="color: #36C1B6"></i>')
+    } else {
+      $('.qualify').html('<p>Maioria Qualificada</p><i class="fas fa-times" style="color: #ff3838"></i>')
+    }
+
+    const rightFavorNames = []
+    const rightAgainstNames = []
+
+    rightFavorCheckboxes.forEach(c => {
+      rightFavorNames.push(c.dataset.delegation)
+    })
+
+    rightAgainstCheckboxes.forEach(c => {
+      rightAgainstNames.push(c.dataset.delegation)
+    })
+
+    if(rightFavorNames.length == 0) {
+      $('.right-favor').html('<li>NENHUM</li>')
+    } else {
+      rightFavorNames.map(r => {
+        $('.right-favor').append(`<li>${r.toUpperCase()}</li>`)
+      })
+    }
+
+    if(rightAgainstNames.length == 0) {
+      $('.right-against').html('<li>NENHUM</li>')
+    } else {
+      rightAgainstNames.map(r => {
+        $('.right-against').append(`<li>${r.toUpperCase()}</li>`)
+      })
+    }
+
+    const chart = new CanvasJS.Chart("chartContainer",
+	  {
+      animationEnabled: true,
+      theme: "light2",		
+      data: [
+      {       
+        type: "pie",
+        toolTipContent: "{y} - #percent %",
+        showInLegend: true,
+        legendText: "{indexLabel}",
+        dataPoints: [
+          {  y: favorCheckboxes.length, indexLabel: "Favor" },
+          {  y: againstCheckboxes.length, indexLabel: "Contra" },
+          {  y: rightFavorCheckboxes.length, indexLabel: "Favor D." },
+          {  y: rightAgainstCheckboxes.length, indexLabel: "Contra D."},
+          {  y: absCheckboxes.length, indexLabel: "Abstenção" }
+        ]
+      }
+      ]
+    });
+
+    chart.render()
+  }
+
+  function renderVoteNumbers () {
+    const favorCheckboxes = document.querySelectorAll('.af:checked')
+    const againstCheckboxes = document.querySelectorAll('.co:checked')
+    const rightFavorCheckboxes = document.querySelectorAll('.fd:checked')
+    const rightAgainstCheckboxes = document.querySelectorAll('.cd:checked')
+    const absCheckboxes = document.querySelectorAll('.ab:checked')
+
+
+    $('#nmrAF').html(favorCheckboxes.length + rightFavorCheckboxes.length)
+    $('#nmrCO').html(againstCheckboxes.length + rightAgainstCheckboxes.length)
+    $('#nmrAB').html(absCheckboxes.length)
+  }
+}
+
 function call () {
   const checkboxes = document.querySelectorAll('.check')
 
@@ -249,7 +245,6 @@ function call () {
 }
 
 function getCommitteIdFromNJK (id) {
-  console.log(id)
   committeID = id
   renderList()
   joinSocketRoom()
@@ -448,7 +443,41 @@ function setCrisis () {
   $('.naveg2').addClass('crisis')
 }
 
+function setDebate () {
+  $('.navbar').css('background-color', '#FAA98B')
+  $('.paineldeControle').css('background-color', '#FAA98B')
+  $('.icones').css('background-color', '#FAA98B')
+  $('.botControlesMobile').css('background-color', '#FAA98B')
+  $('.botMoreOptionsMobile').css('background-color', '#FAA98B')
+  $('.activeNavIcon>a').css('color', '#FAA98B')
+  $('.naveg').addClass('crisis')
+  $('.naveg2').addClass('crisis')
+}
+
+function initTimer(debateTime, debateStarted) {
+  started = debateStarted
+  time = debateTime
+
+  setDebateTimer()
+  setInterval(setDebateTimer, 1000)
+}
+
+function setDebateTimer () {
+  const finishTime = moment(started).add(time, 'minutes')
+  const diff = finishTime.diff(moment(), 'milliseconds', true)
+  const timer = moment.duration(diff)
+
+  let seconds = parseInt(timer.seconds())
+  if (seconds < 0) {
+    seconds *= -1
+  }
+
+  $('#minutes').html(timer.minutes().toString().padStart(2, '0'))
+  $('#seconds').html(seconds.toString().padStart(2, '0'))
+}
+
 call()
+vote()
 renderRecentDelegations()
 socket.on('list', data => {
   renderSocketList(data)

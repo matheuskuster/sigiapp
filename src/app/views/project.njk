@@ -57,10 +57,16 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <center>
-          <a href="feed.html">
-            <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
-            <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
-          </a>
+          {% if committe.crisis == null and committe.debate == null %}
+            <a href="/feed">
+              <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+              <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% else %}
+            <a href="/feed">
+              <img src="../imagens/iconebranco.png" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% endif %}
         </center>
       </div>
     </nav>
@@ -110,7 +116,7 @@
       </div>
     </div>
 
-    {% if committe.lists | length != 0 and committe.crisis == null and not committe.showingSchedule %}
+    {% if committe.lists | length != 0 and committe.crisis == null and not committe.showingSchedule and committe.debate == null %}
       <div class="row">
         <p class="emptyList">
           LISTA DE ORADORES VAZIA
@@ -152,9 +158,6 @@
         </div> 
         <div class="col-md-1"></div>
     {% elif committe.showingSchedule %}
-      
-      
-
           <div class="col-md-2"></div>
           <div style="margin-top: 50px" class="col-md-8">
             {% for topic in committe.schedule %}
@@ -179,10 +182,19 @@
             {% endfor %}
           </div>
           <div class="col-md-2"></div>
-        
-          
 
-        
+      {% elif committe.debate != null %}        
+        <div class="row">
+          <p class="debate" style="font-size: 60px;">
+            COMITÊ EM DEBATE
+          </p>
+
+          <div class="timer">
+              <p id="minutes">00</p>
+              <p>:</p>
+              <p id="seconds">00</p>
+            </div>          
+        </div>       
 
     {% endif %}
   </div>
@@ -203,11 +215,18 @@
 
   {% if committe.crisis != null %}
 
-  <script>
-    setCrisis()
-    initTimer('{{ committe.crisis.time }}', '{{ committe.crisis.createdAt }}')
-  </script>
+    <script>
+      setCrisis()
+      initTimer('{{ committe.crisis.time }}', '{{ committe.crisis.createdAt }}')
+    </script>
+  
+  {% elif committe.debate != null %}
 
-{% endif %}
+    <script>
+      setDebate()
+      initTimer('{{ committe.debate.time }}', '{{ committe.debate.createdAt }}')
+    </script>
+
+  {% endif %}
 </body>
 </html>

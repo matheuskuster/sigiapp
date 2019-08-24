@@ -5,8 +5,6 @@ function initTimer(crisisTime, crisisStarted) {
   started = crisisStarted
   time = crisisTime
 
-  console.log(started, time)
-
   setCrisisTimer()
   setInterval(setCrisisTimer, 1000)
 }

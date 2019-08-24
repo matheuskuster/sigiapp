@@ -7,6 +7,7 @@ const Token = require('../models/Token')
 const Topic = require('../models/Topic')
 const Sheet = require('../models/Sheet')
 const Crisis = require('../models/Crisis')
+const Debate = require('../models/Debate')
 const SheetController = require('../../config/sheet')
 const crypto = require('crypto')
 
@@ -166,7 +167,8 @@ class CommitteController {
       'organ',
       'lists',
       'crisis',
-      'schedule'
+      'schedule',
+      'debate'
     ])
     const delegates = await User.find({
       isCommitte: false,
@@ -273,6 +275,13 @@ class CommitteController {
         useFindAndModify: true
       })
       committe.crisis = null
+    }
+
+    if(committe.debate != null) {
+      await Debate.findByIdAndRemove(committe.debate._id, {
+        useFindAndModify: true
+      })
+      committe.debate = null
     }
     
     await committe.save()
@@ -428,7 +437,8 @@ class CommitteController {
       'organ',
       'lists',
       'crisis',
-      'schedule'
+      'schedule',
+      'debate'
     ])
     const delegates = await User.find({
       isCommitte: false,
@@ -462,6 +472,64 @@ class CommitteController {
     })
 
     return res.render('project', { committe, presency })
+  }
+
+  async debate (req, res) {
+    const user = await User.findById(req.session.user._id)
+    const committe = await Committe.findById(req.params.id)
+
+    if (
+      user.committe._id.toString() != committe._id.toString() ||
+      !user.isCommitte
+    ) {
+      return res
+        .status(400)
+        .json({ error: 'You do not have permission to execute this action.' })
+    }
+
+    if (committe.debate != null) {
+      return res
+        .status(400)
+        .json({ error: 'It seems that the committe is already in debate.' })
+    }
+
+    committe.debate = await Debate.create({
+      time: req.body.time
+    })
+
+    await committe.save()
+
+    req.io.sockets.in(committe._id).emit('reload')
+
+    return res.redirect('/app/panel')
+  }
+
+  async endDebate (req, res) {
+    const user = await User.findById(req.session.user._id)
+    const committe = await Committe.findById(req.params.id)
+
+    if (
+      user.committe._id.toString() != committe._id.toString() ||
+      !user.isCommitte
+    ) {
+      return res
+        .status(400)
+        .json({ error: 'You do not have permission to execute this action.' })
+    }
+
+    if (committe.debate == null) {
+      return res
+        .status(400)
+        .json({ error: 'It seems that the committe is not in debate.' })
+    }
+
+    await Debate.findByIdAndRemove(committe.debate._id)
+    committe.debate = null
+    await committe.save()
+
+    req.io.sockets.in(committe._id).emit('reload')
+
+    return res.redirect('/app/panel')
   }
 }
 

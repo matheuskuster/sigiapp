@@ -71,7 +71,6 @@ class DelegationController {
       if (d.flag.indexOf('assets') != -1) {
         d.flag = d.flag.replace('..', '')
         await d.save()
-        console.log(d)
       }
     })
   }
