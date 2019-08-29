@@ -25,8 +25,13 @@ routes.use('/app/dashboard', committeMiddleware)
 routes.use('/app/users', notDelegateMiddleware)
 routes.use('/app/speakers', isDelegateMiddlewate)
 
+// FEED
+routes.get('/', controllers.FeedController.index)
+routes.post('/app/feed/create', controllers.FeedController.create)
+routes.get('/app/feed/remove/:id', controllers.FeedController.remove)
+
 // NAVIGATION
-routes.get('/', guestMiddleware, controllers.SessionController.create)
+routes.get('/login', guestMiddleware, controllers.SessionController.create)
 routes.get('/app', controllers.UserController.redirect)
 
 // USER

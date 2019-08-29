@@ -141,12 +141,17 @@ function setDebateTimer () {
   const diff = finishTime.diff(moment(), 'milliseconds', true)
   const timer = moment.duration(diff)
 
+  const minutes = parseInt(timer.minutes())
   let seconds = parseInt(timer.seconds())
   if (seconds < 0) {
     seconds *= -1
   }
 
-  $('#minutes').html(timer.minutes().toString().padStart(2, '0'))
+  if(minutes == 0 && seconds > 0) {
+    $('#minutes').html(`-${minutes.toString().padStart(2, '0')}`)
+  }
+
+  $('#minutes').html(minutes.toString().padStart(2, '0'))
   $('#seconds').html(seconds.toString().padStart(2, '0'))
 }
 

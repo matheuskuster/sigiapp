@@ -6,54 +6,55 @@ var pubAtual = 0;
 var tamanhoTexto = 0;
 var winW = $(window).width();
 var winH = $(window).height();
+var notifications = 0
+var socket = io()
+$('.botNotifications').hide()
 
-function escreverPub(opt){
-		contPub++;
-		if (opt == 1) {
-			textoPub = $('#textoDigitado').val();
-		}
-		if (opt == 2) {
-			textoPub = $('#textoDigitadomob').val();
-		}
-		publication = '<div class="pub" id="'+contPub+'"><div class="excluirPub" id="exc'+contPub+'" onclick="escolherPub('+contPub+')" data-toggle="modal" data-target="#deletePublication")"><i class="fas fa-times"></i></div><img src="imagens/ftPerfis/'+usuarioImg+'" class="ftPub" id="ftPub'+contPub+'"><div class="usuarioPub" id="usuarioPub'+contPub+'">'+nomeUsuario+'</div><div class="cargoPub" id="cargoPub'+contPub+'">'+cargoUsuario+'</div><div class="textoPub" id="textoPub'+contPub+'">'+textoPub+'</div></div>'
-		$('#feed').prepend(publication);
+var bar = new ProgressBar.Circle(container, {
+    strokeWidth: 8,
+    easing: "easeInOut",
+    duration: 1,
+    color: "#36c1b6",
+    trailColor: "#999",
+    trailWidth: 2,
+    svgStyle: null
+});
+
+var barMobile = new ProgressBar.Circle(container_mobile, {
+    strokeWidth: 8,
+    easing: "easeInOut",
+    duration: 1,
+    color: "#36c1b6",
+    trailColor: "#999",
+    trailWidth: 2,
+    svgStyle: null
+});
+
+
+function calculatePercentage(c) {
+    return c / 280;
 }
 
-function escolherPub(id){
-	pubAtual = '#' + id;
-}
-
-function removePub(){
-	$(pubAtual).remove();
-}
+$('#textoDigitado').keydown(e => {
+		pubPreenchido()
+    let charactersNumber = $('#textoDigitado').val().length
+    bar.animate(calculatePercentage(charactersNumber));
+		barMobile.animate(calculatePercentage(charactersNumber));
+});
 
 $( window ).resize(function() {
 	acertaCaixa();
 });
 
-$(document).keyup(function(e){
-	pubPreenchido()
-})
-
-$(document).keydown(function(e){
-	pubPreenchido()
-})
-
 function pubPreenchido(){
 	tamanhoTexto = $('#textoDigitado').val().length;
-	tamanhoTextoMob = $('#textoDigitadomob').val().length;
 	if (tamanhoTexto > 0){
 		$('#botaoPub').prop("disabled", false);
-	}else{
-		$('#botaoPub').prop("disabled", true);
-	}
-
-	if (tamanhoTextoMob > 0) {
 		$('#pubmobile').prop("disabled", false);
 	}else{
+		$('#botaoPub').prop("disabled", true);
 		$('#pubmobile').prop("disabled", true);
 	}
-
 }
 
 function limpaTextArea(){
@@ -66,3 +67,43 @@ function acertaCaixa(){
 	winH = $(window).height();
 	$('.campo-estilo-preenche').css('height', (winH-150)) + "px";
 }
+
+function joinSocketFeed () {
+  socket.emit('connectFeed', 'feed')
+}
+
+socket.on('feed', data => {
+  notifications += 1
+	if(notifications >= 10) {
+		notifications = 9
+	}
+
+	$('.botNotifications').html(notifications)
+	$('.botNotifications').slideDown()
+})
+
+$('.botNotifications').click(e => {
+	document.location.reload()
+})
+
+$('.excluirPub').click(e => {
+	const id = e.target.dataset.id
+
+	Swal.fire({
+    title: 'Tem certeza?',
+    text:
+      'Você não poderá desfazer essa ação!',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#36c1b6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Sim, encerrar!'
+  }).then(result => {
+    if (result.value) {
+      window.location.replace('/app/feed/remove/' + id)
+    }
+  })
+})
+
+joinSocketFeed()

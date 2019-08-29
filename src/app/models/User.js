@@ -23,6 +23,14 @@ const User = new mongoose.Schema(
       ref: 'Delegation',
       default: null
     },
+    isStaff: {
+      type: Boolean,
+      default: false
+    },
+    isDiplomata: {
+      type: Boolean,
+      default: false
+    },
     isCommitte: {
       type: Boolean,
       required: true

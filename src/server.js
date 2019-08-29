@@ -39,7 +39,10 @@ class App {
     this.io.on('connection', socket => {
       socket.on('connectRoom', committe => {
         socket.join(committe)
-        // console.log(committe)
+      })
+
+      socket.on('connectFeed', feed => {
+        socket.join(feed)
       })
     })
 

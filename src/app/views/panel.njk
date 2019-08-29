@@ -337,7 +337,7 @@
           <div class="topic">
           <div class="title">
             <p class="number">{{ loop.index }}.</p>
-            <p>Tópico 1</p>
+            <p>{{ topic.name }}</p>
           </div>
 
           <ul>
@@ -345,7 +345,7 @@
             {% for sub in topic.subTopics %}
               <li>
                 <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
-                <p>Subtópico 1</p>
+                <p>{{ sub }}</p>
               </li>
             {% endfor %}
           </ul>

@@ -8,21 +8,20 @@ class SessionController {
 
     if (!user) {
       req.flash('error', 'Usuário não encontrado')
-      return res.redirect('/')
+      return res.redirect('/login')
     }
 
     if(!user.isAdmin  && !user.isCommitte) {
       if(user.password != password) {
         req.flash('error', 'Senha incorreta')
-        return res.redirect('/')
+        return res.redirect('/login')
       }
     } else if (!(await user.compareHash(password))) {
       req.flash('error', 'Senha incorreta')
-      return res.redirect('/')
+      return res.redirect('/login')
     }
 
     req.session.user = user
-
     return res.redirect('/app')
   }
 
@@ -31,7 +30,7 @@ class SessionController {
 
     if (!user) {
       req.flash('error', 'Usuário não encontrado')
-      return res.redirect('/')
+      return res.redirect('/login')
     }
 
     req.session.user = user

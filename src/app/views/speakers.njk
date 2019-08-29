@@ -32,86 +32,6 @@
 
   </head>
   <script type="text/javascript" language="JavaScript">
-    var interval
-    var segundo = 0 + "0";
-    var minuto = 0 + "0";
-    var aux = 0;
-    var contEsp = 0;
-    var winW = $(window).width();
-    var winH = $(window).height();
-    var numdeOra = 2;
-    var primeiro = true;
-    var oradores = [];
-    var codOradores = [];
-    var listaDelegacoes = [];
-    var listaSiglas = [];
-    var qntOradores = 0;
-    var posLista = 2;
-
-    function tempo() {
-      if (segundo < 59) {
-        segundo++
-        if (segundo < 10) {
-          segundo = "0" + segundo
-        }
-      } else if (segundo == 59 && minuto < 59) {
-        segundo = 0 + "0";
-        minuto++;
-        if (minuto < 10) {
-          minuto = "0" + minuto
-        }
-      }
-      $('#tempoCronometro').val(minuto + ":" + segundo);
-    }
-
-    function adicionar() {
-      delegacao = $('#del').val();
-      sigla = $('#sig').val();
-
-      listaDelegacoes.push(delegacao);
-      listaSiglas.push(sigla);
-
-      alert(listaDelegacoes);
-      alert(listaSiglas);
-
-      if (primeiro == true) {
-        codOradores.push('<center><img src="bandeiras/' + sigla + '.png" class="img-responsive bandeira1" alt="bandeira" id="bandeira1"></center><div class="nome1">' + delegacao + '</div><form name="form"><center><label class="tempoTitulo">TEMPO: </label><input type="text" name="cronometro" value="00:00" class="painelCronometro" id="tempoCronometro"><br /></center></form>')
-        $("#delegacaoFalando").append(codOradores[0])
-        primeiro = false;
-        qntOradores++
-      } else {
-        codOradores.push('<div class="ordemDefault">' + numdeOra + 'º </div><img src="bandeiras/' + sigla + '.png" class="img-responsive bandDefault" alt="bandeira' + numdeOra + '" id="bandeira' + numdeOra + '"><div class="nomeDefault"> ' + delegacao + '</div><br>')
-        $("#listaOradores").append(codOradores[numdeOra - 1]);
-        numdeOra++;
-        qntOradores++;
-      }
-    }
-
-    function troca(ind) {
-      if (ind == 1) {
-        $('#botO').hide();
-        $('#posicaoL').show();
-        $('#botOrPeq').hide();
-        $('#posicaoLiPeq').show();
-      }
-      if (ind == 2) {
-        $('#botO').show();
-        $('#posicaoL').hide();
-        $('#botOrPeq').show();
-        $('#posicaoLiPeq').hide();
-      }
-    }
-
-    function destroca() {
-      $('#botOradores').show();
-      $('#posicaoLista').hide();
-    }
-
-    function carrega() {
-      $('#botOradores').show();
-      $('#botOrPeq').show();
-    }
-
     document.head || (document.head = document.getElementsByTagName('head')[0]);
 
     function changeFavicon(src) {
@@ -191,7 +111,7 @@
     <nav class="navbar navbar-default">
       <div class="container">
         <center>
-          {% if committe.crisis == null %}
+          {% if committe.crisis == null and committe.debate == null %}
             <a href="/feed">
               <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
               <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
@@ -265,23 +185,27 @@
           <button type="button" class="btn btn-default botControlesMobile" id="botOrPeq" onclick="getIn()">+<i class="fas fa-bullhorn"></i>
           </button>
           <div class="botControlesMobile notselectable" id="posicaoLiPeq" style="font-size: 30px; text-align: center; padding-top: 9px; padding-left: 3px;">X</div>
-          <!-- <div type="button" class="btn btn-default botExtraOptions" id="botOrPeq"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true" style="margin-bottom: 2px"></span></div> -->
+          <div type="button" class="btn btn-default botExtraOptions" id="botOrPeq" data-toggle="modal" data-target="#optionsModal">
+            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true" style="margin-bottom: 2px"></span>
+          </div>
         </div>
 
       </div>
-      {% elif committe.debate != null %}
+    {% elif committe.debate != null %}
 
-        <div class="row">
-            <p class="debate" style="font-size: 60px;">
-              COMITÊ EM DEBATE
-            </p>
+      <div class="row">
+        <p class="debate" style="font-size: 60px;">
+          COMITÊ EM DEBATE
+        </p>
 
-            <div class="timer">
-                <p id="minutes">00</p>
-                <p>:</p>
-                <p id="seconds">00</p>
-              </div>          
-          </div>    
+        <div class="timer">
+          <p id="minutes">00</p>
+          <p>:</p>
+          <p id="seconds">00</p>
+        </div>
+
+        <div class="espacadorBaixo"></div>
+      </div>
 
     {% endif %}
   </div>
@@ -300,6 +224,9 @@
                 <i class="fas fa-bullhorn"></i>
                 ENTRAR NA LISTA
               </button>
+              <div type="button" class="btn btn-default botMoreOptions" data-toggle="modal" data-target="#optionsModal">
+                <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+              </div>
               <div class="posicaoLista" id="posicaoL">
                 <b>POSIÇÃO: X</b>
               </div>
@@ -309,6 +236,74 @@
       </div>
     </div>
   {% endif %}
+
+  <div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">OPÇÕES</h3>
+        </center>
+      </div>
+      <div class="modal-body">
+
+        <div type="button" class="btn btn-default botPainel" id="insertDelegation" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#schedule">
+          <i class="fas fa-list-ol"></i>
+          AGENDA
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="schedule" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;">AGENDA</h3>
+        </center>
+      </div>
+      <div class="modal-body">
+
+        {% for topic in committe.schedule %}
+        
+          <div class="topic">
+          <div class="title">
+            <p class="number">{{ loop.index }}.</p>
+            <p>{{ topic.name }}</p>
+          </div>
+
+          <ul>
+            {% set topicIndex = loop.index %}
+            {% for sub in topic.subTopics %}
+              <li>
+                <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
+                <p>{{ sub }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        {% endfor %}       
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#optionsModal">VOLTAR</button>
+        <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Modal Explicação Favicons Interativos-->
   <div class="modal fade" id="faviconGuide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -341,7 +336,7 @@
           <i class="material-icons-outlined naveg">home</i>
         </a>
         <a href="/news">
-          <i class="material-icons naveg">receipt</i>
+          <i class="material-icons-outlined naveg">receipt</i>
         </a>
         <a href="/app/speakers">
           <i class="material-icons naveg">view_list</i>

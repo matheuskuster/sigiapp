@@ -142,7 +142,7 @@ h3 {
   float: left;
   margin-right: 8px;
   margin-left: 8px;
-  border-radius: 100%;
+  border-radius: 50%;
 }
 
 .usuarioPub {
@@ -172,7 +172,7 @@ h3 {
   font-size: 20px;
   text-align: justify;
   display: block;
-  text-indent: 1em;
+  margin-left: 58px;
 }
 
 /**ESCREVER PUBLICAÇÃO**/
@@ -216,15 +216,16 @@ h3 {
 .campo-estilo {
   font-family: "Open Sans Condensed", sans-serif;
   font-size: 22px;
-  border: 1px solid #36c1b6;
+  border: none;
   border-radius: 0;
   box-shadow: 0;
   background-color: #ffffff;
   width: 100%;
   height: 250px;
-  text-indent: 5px;
   resize: none;
   display: inline;
+
+  margin-top: 16px;
 }
 
 .campo-estilo-preenche {
@@ -298,7 +299,6 @@ textarea:focus,
 input:focus,
 select:focus {
   box-shadow: 4px 4px 4px rgba(79, 186, 171, 0.2);
-  border: 1px solid #36c1b6;
   outline: 0;
   transition: all 0.2s ease;
 }
@@ -317,4 +317,68 @@ option:hover {
 ::selection {
   color: white;
   background-color: #36c1b6;
+}
+
+.pubWrite {
+  display: flex;
+  align-items: start;
+}
+
+.pubWrite img {
+  height: 64px;
+  width: 64px;
+
+  margin-right: 10px;
+}
+
+#container {
+  width: 20px;
+  height: 20px;
+}
+
+#container_mobile {
+  width: 20px;
+  height: 20px;
+}
+
+.end button {
+  margin-left: 10px;
+}
+
+.end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.start {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.botNotifications {
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #36c1b6;
+  color: #ffffff;
+  font-size: 20px;
+  font-family: "Squada One", cursive;
+  outline: 0;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.botNotifications:hover {
+  background-color: #3ea597;
+  color: white;
+  outline: 0;
 }
