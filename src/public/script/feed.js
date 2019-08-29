@@ -36,10 +36,13 @@ function calculatePercentage(c) {
 }
 
 $('#textoDigitado').keydown(e => {
-		pubPreenchido()
-    let charactersNumber = $('#textoDigitado').val().length
-    bar.animate(calculatePercentage(charactersNumber));
-		barMobile.animate(calculatePercentage(charactersNumber));
+		setTimeout(function() {
+      pubPreenchido()
+      let charactersNumber = $('#textoDigitado').val().length
+      $('#c_number').html(charactersNumber)
+      bar.animate(calculatePercentage(charactersNumber));
+      barMobile.animate(calculatePercentage(charactersNumber));
+    }, 50)
 });
 
 $( window ).resize(function() {
@@ -92,13 +95,13 @@ $('.excluirPub').click(e => {
 	Swal.fire({
     title: 'Tem certeza?',
     text:
-      'Você não poderá desfazer essa ação!',
+      'Deseja mesmo excluir esse post?',
     type: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#36c1b6',
     cancelButtonColor: '#d33',
     cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Sim, encerrar!'
+    confirmButtonText: 'Sim, excluir!'
   }).then(result => {
     if (result.value) {
       window.location.replace('/app/feed/remove/' + id)

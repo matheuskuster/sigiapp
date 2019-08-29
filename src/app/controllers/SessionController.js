@@ -22,7 +22,7 @@ class SessionController {
     }
 
     req.session.user = user
-    return res.redirect('/app')
+    return res.redirect('/')
   }
 
   async qrcode (req, res) {

@@ -13,7 +13,7 @@ $(document).ready(function(){
       $( ".botEscrever" ).fadeOut();
     }else{
        $( ".botEscrever" ).fadeIn();
-        }
+    }
   });
   
   $(window).resize(function() {

@@ -22,6 +22,10 @@ class UserController {
   }
 
   async redirect (req, res) {
+    if(req.session.user.isDiplomata) {
+      return res.redirect('/news')
+    }
+
     if (req.session.user.isAdmin) {
       return res.redirect('/app/admin')
     }
@@ -135,6 +139,17 @@ class UserController {
     return res.json({
       success: `Users from ${committe.title} were all deleted`
     })
+  }
+
+  async profile(req, res) {
+    const user = await User.findById(req.session.user._id).populate(['delegation', 'committe'])
+    let committe = null
+
+    if(user.isCommitte || (!user.isAdmin && !user.isDiplomata && !user.isStaff)) {
+      committe = await Committe.findById(user.committe._id).populate('organ')
+    }
+
+    return res.render('profile', { user, committe })
   }
 }
 

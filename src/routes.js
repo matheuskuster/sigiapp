@@ -42,6 +42,7 @@ routes.post('/app/user/update/:id', controllers.UserController.updatePassword)
 routes.post('/app/user/remove/:id', controllers.UserController.remove)
 routes.get('/app/speakers', controllers.UserController.speakers)
 routes.get('/app/user/:id', controllers.UserController.information)
+routes.get('/app/profile', controllers.UserController.profile)
 
 // SESSION
 routes.post('/signin', controllers.SessionController.store)
@@ -121,11 +122,7 @@ routes.get('/list/next/:id', controllers.ListController.next)
 routes.get('/list/previous/:id', controllers.ListController.previous)
 routes.get('/list/push/:user_id/:id', controllers.ListController.push)
 
-routes.get('/app/profile', (req, res) => {
-  return res.render('development')
-})
-
-routes.get('/feed', (req, res) => {
+routes.get('/about', (req, res) => {
   return res.render('development')
 })
 

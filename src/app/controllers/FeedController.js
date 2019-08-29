@@ -30,6 +30,10 @@ class FileController {
   }
 
   async create(req, res) {
+    if(req.body.text.length == 0) {
+      return res.json({ error: 'You need to write something.' })
+    } 
+
     const user = await User.findById(req.session.user._id).populate('committe')
 
     if(user.isCommitte) {

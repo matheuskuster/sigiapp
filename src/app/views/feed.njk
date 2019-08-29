@@ -40,15 +40,15 @@
 <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%"><img src="imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
 <nav class="navbar navbar-default">
 			<div class="container">
-		<center><a href="feed.html">
+		<center><a href="/">
 			<img src="imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
 			<img src="imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
 		</a></center>
 		    <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
-		    	<li class="activeNavIcon"><a style="color: #36C1B6;" href="feed.html">Feed</a></li>
-		    	<li class="itemNav"><a style="color: #ffffff;" href="menu.html">Notícias</a></li>
-		    	<li class="itemNav"><a style="color: #ffffff;" href="oradores.html">Lista de Oradores</a></li>
-		    	<li class="itemNav"><a style="color: #ffffff;" href="perfil.html">Perfil</a></li>
+		    	<li class="activeNavIcon"><a style="color: #36C1B6;" href="/">Feed</a></li>
+		    	<li class="itemNav"><a style="color: #ffffff;" href="/news">Notícias</a></li>
+		    	<li class="itemNav"><a style="color: #ffffff;" href="/app">Lista de Oradores</a></li>
+		    	<li class="itemNav"><a style="color: #ffffff;" href="/app/profile">Perfil</a></li>
 		    </ul>
   		</div>
 	</nav>
@@ -82,6 +82,8 @@
 									<div class="cargoPub" id="cargoPub1">Oficial</div>
 								{% elif post.content.user.isDiplomata %}
 									<img src="/imagens/diplomata.png" class="ftPub" id="ftPub3">
+									<div class="usuarioPub" id="usuarioPub1">Diplomata<div class="tempoPub">• {{ post.date }}</div></div>			
+									<div class="cargoPub" id="cargoPub1">Imprensa</div>
 								{% endif %}
 
 								<div class="textoPub" id="textoPub1">
@@ -102,7 +104,9 @@
 		{% if user %}
 			{% if user.isCommitte or user.isAdmin or user.isDiplomata or user.isStaff %}
 				<div type="button" class="botEscrever" id="escrever" data-toggle="modal" data-target="#painelEscrever" onclick="limpaTextArea(); acertaCaixa()">+<i class="fas fa-pen-fancy"></i></div>
-			{% endif %}			
+			{% endif %}
+		{% else %}
+				<a style="text-decoration: none" href="/login" class="botEscrever">+<i class="fas fa-pen-fancy"></i></a>	
 		{% endif %}
 
     <div type="button" class="botNotifications">0</div>
@@ -145,6 +149,7 @@
 				</form>
       </div>
       <div class="modal-footer end hidden-xs hidden-sm">
+					<div style="font-family: 'Quicksand'; font-size: 18px; margin-right: 5px;" id="c_number">0</div>
 					<div id="container"></div>
         	<button type="submit" form="pubForm" class="btn btn-default botPub" disabled="true" id="botaoPub">PUBLICAR</button>
       </div>
@@ -173,10 +178,10 @@
 	<div class="container-fluid navembaixo hidden-md hidden-lg">
 			<div class="row">
 					<div class="col-md-12 icones hidden-md hidden-lg">
-						<a href="feed.html"><i class="material-icons naveg" style="font-size: 38px;">home</i></a>
-						<a href="menu.html"><i class="material-icons-outlined naveg">receipt</i></a>
-						<a href="oradores.html"><i class="material-icons-outlined naveg">view_list</i></a>
-						<a href="perfil.html"><i class="material-icons-outlined naveg2">person</i></a>
+						<a href="/"><i class="material-icons naveg" style="font-size: 38px;">home</i></a>
+						<a href="/news"><i class="material-icons-outlined naveg">receipt</i></a>
+						<a href="/app"><i class="material-icons-outlined naveg">view_list</i></a>
+						<a href="/app/profile"><i class="material-icons-outlined naveg2">person</i></a>
 					</div>
 				</div>
 			</div>
