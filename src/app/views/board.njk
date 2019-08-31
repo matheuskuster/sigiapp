@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PLAQUINHAS</title>
+    <meta charset="utf-8">
+
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+    <style type="text/css">
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      .band1 {
+        height: 0.8333333333in;
+        width: auto;
+      }
+
+      .nomePais {
+        font-size: 0.59in;
+        font-family: 'Oswald', sans-serif;
+      }
+
+      .sigilogo {
+        height: 1.4583333333in;
+      }
+
+      .box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .qrCode {
+        height: 0.8333333333in;
+        width: 0.8333333333in;
+      }
+
+      .box-text {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.1041666667in;
+      }
+
+      .content {
+        width: 100%;
+        height: 8.27in;
+      }
+
+      .content .placa {
+        width: 100%;
+        height: 4.135in;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .content .placa .metade {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 2.0675in;
+      }
+
+      .sup {
+        transform: rotate(180deg);
+      }
+
+      .line {
+        border-bottom: 1px dashed #cacaca;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      {% for placa in data %}
+        {% if loop.index % 2 != 0 %}
+          <div class="placa line">
+          {% else %}
+            <div class="placa">
+            {% endif %}
+
+            {% set fontsize = (0.27566667 * 35) / placa.delegation.name | length %}
+
+            <div class="metade sup">
+              <img src="{{ placa.delegation.flag }}" class="band1">
+              {% if fontsize < 0.6 %}
+                <div class="nomePais" style="font-size: {{ fontsize }}in">
+                  {{ placa.delegation.name | upper }}
+                </div>
+              {% else %}
+                <div class="nomePais">
+                  {{ placa.delegation.name | upper }}
+                </div>
+              {% endif %}
+              <img crossorigin="*" src="/imagens/siginame.png" class="sigilogo">
+            </div>
+
+            <div class="metade">
+              <img src="{{ placa.delegation.flag }}" class="band1">
+              {% if fontsize < 0.6 %}
+                <div class="nomePais" style="font-size: {{ fontsize }}in">
+                  {{ placa.delegation.name | upper }}
+                </div>
+              {% else %}
+                <div class="nomePais">
+                  {{ placa.delegation.name | upper }}
+                </div>
+              {% endif %}
+              <div class="box">
+                <img src="{{ placa.access.qrcode }}" class="qrCode">
+                <div class="box-text">
+                  <b>Usuário:</b>
+                  {{ placa.access.login }}
+                  <b>Senha:</b>
+                  {{ placa.access.password }}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <script src="../script/es6-promise.min.js"></script>
+      <script src="../script/jspdf.min.js"></script>
+      <script src="../script/html2canvas.js"></script>
+      <script src="../script/html2pdf.bundle.min.js"></script>
+
+      <script type="text/javascript">
+        setTimeout(generatePDF, 5000)
+
+        function generatePDF() {
+          const element = document.body;
+          const opt = {
+            filename: 'PLACAS.pdf',
+            jsPDF: {
+              unit: 'in',
+              format: 'a4',
+              orientation: 'landscape'
+            },
+            image: {
+              type: 'png',
+              quality: 0.98
+            }
+          }
+
+          html2pdf(element, opt)
+        }
+      </script>
+    </body>
+  </html>

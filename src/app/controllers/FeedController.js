@@ -12,7 +12,11 @@ class FileController {
     if(req.session && req.session.user) {
       const user = await User.findById(req.session.user._id).populate('committe')
 
-      if(req.session.user.isCommitte) {
+      if(user.committe == null && user.isAdmin == false) {
+        return res.redirect('/app')
+      }
+
+      if(user.isCommitte) {
         organ = await Organ.findById(user.committe.organ)
       }
 
@@ -26,13 +30,15 @@ class FileController {
       }
     })
 
+    console.log(posts)
+
     return res.render('feed', { posts, organ })
   }
 
   async create(req, res) {
     if(req.body.text.length == 0) {
       return res.json({ error: 'You need to write something.' })
-    } 
+    }
 
     const user = await User.findById(req.session.user._id).populate('committe')
 
@@ -58,7 +64,7 @@ class FileController {
 
     req.io.sockets.in('feed').emit('feed')
 
-    return res.redirect('/')    
+    return res.redirect('/')
   }
 
   async remove(req, res) {

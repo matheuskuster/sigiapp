@@ -80,4 +80,6 @@ User.methods = {
   }
 }
 
+User.plugin(require('mongoose-paginate'))
+
 module.exports = mongoose.model('User', User)

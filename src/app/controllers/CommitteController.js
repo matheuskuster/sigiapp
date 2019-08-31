@@ -89,8 +89,20 @@ class CommitteController {
     const user = await User.findById(req.session.user._id)
     const committe = await Committe.findById(user.committe).populate('organ')
 
+    if(!committe.delegations.includes('5d3e24c0d3b3c849a51c6b9f')) {
+      committe.delegations.push('5d3e24c0d3b3c849a51c6b9f')
+    }
+
+    if(!committe.delegations.includes('5d6a812c252fb525bcfa2ddd')) {
+      committe.delegations.push('5d6a812c252fb525bcfa2ddd')
+    }
+
+    await committe.save()
+
     const users = committe.delegations.map(async id => {
       const delegation = await Delegation.findById(id)
+
+      console.log(delegation)
 
       const login = committe.organ.alias + committe.year + '.' + delegation.code
 
@@ -149,7 +161,7 @@ class CommitteController {
   async removeDelegations (req, res) {
     const delegation = req.body.delegation
     const committe = await Committe.findById(req.params.id)
-    
+
 
     const newDelegations = committe.delegations.filter(id => {
       return id != delegation
@@ -283,7 +295,7 @@ class CommitteController {
       })
       committe.debate = null
     }
-    
+
     await committe.save()
 
     req.io.sockets.in(committe._id).emit('reload')

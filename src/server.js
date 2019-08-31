@@ -8,6 +8,7 @@ const session = require('express-session')
 const LokiStore = require('connect-loki')(session)
 const flash = require('connect-flash')
 const socket = require('socket.io')
+const cors = require('cors')
 
 const delegationController = require('./app/controllers/DelegationController')
 
@@ -52,6 +53,7 @@ class App {
       return next()
     })
 
+    this.express.use(cors())
     this.express.use(express.urlencoded({ extended: true }))
     this.express.use(flash())
     this.express.use(express.static(path.resolve(__dirname, 'public')))

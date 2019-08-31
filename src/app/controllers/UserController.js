@@ -126,13 +126,13 @@ class UserController {
   async eraseDelegatesUserFromCommitte (req, res) {
     const { id } = req.params
     const { token } = req.body
-    const committe = Committe.findById(id)
+    const committe = await Committe.findById(id)
 
     if (token != process.env.ADMIN_TOKEN) {
       return res.json({ error: 'Invalid admin token' })
     }
 
-    await User.deleteMany({ committe: committe._id, isCommitte: false })
+    await User.deleteMany({ committe: committe._id, isCommitte: false, isAdmin: false })
     committe.users = false
     await committe.save()
 

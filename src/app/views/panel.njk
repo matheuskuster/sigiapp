@@ -122,8 +122,7 @@
           </p>
 
           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <div id="delegacaoFalando" style="display: none">
-            </div>
+            <div id="delegacaoFalando" style="display: none"></div>
             <div class="time">
               <input type="text" name="cronometro" value="00:00" class="painelCronometro" id="tempoCronometro" disabled="true"><br/>
             </div>
@@ -142,10 +141,10 @@
           </p>
 
           <div class="timer">
-              <p id="minutes">00</p>
-              <p>:</p>
-              <p id="seconds">00</p>
-            </div>          
+            <p id="minutes">00</p>
+            <p>:</p>
+            <p id="seconds">00</p>
+          </div>
         </div>
       {% endif %}
     </div>
@@ -271,12 +270,12 @@
 
         {% if committe.crisis == null %}
           <div type="button" class="btn btn-default botPainel" id="subCrise" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#criseSet">
-          <i class="fas fa-exclamation-triangle"></i>
+            <i class="fas fa-exclamation-triangle"></i>
             CRISE
-          </div>        
+          </div>
         {% else %}
           <a href="/app/endcrisis/{{ committe._id }}" class="btn btn-default botPainel" id="subCrise">
-          <i class="fas fa-hourglass-end"></i>
+            <i class="fas fa-hourglass-end"></i>
             FINALIZAR CRISE
           </a>
         {% endif %}
@@ -285,17 +284,15 @@
 
         {% if committe.debate == null %}
           <div type="button" class="btn btn-default botPainel" id="dbnm" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#painelDebate">
-          <i class="fas fa-comments"></i>
+            <i class="fas fa-comments"></i>
             DEBATE
-          </div>       
+          </div>
         {% else %}
           <a href="/app/enddebate/{{ committe._id }}" class="btn btn-default botPainel">
-          <i class="fas fa-hourglass-end"></i>
+            <i class="fas fa-hourglass-end"></i>
             FINALIZAR DEBATE
           </a>
         {% endif %}
-
-        
 
         <div type="button" class="btn btn-default botPainel" id="insertDelegation" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#addDelegation">
           <i class="fas fa-user-plus"></i>
@@ -333,26 +330,26 @@
       <div class="modal-body">
 
         {% for topic in committe.schedule %}
-        
+
           <div class="topic">
-          <div class="title">
-            <p class="number">{{ loop.index }}.</p>
-            <p>{{ topic.name }}</p>
+            <div class="title">
+              <p class="number">{{ loop.index }}.</p>
+              <p>{{ topic.name }}</p>
+            </div>
+
+            <ul>
+              {% set topicIndex = loop.index %}
+              {% for sub in topic.subTopics %}
+                <li>
+                  <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
+                  <p>{{ sub }}</p>
+                </li>
+              {% endfor %}
+            </ul>
           </div>
 
-          <ul>
-            {% set topicIndex = loop.index %}
-            {% for sub in topic.subTopics %}
-              <li>
-                <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
-                <p>{{ sub }}</p>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
+        {% endfor %}
 
-        {% endfor %}       
-  
         <form action="/app/scheduleview/{{ committe._id }}" method="GET">
           <button type="submit" class="btn btn-default botPainel">
             <i class="fas fa-stream"></i>
@@ -563,7 +560,8 @@
         </center>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/app/debate/{{ committe._id }}" id="debate-form">          <center>
+        <form method="POST" action="/app/debate/{{ committe._id }}" id="debate-form">
+          <center>
             <div style="display: inline; font-size: 25px; color: #36C1B6; font-family: 'Open Sans Condensed', sans-serif;">Tempo:
             </div><input type="number" min="1" max="99" placeholder="0" name="time" class="campo-estilo" style="height: 70px; width: 88px; text-align: center; font-size: 40px; border: 0; color: #36C1B6; background-color: #ffffff; border: 0 none; box-shadow: 0 0 0 0; outline: 0; font-family: Digital, sans-serif;" required="required">
             <div style="display: inline; font-size: 25px; color: #36C1B6; font-family: 'Open Sans Condensed', sans-serif;">
@@ -855,19 +853,19 @@
             </div>
           </div>
         </div>
-        <div id="listVote">  
+        <div id="listVote">
           {% for d in delegates %}
-          
+
             {% if d.present != 0 %}
               <div class="line">
 
                 {% if d.delegation.name | length > 30 %}
-                  <div class="nD">                    
-                      {% for letter in d.delegation.name -%}
-                        {% if loop.index < 30 -%}
-                          {{ letter | upper }}
-                        {%- endif %}
-                      {%- endfor %}
+                  <div class="nD">
+                    {% for letter in d.delegation.name -%}
+                      {% if loop.index < 30 -%}
+                        {{ letter | upper }}
+                      {%- endif %}
+                    {%- endfor %}
                   </div>
                 {% else %}
                   <div class="nD">
@@ -893,16 +891,15 @@
                     <span class="checkmark"></span>
                   </label>
                   <label class="checkNec vote">
-                    <input type="radio" class="ab country-ab-{{ d.delegation.isCountry }}" data-delegation="{{ d.delegation.name }}" name="v{{ d._id }}" checked>
+                    <input type="radio" class="ab country-ab-{{ d.delegation.isCountry }}" data-delegation="{{ d.delegation.name }}" name="v{{ d._id }}" checked="checked">
                     <span class="checkmark"></span>
                   </label>
                 </div>
               </div>
-            {% endif %} 
+            {% endif %}
 
           {% endfor %}
 
-          
         </div>
       </div>
       <div class="modal-footer">
@@ -958,7 +955,7 @@
         <i class="material-icons-outlined naveg">home</i>
       </a>
       <a href="/news">
-        <i class="material-icons naveg">receipt</i>
+        <i class="material-icons-outlined naveg">receipt</i>
       </a>
       <a href="/app/panel">
         <i class="material-icons naveg">view_list</i>

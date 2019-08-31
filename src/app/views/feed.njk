@@ -1,201 +1,235 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <title>SiGIAPP</title>
-  <meta charset="utf-8">
-  <link rel="shortcut icon" href="imagens/favicon.ico">
-  <meta name="theme-color" content="#eeeeee">  
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
-  <!--STYLES-->
-  <link rel="stylesheet" href="css/material_design.css">
-  <link rel="stylesheet" href="css/feed.css">
-  <link rel="stylesheet" href="css/navbar.css">
-  <script src="script/mobilepc.js"></script>
-  <link rel="stylesheet" href="css/sweetalert2.min.css"/>
-  
-  <script src="script/hide-button.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!--ICONES PARA MOBILE-->
-  	<link href = "imagens/apple-touch-icon.png" rel = "ícone do toque da maçã" />
-	<Link href = "imagens/apple-touch-icon-76x76.png" rel = "apple-touch-icon" tamanhos = "76x76" />
-	<Link href = "imagens/apple-touch-icon-120x120.png" rel = "apple-touch-icon" tamanhos = "120x120" />
-	<Link href = "imagens/apple-touch-icon-152x152.png" rel = "apple-touch-icon" tamanhos = "152x152" />
-	<Link href = "imagens/apple-touch-icon-180x180.png" rel = "apple-touch-icon" tamanhos = "180x180" />
-	<link href = "imagens/icon-normal.png" rel = "icon" tamanhos = "128x128" />
-</head>
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="imagens/favicon.ico">
+    <meta name="theme-color" content="#eeeeee">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+    <!--STYLES-->
+    <link rel="stylesheet" href="css/material_design.css">
+    <link rel="stylesheet" href="css/feed.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <script src="script/mobilepc.js"></script>
+    <link rel="stylesheet" href="css/sweetalert2.min.css"/>
 
-<body>
-<div class="load hidden-sm hidden-xs" id="loaddesk"><img src="imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
-<div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%"><img src="imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
-<nav class="navbar navbar-default">
-			<div class="container">
-		<center><a href="/">
-			<img src="imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
-			<img src="imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
-		</a></center>
-		    <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
-		    	<li class="activeNavIcon"><a style="color: #36C1B6;" href="/">Feed</a></li>
-		    	<li class="itemNav"><a style="color: #ffffff;" href="/news">Notícias</a></li>
-		    	<li class="itemNav"><a style="color: #ffffff;" href="/app">Lista de Oradores</a></li>
-		    	<li class="itemNav"><a style="color: #ffffff;" href="/app/profile">Perfil</a></li>
-		    </ul>
-  		</div>
-	</nav>
-	<div class="espacadorCima"></div>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-2 hidden-xs"></div>
-			<div class="col-md-8">
-				<div id="feed">
-					{% if posts | length == 0 %}
-						<center><p style="font-family: 'Quicksand'; font-size: 32px; margin-top: 50px;">Não há postagens no momento!</p></center>
-					{% else %}
+    <script src="script/hide-button.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--ICONES PARA MOBILE-->
+    <link href="imagens/apple-touch-icon.png" rel="ícone do toque da maçã"/>
+    <link href="imagens/apple-touch-icon-76x76.png" rel="apple-touch-icon" tamanhos="76x76"/>
+    <link href="imagens/apple-touch-icon-120x120.png" rel="apple-touch-icon" tamanhos="120x120"/>
+    <link href="imagens/apple-touch-icon-152x152.png" rel="apple-touch-icon" tamanhos="152x152"/>
+    <link href="imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+    <link href="imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+  </head>
 
-						{% for post in posts %}
-							<div class="pub">
-                {% if user and post.content.user._id | string == user._id | string %}
-                  <div class="excluirPub" data-id="{{ post.content._id }}"><i class="fas fa-times" data-id="{{ post.content._id }}"></i></div>
-                {% endif %}
-
-								{% if post.content.user.isCommitte %}
-									<img src="/assets/organs/{{ post.content.organ.alias }}.png" class="ftPub" id="ftPub3">
-									<div class="usuarioPub" id="usuarioPub1">{{ post.content.organ.alias | upper }}<div class="tempoPub"> • {{ post.date }}</div></div>
-									<div class="cargoPub" id="cargoPub1">{{ post.content.year }}</div>
-								{% elif post.content.user.isStaff %}
-									<img src="/imagens/icon-normal.png" class="ftPub" id="ftPub3">
-									<div class="usuarioPub" id="usuarioPub1">SiGI APP<div class="tempoPub">• {{ post.date }}</div></div>
-									<div class="cargoPub" id="cargoPub1">Suporte</div>
-								{% elif post.content.user.isAdmin %}
-									<img src="/imagens/sigilogo.png" class="ftPub" id="ftPub3">
-									<div class="usuarioPub" id="usuarioPub1">SiGI<div class="tempoPub">• {{ post.date }}</div></div>			
-									<div class="cargoPub" id="cargoPub1">Oficial</div>
-								{% elif post.content.user.isDiplomata %}
-									<img src="/imagens/diplomata.png" class="ftPub" id="ftPub3">
-									<div class="usuarioPub" id="usuarioPub1">Diplomata<div class="tempoPub">• {{ post.date }}</div></div>			
-									<div class="cargoPub" id="cargoPub1">Imprensa</div>
-								{% endif %}
-
-								<div class="textoPub" id="textoPub1">
-										{{ post.content.text }}
-								</div>
-							</div>
-						{% endfor %}
-					{% endif %}
-
-					
-				</div>
-			</div>
-			<div class="col-md-2 hidden-xs"></div>
-		</div>
-
-	<div class="col-md-12">
-		
-		{% if user %}
-			{% if user.isCommitte or user.isAdmin or user.isDiplomata or user.isStaff %}
-				<div type="button" class="botEscrever" id="escrever" data-toggle="modal" data-target="#painelEscrever" onclick="limpaTextArea(); acertaCaixa()">+<i class="fas fa-pen-fancy"></i></div>
-			{% endif %}
-		{% else %}
-				<a style="text-decoration: none" href="/login" class="botEscrever">+<i class="fas fa-pen-fancy"></i></a>	
-		{% endif %}
-
-    <div type="button" class="botNotifications">0</div>
-	</div>
-	</div>
-
-<!-- Modal Escrever Publicacao-->
-<div class="modal fade" id="painelEscrever" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close hidden-xs hidden-sm" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
-
-        <div class="start hidden-md hidden-lg">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: left; font-size: 40px; font-family: 'Open Sans Condensed', sans-serif;"><span aria-hidden="true">&times;</span></button>
-
-					<div class="end">
-						<div id="container_mobile"></div>
-						<button type="submit" form="pubForm" class="btn btn-default botPub" disabled="true" id='pubmobile' style="float: right;">PUBLICAR</button>
-					</div>
-        	
-				</div>
-
-      	<center class="hidden-xs hidden-sm"><h3 style="display: inline-block; font-family: 'Quicksand'">Nova Publicação</h3></center>
-
+  <body>
+    <div class="load hidden-sm hidden-xs" id="loaddesk"><img src="imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+    <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%"><img src="imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          <a href="/">
+            <img src="imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
+        </center>
+        <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+          <li class="activeNavIcon">
+            <a style="color: #36C1B6;" href="/">Feed</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/news">Notícias</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app">Lista de Oradores</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app/profile">Perfil</a>
+          </li>
+        </ul>
       </div>
-      <div class="modal-body">
-        <form id="pubForm" method="POST" action="/app/feed/create" class="pubWrite">
-					{% if user.isCommitte %}
-						<img src="/assets/organs/{{ organ.alias }}.png">
-					{% elif user.isStaff %}
-						<img src="/imagens/icon-normal.png">
-					{% elif user.isAdmin %}
-						<img src="/imagens/sigilogo.png">					
-					{% elif user.isDiplomata %}
-						<img src="/imagens/diplomata.png">
-					{% endif %}
+    </nav>
+    <div class="espacadorCima"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 hidden-xs"></div>
+        <div class="col-md-8">
+          <div id="feed">
+            {% if posts | length == 0 %}
+              <center>
+                <p style="font-family: 'Quicksand'; font-size: 32px; margin-top: 50px;">Não há postagens no momento!</p>
+              </center>
+            {% else %}
 
-					<textarea class="campo-estilo" name="text" placeholder="O que está acontecendo?" id="textoDigitado" maxlength="280" required></textarea>
-				</form>
+              {% for post in posts %}
+                <div class="pub">
+                  {% if user and post.content.user._id | string == user._id | string %}
+                    <div class="excluirPub" data-id="{{ post.content._id }}">
+                      <i class="fas fa-times" data-id="{{ post.content._id }}"></i>
+                    </div>
+                  {% endif %}
+
+                  {% if post.content.user.isCommitte %}
+                    <img src="/assets/organs/{{ post.content.organ.alias }}.png" class="ftPub" id="ftPub3">
+                    <div class="usuarioPub" id="usuarioPub1">{{ post.content.organ.alias | upper }}
+                      <div class="tempoPub">
+                        •
+                        {{ post.date }}</div>
+                    </div>
+                    <div class="cargoPub" id="cargoPub1">{{ post.content.year }}</div>
+                  {% elif post.content.user.isStaff %}
+                    <img src="/imagens/icon-normal.png" class="ftPub" id="ftPub3">
+                    <div class="usuarioPub" id="usuarioPub1">SiGI APP<div class="tempoPub">•
+                        {{ post.date }}</div>
+                    </div>
+                    <div class="cargoPub" id="cargoPub1">Suporte</div>
+                  {% elif post.content.user.isAdmin %}
+                    <img src="/imagens/sigilogo.png" class="ftPub" id="ftPub3">
+                    <div class="usuarioPub" id="usuarioPub1">SiGI<div class="tempoPub">•
+                        {{ post.date }}</div>
+                    </div>
+                    <div class="cargoPub" id="cargoPub1">Oficial</div>
+                  {% elif post.content.user.isDiplomata %}
+                    <img src="/imagens/diplomata.png" class="ftPub" id="ftPub3">
+                    <div class="usuarioPub" id="usuarioPub1">Diplomata<div class="tempoPub">•
+                        {{ post.date }}</div>
+                    </div>
+                    <div class="cargoPub" id="cargoPub1">Imprensa</div>
+                  {% endif %}
+
+                  <div class="textoPub" id="textoPub1">
+                    {{ post.content.text }}
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+          </div>
+        </div>
+        <div class="col-md-2 hidden-xs"></div>
       </div>
-      <div class="modal-footer end hidden-xs hidden-sm">
-					<div style="font-family: 'Quicksand'; font-size: 18px; margin-right: 5px;" id="c_number">0</div>
-					<div id="container"></div>
-        	<button type="submit" form="pubForm" class="btn btn-default botPub" disabled="true" id="botaoPub">PUBLICAR</button>
+
+      <div class="col-md-12">
+
+        {% if user %}
+          {% if user.isCommitte or user.isAdmin or user.isDiplomata or user.isStaff %}
+            <div type="button" class="botEscrever" id="escrever" data-toggle="modal" data-target="#painelEscrever" onclick="limpaTextArea(); acertaCaixa()">+<i class="fas fa-pen-fancy"></i>
+            </div>
+          {% endif %}
+        {% endif %}
+
+        <div type="button" class="botNotifications">0</div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Modal Apagar Publicacao-->
-<div class="modal fade" id="deletePublication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <h4>Deseja mesmo apagar esta publicação?</h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default botPubWhite" data-dismiss="modal" style="border-radius: 20px; border: none;">CANCELAR</button>
-        <button type="button" class="btn btn-default botPub" onclick="removePub()" data-dismiss="modal">APAGAR</button>
+    <!-- Modal Escrever Publicacao-->
+    <div class="modal fade" id="painelEscrever" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close hidden-xs hidden-sm" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+
+            <div class="start hidden-md hidden-lg">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: left; font-size: 40px; font-family: 'Open Sans Condensed', sans-serif;">
+                <span aria-hidden="true">&times;</span></button>
+
+              <div class="end">
+                <div id="container_mobile"></div>
+                <button type="submit" form="pubForm" class="btn btn-default botPub" disabled="true" id='pubmobile' style="float: right;">PUBLICAR</button>
+              </div>
+
+            </div>
+
+            <center class="hidden-xs hidden-sm">
+              <h3 style="display: inline-block; font-family: 'Quicksand'">Nova Publicação</h3>
+            </center>
+
+          </div>
+          <div class="modal-body">
+            <form id="pubForm" method="POST" action="/app/feed/create" class="pubWrite">
+              {% if user.isCommitte %}
+                <img src="/assets/organs/{{ organ.alias }}.png">
+              {% elif user.isStaff %}
+                <img src="/imagens/icon-normal.png">
+              {% elif user.isAdmin %}
+                <img src="/imagens/sigilogo.png">
+              {% elif user.isDiplomata %}
+                <img src="/imagens/diplomata.png">
+              {% endif %}
+
+              <textarea class="campo-estilo" name="text" placeholder="O que está acontecendo?" id="textoDigitado" maxlength="280" required="required"></textarea>
+            </form>
+          </div>
+          <div class="modal-footer end hidden-xs hidden-sm">
+            <div style="font-family: 'Quicksand'; font-size: 18px; margin-right: 5px;" id="c_number">0</div>
+            <div id="container"></div>
+            <button type="submit" form="pubForm" class="btn btn-default botPub" disabled="true" id="botaoPub">PUBLICAR</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="espacadorBaixo"></div>
-	<div class="container-fluid navembaixo hidden-md hidden-lg">
-			<div class="row">
-					<div class="col-md-12 icones hidden-md hidden-lg">
-						<a href="/"><i class="material-icons naveg" style="font-size: 38px;">home</i></a>
-						<a href="/news"><i class="material-icons-outlined naveg">receipt</i></a>
-						<a href="/app"><i class="material-icons-outlined naveg">view_list</i></a>
-						<a href="/app/profile"><i class="material-icons-outlined naveg2">person</i></a>
-					</div>
-				</div>
-			</div>
-		<script>
-			$(document).ready(function(){
-				$('#loaddesk').hide();
-				$('#loadmobile').hide();			
-			}
-			);
-		</script>
+
+    <!-- Modal Apagar Publicacao-->
+    <div class="modal fade" id="deletePublication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <h4>Deseja mesmo apagar esta publicação?</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default botPubWhite" data-dismiss="modal" style="border-radius: 20px; border: none;">CANCELAR</button>
+            <button type="button" class="btn btn-default botPub" onclick="removePub()" data-dismiss="modal">APAGAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="espacadorBaixo"></div>
+    <div class="container-fluid navembaixo hidden-md hidden-lg">
+      <div class="row">
+        <div class="col-md-12 icones hidden-md hidden-lg">
+          <a href="/">
+            <i class="material-icons naveg" style="font-size: 38px;">home</i>
+          </a>
+          <a href="/news">
+            <i class="material-icons-outlined naveg">receipt</i>
+          </a>
+          <a href="/app">
+            <i class="material-icons-outlined naveg">view_list</i>
+          </a>
+          <a href="/app/profile">
+            <i class="material-icons-outlined naveg2">person</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $('#loaddesk').hide();
+        $('#loadmobile').hide();
+      });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.min.js"></script>
     <script src="../script/socket.io.js"></script>
-		<script src="script/progressbar.js"></script>
-		<script src="script/feed.js"></script>
-</body>
+    <script src="script/progressbar.js"></script>
+    <script src="script/feed.js"></script>
+  </body>
 </html>

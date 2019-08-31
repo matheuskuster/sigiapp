@@ -43,6 +43,7 @@ routes.post('/app/user/remove/:id', controllers.UserController.remove)
 routes.get('/app/speakers', controllers.UserController.speakers)
 routes.get('/app/user/:id', controllers.UserController.information)
 routes.get('/app/profile', controllers.UserController.profile)
+routes.get('/users/erase/:id', controllers.UserController.eraseDelegatesUserFromCommitte)
 
 // SESSION
 routes.post('/signin', controllers.SessionController.store)
@@ -129,5 +130,9 @@ routes.get('/about', (req, res) => {
 routes.get('/news', (req, res) => {
   return res.render('development')
 })
+
+
+// GERADOR DE PLACAS
+routes.get('/board/:id', controllers.BoardController.index)
 
 module.exports = routes
