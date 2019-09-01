@@ -12,7 +12,7 @@ class FileController {
     if(req.session && req.session.user) {
       const user = await User.findById(req.session.user._id).populate('committe')
 
-      if(user.committe == null && user.isAdmin == false) {
+      if(user.committe == null && user.isAdmin == false && user.isDiplomata == false) {
         return res.redirect('/app')
       }
 
@@ -29,8 +29,6 @@ class FileController {
         date: moment(post.createdAt).fromNow()
       }
     })
-
-    console.log(posts)
 
     return res.render('feed', { posts, organ })
   }

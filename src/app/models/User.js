@@ -54,7 +54,7 @@ const User = new mongoose.Schema(
 )
 
 User.pre('save', async function (next) {
-  if (!this.isModified('password') || (!this.isCommitte && !this.isAdmin)) {
+  if (!this.isModified('password') || (!this.isCommitte && !this.isAdmin && !this.isDiplomata)) {
     return next()
   }
 
@@ -72,7 +72,7 @@ User.pre('remove', async function (next) {
 
 User.methods = {
   compareHash (password) {
-    if (!this.isCommitte && !this.isAdmin) {
+    if (!this.isCommitte && !this.isAdmin && !this.isDiplomata) {
       return true
     }
 

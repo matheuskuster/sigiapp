@@ -11,7 +11,7 @@ class SessionController {
       return res.redirect('/login')
     }
 
-    if(!user.isAdmin  && !user.isCommitte) {
+    if(!user.isAdmin  && !user.isCommitte && !user.isDiplomata) {
       if(user.password != password) {
         req.flash('error', 'Senha incorreta')
         return res.redirect('/login')

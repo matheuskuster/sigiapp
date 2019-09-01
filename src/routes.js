@@ -127,10 +127,15 @@ routes.get('/about', (req, res) => {
   return res.render('development')
 })
 
-routes.get('/news', (req, res) => {
-  return res.render('development')
-})
 
+// NEWS
+routes.get('/news', controllers.NewsController.index)
+routes.get('/news/:id', controllers.NewsController.news)
+routes.post('/app/news/post', controllers.NewsController.create)
+routes.get('/app/edit', controllers.NewsController.edit)
+routes.post('/app/edit/:id', controllers.NewsController.update)
+routes.get('/app/diplomata', controllers.NewsController.unseen)
+routes.get('/app/diplomata/:id', controllers.NewsController.remove)
 
 // GERADOR DE PLACAS
 routes.get('/board/:id', controllers.BoardController.index)

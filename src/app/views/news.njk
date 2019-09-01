@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="imagens/favicon.ico">
+    <meta name="theme-color" content="#eeeeee">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Francois+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700&display=swap" rel="stylesheet">
+    <!--STYLES-->
+    <link rel="stylesheet" href="/css/material_design.css">
+    <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/material.css">
+    <script src="/script/mobilepc.js"></script>
+    <script src="/script/modalset.js"></script>
+    <script src="/script/material.js"></script>
+    <script src="/script/hide-button.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet">
+    <!--ICONES PARA MOBILE-->
+    <link href="imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" sizes="180x180"/>
+    <link href="imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          <a href="/">
+            <img src="/imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="/imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
+        </center>
+        <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/">Feed</a>
+          </li>
+          <li class="activeNavIcon">
+            <a style="color: #36C1B6;" href="/news">Notícias</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app">Lista de Oradores</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app/profile">Perfil</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <center>
+            {% if controlPage %}
+              <div class="titulo">
+                PRIVADO
+              </div>
+            {% else %}
+              <div class="titulo">
+                NOTÍCIAS
+              </div>
+            {% endif %}
+          </center>
+
+          {% if data | length == 0 %}
+            {% if controlPage %}
+              <center>
+                <p style="font-family: 'Quicksand'; font-size: 32px; margin-top: 50px; text-align: center">Não há notícias indisponíveis ao público!</p>
+              </center>
+            {% else %}
+              <center>
+                <p style="font-family: 'Quicksand'; font-size: 32px; margin-top: 50px; text-align: center">Não há notícias no momento!</p>
+              </center>
+            {% endif %}
+          {% endif %}
+
+          {% for news in data %}
+            <a class="linkMat" href="/news/{{ news.content._id }}">
+              <div class="mat">
+                <div style="
+            		background: url('{{ news.content.image }}');
+              		  background-position: top;
+              		  background-repeat: no-repeat;
+             		    background-size: cover;
+              		  min-height: 200px;
+              		  border-radius: 5px 5px 0 0;
+              		  display: block;"></div>
+                <div class="line"></div>
+                <div style="height: 5px;"></div>
+                <div class="etiquetaMat">
+                  <mark>{{ news.content.kind }}</mark>
+                </div>
+                <div class="tituloMaterial">
+                  {{ news.content.title }}
+                </div>
+                <div class="descMat">{{ news.date }}
+                  |
+                  {{ news.content.name }}
+                </a>
+                <button onclick="sharePub('sigiapp.serra.ifes.edu.br/news/{{ news.content._id }}','{{ news.content.title }}')" class="but-share">
+                  <i class="fas fa-share-alt"></i>
+                </button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    {% if user and user.isDiplomata and not controlPage %}
+      <div id="botao-control-news">
+        <div class="botEscrever" id="newsWrite" data-toggle="modal" data-target="#painelMaterial">
+          +&nbsp;<i class="far fa-newspaper" onclick="acertaCaixa(), limpaformulario()" style="color: #ffffff; font-size: 28px;"></i>
+        </div>
+        <a href="/app/diplomata" class="btn btn-default botExtraOptions">
+          <i class="fas fa-user-lock" aria-hidden="true" style="margin-bottom: 2px"></i>
+        </a>
+      </div>
+    {% endif %}
+
+    <div class="espacadorBaixo"></div>
+  </div>
+</div>
+
+<!---MODAL INSERIR MATERIAL---->
+<div class="modal fade" id="painelMaterial" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="returnEdition()">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Quicksand', sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;" id='title-box'>Inserir Notícia</h3>
+        </center>
+
+      </div>
+      <div class="modal-body">
+        <div id="inserirDadosMaterial">
+          <form id="post_news" method="POST" action="/app/news/post">
+            <label>Imagem de Capa:</label>
+            <div id="linkbox" style="display: flex; flex-direction: row;justify-content: space-between;">
+              <input type="text" name="image" class="campoMaterial" placeholder="Link da imagem de capa do material..." id="imagemD" style="display: inline; width: 100%;" onchange="pubPreenchido()">
+              <i class="far fa-question-circle" style="display: absolute; color: #36C1B6; font-size: 23px; margin-top: 10px; cursor: pointer;" data-toggle="modal" data-target="#explicaModal" data-dismiss="modal" aria-label="Close"></i>
+            </div>
+            <label>Título:</label>
+            <input type="text" name="title" class="campoMaterial" placeholder="Título do material" id="titleD" maxlength="120" onchange="pubPreenchido()">
+            <label>Seu nome:</label>
+            <input type="text" name="name" class="campoNome" placeholder="Anônimo" id="nameD">
+            <label>Especificação:</label><br>
+            <select name="kind" id="typeMat">
+              <option value="SiGI">SiGI</option>
+              <option value="ACNUR">ACNUR</option>
+              <option value="CSNU 2019">CSNU 2019</option>
+              <option value="CSNU 2033">CSNU 2033</option>
+              <option value="EC">EC</option>
+              <option value="PNUMA">PNUMA</option>
+              <option value="SIB">SIB</option>
+              <option value="UNESCO">UNESCO</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </form>
+        </div>
+        <div id="previaMaterial">
+          <div id="previewBox">
+            <div class="previa" id='previa'></div>
+          </div>
+        </div>
+      </div>
+      <center>
+        <div class="progress-line" id="e1"></div>
+        <div class="progress-line-no" id="e2"></div>
+        <div class="progress-line-no" id="e3"></div>
+      </center>
+      <div class="modal-footer">
+        <!--hidden-xs hidden-sm painelVisualizacaoMaterial-->
+        <div id="insertBut">
+          <button type="button" class="btn btn-default botPub" disabled="true" data-toggle="modal" data-target="#painelVisualizacaoMaterial" id='botaoPub' onclick="previewPub()">PRÉVIA</button>
+        </div>
+
+        <div id="viewBut">
+          <button type="button" id='botaoEdit' class="btn btn-default botPub" onclick="returnEdition()" style="background-color: #ffffff; color: #36C1B6; border: 1px solid #36C1B6;">VOLTAR</button>
+          <button type="submit" form="post_news" id='botaoet3' class="btn btn-default botPub">PRÓXIMO</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---MODAL EXPLICAÇÃO---->
+<div class="modal fade" id="explicaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="returnEdition()" data-toggle="modal" data-target="#painelMaterial">
+          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+        <center>
+          <h3 style="display: inline-block;" class="hidden-xs hidden-sm">Dúvida</h3>
+        </center>
+
+        <center>
+          <h3 style="display: inline-block;" class="hidden-md hidden-lg">Dúvida</h3>
+        </center>
+
+      </div>
+      <div class="modal-body">
+
+        <p>Por motivos de limitação em nossos servidores optamos por não armazenar as imagens de capa, por isso recomendamos que copiem o endereço do link da imagem desejada e cole no referido campo.
+          <p>
+            <b>Pelo computador:
+            </b>
+            basta procurar a imagem de sua preferência e então clicar com o botão direito sobre a imagem, uma caixa de diálogo abrirá. Procure a opção "Copiar endereço da imagem" e cole no campo "Link da imagem de capa do material."
+            <p>
+              <p>
+                <b>Pelo celular:</b>
+                Recomendamos que utilizem o navegador Google Chrome para fazer postagens pelo celular, visto que, por exemplo, o Safari(iOS) não oferece suporte à "copiar endereço da imagem".</p>
+
+            </div>
+            <div class="modal-footer">
+              <!--hidden-xs hidden-sm-->
+              <button type="button" class="btn btn-default botPub" data-dismiss="modal" aria-label="Close" data-toggle="modal" data-target="#painelMaterial">VOLTAR</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="sharePainel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+            <center>
+              <h3 style="display: inline-block;">COMPARTILHAR</h3>
+            </center>
+          </div>
+          <div class="modal-body">
+            <center>
+              <div id="inline"></div>
+            </center>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default botPub" data-dismiss="modal">CANCELAR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid navembaixo hidden-md hidden-lg">
+      <div class="row">
+        <div class="col-md-12 icones hidden-md hidden-lg">
+          <a href="/">
+            <i class="material-icons-outlined naveg" style="font-size: 38px;">home</i>
+          </a>
+          <a href="/news">
+            <i class="material-icons naveg">receipt</i>
+          </a>
+          <a href="/app">
+            <i class="material-icons-outlined naveg">view_list</i>
+          </a>
+          <a href="/app/profile">
+            <i class="material-icons-outlined naveg2">person</i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="/script/material.js"></script>
+</html>

@@ -238,72 +238,71 @@
   {% endif %}
 
   <div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
-        <center>
-          <h3 style="display: inline-block;">OPÇÕES</h3>
-        </center>
-      </div>
-      <div class="modal-body">
-
-        <div type="button" class="btn btn-default botPainel" id="insertDelegation" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#schedule">
-          <i class="fas fa-list-ol"></i>
-          AGENDA
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+          <center>
+            <h3 style="display: inline-block;">OPÇÕES</h3>
+          </center>
         </div>
+        <div class="modal-body">
 
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="schedule" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
-        <center>
-          <h3 style="display: inline-block;">AGENDA</h3>
-        </center>
-      </div>
-      <div class="modal-body">
-
-        {% for topic in committe.schedule %}
-        
-          <div class="topic">
-          <div class="title">
-            <p class="number">{{ loop.index }}.</p>
-            <p>{{ topic.name }}</p>
+          <div type="button" class="btn btn-default botPainel" id="insertDelegation" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#schedule">
+            <i class="fas fa-list-ol"></i>
+            AGENDA
           </div>
 
-          <ul>
-            {% set topicIndex = loop.index %}
-            {% for sub in topic.subTopics %}
-              <li>
-                <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
-                <p>{{ sub }}</p>
-              </li>
-            {% endfor %}
-          </ul>
         </div>
-
-        {% endfor %}       
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#optionsModal">VOLTAR</button>
-        <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <div class="modal fade" id="schedule" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+          <center>
+            <h3 style="display: inline-block;">AGENDA</h3>
+          </center>
+        </div>
+        <div class="modal-body">
+
+          {% for topic in committe.schedule %}
+
+            <div class="topic">
+              <div class="title">
+                <p class="number">{{ loop.index }}.</p>
+                <p>{{ topic.name }}</p>
+              </div>
+
+              <ul>
+                {% set topicIndex = loop.index %}
+                {% for sub in topic.subTopics %}
+                  <li>
+                    <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
+                    <p>{{ sub }}</p>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+          {% endfor %}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#optionsModal">VOLTAR</button>
+          <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal Explicação Favicons Interativos-->
   <div class="modal fade" id="faviconGuide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

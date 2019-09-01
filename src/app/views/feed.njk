@@ -85,34 +85,35 @@
                   {% if post.content.user.isCommitte %}
                     <img src="/assets/organs/{{ post.content.organ.alias }}.png" class="ftPub" id="ftPub3">
                     <div class="usuarioPub" id="usuarioPub1">{{ post.content.organ.alias | upper }}
-                      <div class="tempoPub">
-                        •
+                      <div class="tempoPub">&nbsp; •
                         {{ post.date }}</div>
                     </div>
                     <div class="cargoPub" id="cargoPub1">{{ post.content.year }}</div>
                   {% elif post.content.user.isStaff %}
                     <img src="/imagens/icon-normal.png" class="ftPub" id="ftPub3">
-                    <div class="usuarioPub" id="usuarioPub1">SiGI APP<div class="tempoPub">•
+                    <div class="usuarioPub" id="usuarioPub1">SiGI APP<div class="tempoPub">&nbsp;•
                         {{ post.date }}</div>
                     </div>
                     <div class="cargoPub" id="cargoPub1">Suporte</div>
                   {% elif post.content.user.isAdmin %}
                     <img src="/imagens/sigilogo.png" class="ftPub" id="ftPub3">
-                    <div class="usuarioPub" id="usuarioPub1">SiGI<div class="tempoPub">•
-                        {{ post.date }}</div>
+                    <div class="usuarioPub" id="usuarioPub1">SiGI
+                      <div class="tempoPub">&nbsp;•
+                        {{ post.date }}
+                      </div>
                     </div>
                     <div class="cargoPub" id="cargoPub1">Oficial</div>
                   {% elif post.content.user.isDiplomata %}
                     <img src="/imagens/diplomata.png" class="ftPub" id="ftPub3">
-                    <div class="usuarioPub" id="usuarioPub1">Diplomata<div class="tempoPub">•
+                    <div class="usuarioPub" id="usuarioPub1">Diplomata<div class="tempoPub">&nbsp;•
                         {{ post.date }}</div>
                     </div>
                     <div class="cargoPub" id="cargoPub1">Imprensa</div>
                   {% endif %}
 
-                  <div class="textoPub" id="textoPub1">
+                  <p class="textoPub">
                     {{ post.content.text }}
-                  </div>
+                  </p>
                 </div>
               {% endfor %}
             {% endif %}

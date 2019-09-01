@@ -22,6 +22,7 @@ class UserController {
   }
 
   async redirect (req, res) {
+
     if(req.session.user.isDiplomata) {
       return res.redirect('/news')
     }

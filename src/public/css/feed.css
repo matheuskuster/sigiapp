@@ -5,6 +5,7 @@ body {
 h3 {
   font-weight: normal;
 }
+
 .espacadorBaixo {
   height: 60px;
 }
@@ -138,7 +139,6 @@ h3 {
 .ftPub {
   width: 50px;
   height: 50px;
-  display: inline;
   float: left;
   margin-right: 8px;
   margin-left: 8px;
@@ -171,7 +171,6 @@ h3 {
   font-family: "Open Sans Condensed";
   font-size: 20px;
   text-align: justify;
-  display: block;
   margin-left: 58px;
 }
 

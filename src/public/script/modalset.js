@@ -22,21 +22,19 @@ $(document).keydown(function(e){
 function pubPreenchido(){
 	imagemDLen = $('#imagemD').val().length;
 	titleDLen  = $('#titleD').val().length;
-	linkDLen   = $('#linkD').val().length;
 	typeOpt    = $('#typeMat').find(":selected").val();
 	
-	if (imagemDLen > 0 && titleDLen > 0 && linkDLen > 0){
+	if (imagemDLen > 0 && titleDLen > 0){
 		$('#botaoPub').prop("disabled", false);
 	}else{
 		$('#botaoPub').prop("disabled", true);
 	}
 
-	if (imagemDLen > 0 && titleDLen > 0 && linkDLen > 0){
+	if (imagemDLen > 0 && titleDLen > 0){
 		$('#matmobile').prop("disabled", false);
 	}else{
 		$('#matmobile').prop("disabled", true);
 	}
-
 }
 
 function limpaformulario(){
