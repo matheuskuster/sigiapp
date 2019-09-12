@@ -32,6 +32,10 @@ const Committe = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    isEnglish: {
+      type: Boolean,
+      default: false
+    },
     delegations: [
       { type: mongoose.Schema.Types.ObjectId, ref: 'Delegation', default: [] }
     ],

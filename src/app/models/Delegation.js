@@ -17,6 +17,10 @@ const Delegation = new mongoose.Schema(
     isCountry: {
       type: Boolean,
       default: false
+    },
+    englishName: {
+      type: String,
+      required: false
     }
   },
   {
