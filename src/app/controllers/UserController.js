@@ -22,8 +22,7 @@ class UserController {
   }
 
   async redirect (req, res) {
-
-    if(req.session.user.isDiplomata) {
+    if (req.session.user.isDiplomata) {
       return res.redirect('/news')
     }
 
@@ -75,13 +74,25 @@ class UserController {
       'debate',
       'schedule'
     ])
-    const delegates = await User.find({
+    const dele = await User.find({
       isCommitte: false,
       isAdmin: false,
       committe: committe._id
     })
       .select(['_id', 'present', 'delegation'])
-      .populate('delegation')
+      .populate('delegation')    
+
+    let delegates
+
+    if (committe.isEnglish) {
+      delegates = dele.map(d => {
+        const english = d.delegation.englishName || d.delegation.name
+        d.delegation.name = english
+        return d
+      })
+    } else {
+      delegates = dele
+    }
 
     delegates.sort((a, b) =>
       a.delegation.name > b.delegation.name
@@ -133,7 +144,11 @@ class UserController {
       return res.json({ error: 'Invalid admin token' })
     }
 
-    await User.deleteMany({ committe: committe._id, isCommitte: false, isAdmin: false })
+    await User.deleteMany({
+      committe: committe._id,
+      isCommitte: false,
+      isAdmin: false
+    })
     committe.users = false
     await committe.save()
 
@@ -142,12 +157,22 @@ class UserController {
     })
   }
 
-  async profile(req, res) {
-    const user = await User.findById(req.session.user._id).populate(['delegation', 'committe'])
+  async profile (req, res) {
+    const user = await User.findById(req.session.user._id).populate([
+      'delegation',
+      'committe'
+    ])
     let committe = null
 
-    if(user.isCommitte || (!user.isAdmin && !user.isDiplomata && !user.isStaff)) {
+    if (
+      user.isCommitte ||
+      (!user.isAdmin && !user.isDiplomata && !user.isStaff)
+    ) {
       committe = await Committe.findById(user.committe._id).populate('organ')
+    }
+
+    if (user.committe && committe.isEnglish && !user.isCommitte) {
+      user.delegation.name = user.delegation.englishName || user.delegation.name
     }
 
     return res.render('profile', { user, committe })

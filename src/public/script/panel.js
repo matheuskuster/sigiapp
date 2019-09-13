@@ -65,7 +65,7 @@ function menuCronometro (opt) {
 
   if (opt == 3) {
     clearInterval(interval)
-    $('#tempoCronometro').val('00:00')
+    $('#zerar').click()
     segundo = '00'
     minuto = '00'
     // proximo();

@@ -11,7 +11,7 @@ class NewsController {
       res.locals.user = user
     }
 
-    const news = await News.find({ see: true })
+    const news = await News.find({ see: true }).sort('-createdAt')
 
     const data = news.map(n => {
       return {
@@ -45,7 +45,7 @@ class NewsController {
     const news = await News.findById(req.query.n)
 
     news.date = moment(news.createdAt).format('L')
-    news.hour = moment(news.createdAt).format('LT').replace(':', 'h')
+    news.hour = moment(news.createdAt).add(3, 'hours').format('LT').replace(':', 'h')
 
     return res.render('edit', { news })
   }
@@ -86,7 +86,7 @@ class NewsController {
     }
 
     news.date = moment(news.createdAt).format('L')
-    news.hour = moment(news.createdAt).format('LT').replace(':', 'h')
+    news.hour = moment(news.createdAt).add(3, 'hours').format('LT').replace(':', 'h')
 
     return res.render('news_model', { news })
   }
@@ -96,7 +96,7 @@ class NewsController {
       return res.json({ error: 'You do not have permission to access this page' })
     }
 
-    const news = await News.find({ see: false })
+    const news = await News.find({ see: false }).sort('-updatedAt')
 
     const data = news.map(n => {
       return {

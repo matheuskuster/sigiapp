@@ -15,7 +15,14 @@ class ListController {
     const list = await List.findById(committe.lists[0]).populate('users')
 
     const delegations = list.users.map(async user => {
-      return await User.findById(user._id).populate('delegation')
+      const u = await User.findById(user._id).populate('delegation')
+
+      if (committe.isEnglish) {
+        const english = u.delegation.englishName || user.delegation.name
+        u.delegation.name = english
+      }
+
+      return u
     })
 
     Promise.all(delegations).then(completed => {
@@ -36,7 +43,12 @@ class ListController {
     await list.save()
 
     const delegations = list.users.map(async user => {
-      return await User.findById(user._id).populate('delegation')
+      const u = await User.findById(user._id).populate('delegation')
+      if (committe.isEnglish) {
+        u.delegation.name = u.delegation.englishName || u.delegation.name
+      }
+
+      return u
     })
 
     Promise.all(delegations).then(completed => {
@@ -70,7 +82,12 @@ class ListController {
     await list.save()
 
     const delegations = list.users.map(async user => {
-      return await User.findById(user._id).populate('delegation')
+      const u = await User.findById(user._id).populate('delegation')
+      if (committe.isEnglish) {
+        u.delegation.name = u.delegation.englishName || u.delegation.name
+      }
+
+      return u
     })
 
     Promise.all(delegations).then(completed => {
@@ -113,7 +130,12 @@ class ListController {
     await list.save()
 
     const delegations = list.users.map(async user => {
-      return await User.findById(user._id).populate('delegation')
+      const u = await User.findById(user._id).populate('delegation')
+      if (committe.isEnglish) {
+        u.delegation.name = u.delegation.englishName || u.delegation.name
+      }
+
+      return u
     })
 
     Promise.all(delegations).then(completed => {

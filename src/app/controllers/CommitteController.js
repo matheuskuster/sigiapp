@@ -89,11 +89,11 @@ class CommitteController {
     const user = await User.findById(req.session.user._id)
     const committe = await Committe.findById(user.committe).populate('organ')
 
-    if(!committe.delegations.includes('5d3e24c0d3b3c849a51c6b9f')) {
+    if (!committe.delegations.includes('5d3e24c0d3b3c849a51c6b9f')) {
       committe.delegations.push('5d3e24c0d3b3c849a51c6b9f')
     }
 
-    if(!committe.delegations.includes('5d6a812c252fb525bcfa2ddd')) {
+    if (!committe.delegations.includes('5d6a812c252fb525bcfa2ddd')) {
       committe.delegations.push('5d6a812c252fb525bcfa2ddd')
     }
 
@@ -101,8 +101,6 @@ class CommitteController {
 
     const users = committe.delegations.map(async id => {
       const delegation = await Delegation.findById(id)
-
-      console.log(delegation)
 
       const login = committe.organ.alias + committe.year + '.' + delegation.code
 
@@ -162,7 +160,6 @@ class CommitteController {
     const delegation = req.body.delegation
     const committe = await Committe.findById(req.params.id)
 
-
     const newDelegations = committe.delegations.filter(id => {
       return id != delegation
     })
@@ -182,21 +179,27 @@ class CommitteController {
       'schedule',
       'debate'
     ])
-    const delegates = await User.find({
+    const dele = await User.find({
       isCommitte: false,
       isAdmin: false,
       committe: committe._id
     })
       .select(['_id', 'present', 'delegation'])
-      .populate('delegation')
+      .populate('delegation')    
 
-    delegates.sort((a, b) =>
-      a.delegation.name > b.delegation.name
-        ? 1
-        : b.delegation.name > a.delegation.name
-          ? -1
-          : 0
-    )
+    let delegates
+
+    if (committe.isEnglish) {
+      delegates = dele.map(d => {
+        const english = d.delegation.englishName || d.delegation.name
+        d.delegation.name = english
+        return d
+      })
+    } else {
+      delegates = dele
+    }
+
+    delegates.sort((a, b) => a.delegation.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "") > b.delegation.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "") ? 1 : b.delegation.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "") > a.delegation.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "") ? -1 : 0)
 
     const presency = {
       p: 0,
@@ -282,14 +285,14 @@ class CommitteController {
 
     committe.lists = []
 
-    if(committe.crisis != null) {
+    if (committe.crisis != null) {
       await Crisis.findByIdAndRemove(committe.crisis._id, {
         useFindAndModify: true
       })
       committe.crisis = null
     }
 
-    if(committe.debate != null) {
+    if (committe.debate != null) {
       await Debate.findByIdAndRemove(committe.debate._id, {
         useFindAndModify: true
       })
@@ -414,7 +417,9 @@ class CommitteController {
         .json({ error: 'It seems that the committe is not in crisis.' })
     }
 
-    await Crisis.findByIdAndRemove(committe.crisis._id)
+    await Crisis.findByIdAndRemove(committe.crisis._id, {
+      useFindAndModify: true
+    })
     committe.crisis = null
     await committe.save()
 
@@ -423,7 +428,7 @@ class CommitteController {
     return res.redirect('/app/panel')
   }
 
-  async scheduleView(req, res) {
+  async scheduleView (req, res) {
     const user = await User.findById(req.session.user._id)
     const committe = await Committe.findById(req.params.id)
 
@@ -444,7 +449,7 @@ class CommitteController {
     return res.redirect('/app/panel')
   }
 
-  async project(req, res) {
+  async project (req, res) {
     const committe = await Committe.findById(req.params.id).populate([
       'organ',
       'lists',
@@ -452,13 +457,25 @@ class CommitteController {
       'schedule',
       'debate'
     ])
-    const delegates = await User.find({
+    const dele = await User.find({
       isCommitte: false,
       isAdmin: false,
       committe: committe._id
     })
       .select(['_id', 'present', 'delegation'])
       .populate('delegation')
+
+    let delegates
+
+    if (committe.isEnglish) {
+      delegates = dele.map(d => {
+        const english = d.delegation.englishName || d.delegation.name
+        d.delegation.name = english
+        return d
+      })
+    } else {
+      delegates = dele
+    }
 
     const presency = {
       p: 0,
@@ -535,7 +552,9 @@ class CommitteController {
         .json({ error: 'It seems that the committe is not in debate.' })
     }
 
-    await Debate.findByIdAndRemove(committe.debate._id)
+    await Debate.findByIdAndRemove(committe.debate._id, {
+      useFindAndModify: true
+    })
     committe.debate = null
     await committe.save()
 

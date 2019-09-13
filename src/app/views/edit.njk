@@ -32,29 +32,6 @@
     <!--ICONES PARA MOBILE-->
     <link href="../imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
     <link href="../imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
-
-    <!-- Open Graph Tags -->
-    <meta property="og:type" content="website"/>
-    <!-- Título da noticia -->
-    <meta property="og:title" content='Corte Internacional de Justiça mostra-se totalmente disposta para resolver o conflito na Crimeia'/>
-    <!-- lead da noticia -->
-    <meta property="og:description" content='"O sangue ucraniano está sendo derramado, o povo não aguenta mais" diz Olena Zerkal, representante da Ucrânia.'/>
-    <!-- LINK DA NOTÍCIA -->
-    <meta property="og:url" content="http://sigiapp.serra.ifes.edu.br"/>
-    <!-- INALTERÁVEL -->
-    <meta property="og:site_name" content="SiGIAPP - DIPLOMATA"/>
-    <!-- imagem da noticia -->
-    <meta property="og:image" content="https://scontent.fvix2-1.fna.fbcdn.net/v/t1.0-9/41320146_1075239895969260_988427955136888832_o.jpg?_nc_cat=107&_nc_oc=AQmqVBniXS-8swKbQk9kL0U8M4ggqAPG4lo74ShJ7vT_v00YF5aKPOIE2dnVGzbf74E2m9FC3tmuAZaOdAn-Rn2i&_nc_ht=scontent.fvix2-1.fna&oh=561d29c984010a74f2a51de6e5d1fcef&oe=5E165638"/>
-    <!-- INALTERÁVEL -->
-    <meta property="og:image:alt" content="img-dip-pub"/>
-    <meta property="og:locale" content="pt_BR"/>
-    <!-- TWITTER -->
-
-    <!-- Título da noticia -->
-    <meta name="twitter:text:title" content="Corte Internacional de Justiça mostra-se totalmente disposta para resolver o conflito na Crimeia"/>
-    <!-- INALTERÁVEL -->
-    <meta name="twitter:card" content="summary"/>
-
   </head>
 
   <body>
@@ -105,7 +82,7 @@
         <div class="tituloNoticiaModel" style="margin-bottom: 20px;">
           {{ news.title }}
         </div>
-        <textarea name="subtitle" id="editor-sub" placeholder="Digite o subtítulo da notícia..." required="required">
+        <textarea name="subtitle" id="editor-sub" required="required">
           {{ news.lead }}
         </textarea>
         <div class="news-information">
@@ -116,7 +93,7 @@
           •
           {{ news.hour }}
         </div>
-        <textarea name="body" id="editor" placeholder="Digite o corpo da notícia" required="required">
+        <textarea name="body" id="editor" required="required">
           {{ news.body }}
         </textarea>
         <br>
@@ -152,12 +129,12 @@
   <script>
     var editor = new Simditor({
       textarea: $('#editor-sub'),
-      //optional options
+      placeholder: "Digite o subtítulo da notícia"
     });
 
     var editor = new Simditor({
       textarea: $('#editor'),
-      //optional options
+      placeholder: "Digite o corpo da notícia"
     });
   </script>
 </html>

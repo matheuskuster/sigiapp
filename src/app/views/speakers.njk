@@ -10,7 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="../script/mobilepc.js"></script>
+
     <!--FONTES-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
@@ -181,7 +181,7 @@
 
         <!--DISPOSITIVOS PEQUENOS-->
 
-        <div class="col-xs-12 col-sm-12 hidden-md hidden-lg">
+        <div class="col-xs-12 col-sm-12">
           <button type="button" class="btn btn-default botControlesMobile" id="botOrPeq" onclick="getIn()">+<i class="fas fa-bullhorn"></i>
           </button>
           <div class="botControlesMobile notselectable" id="posicaoLiPeq" style="font-size: 30px; text-align: center; padding-top: 9px; padding-left: 3px;">X</div>
@@ -209,33 +209,6 @@
 
     {% endif %}
   </div>
-
-  {% if committe.lists | length >= 1 %}
-    <!--CONTROLES-->
-    <div class="container-fluid navembaixo">
-      <div class="row">
-        <div class="paineldeControle hidden-xs hidden-sm" id="paineldeControle" onchange="controle()">
-
-          <!--DISPOSITIVOS MEDIOS E GRANDES-->
-
-          <div class="col-md-12">
-            <center>
-              <button onclick="getIn()" type="button" class="btn btn-default botControles" id="botO" style="width: 50%;" data-toggle="modal">
-                <i class="fas fa-bullhorn"></i>
-                ENTRAR NA LISTA
-              </button>
-              <div type="button" class="btn btn-default botMoreOptions" data-toggle="modal" data-target="#optionsModal">
-                <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-              </div>
-              <div class="posicaoLista" id="posicaoL">
-                <b>POSIÇÃO: X</b>
-              </div>
-            </center>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
 
   <div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
     <div class="modal-dialog" role="document">
@@ -353,6 +326,7 @@
     });
   </script>
 
+  <script src="../script/mobilepc.js"></script>
   <script src="../script/socket.io.js"></script>
   <script src="../script/moment.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
