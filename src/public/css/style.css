@@ -1,0 +1,114 @@
+body,
+html {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Open Sans Condensed", sans-serif;
+  height: 100%;
+}
+
+::selection {
+  color: white;
+  background-color: #36c1b6;
+}
+
+.fixartamanho {
+  height: 20px;
+  display: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans Condensed", sans-serif;
+}
+
+body {
+  background: #e6ecf0;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.content .painel {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 40px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.content .painel .head {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.content .painel .head p {
+  font-size: 35px;
+  padding-left: 10px;
+}
+
+.content .painel .head img {
+  height: 84px;
+  width: 84px;
+  margin-right: 10px;
+}
+
+.content .painel form {
+  display: flex;
+  flex-direction: column;
+}
+
+.content .painel form input {
+  height: 38px;
+  font-size: 28px;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  width: 250px;
+  outline: 0;
+  margin-bottom: 20px;
+  font-family: "Open Sans Condensed", sans-serif;
+  text-indent: 5px;
+  border-bottom: 2px solid #36c1b6;
+}
+
+.content .painel form .buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.content .painel form button {
+  height: 45px;
+  width: 100%;
+  color: #ffffff;
+  background: #36c1b6;
+  border: 1px solid #36c1b6;
+  font-size: 25px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-family: "Open Sans Condensed", sans-serif;
+}
+
+.content .painel form button:hover {
+  opacity: 0.7;
+  transition: all ease 0.2s;
+}
+
+.content .painel form button:first-child {
+  margin-right: 5px;
+}

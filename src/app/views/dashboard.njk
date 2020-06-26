@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="imagens/favicon.ico"/>
+    <meta name="theme-color" content="#36C1B6 "/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="../script/mobilepc.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="../css/navbar.css"/>
+    <link rel="stylesheet" href="../css/dashboard.css"/>
+    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/radio.css"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <!--ICONES PARA MOBILE-->
+    <link href="../imagens/apple-touch-icon.png" rel="ícone do toque da maçã"/>
+    <link href="../imagens/apple-touch-icon-120x120.png" rel="apple-touch-icon" tamanhos="120x120"/>
+    <link href="../imagens/apple-touch-icon-76x76.png" rel="apple-touch-icon" tamanhos="76x76"/>
+    <link href="../imagens/apple-touch-icon-152x152.png" rel="apple-touch-icon" tamanhos="152x152"/>
+    <link href="../imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+    <link href="../imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+  </head>
+
+  <body id="body">
+    <div class="load hidden-sm hidden-xs" id="loaddesk">
+      <img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"/>
+    </div>
+    <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%">
+      <img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"/>
+    </div>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          <a href="/">
+            <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
+        </center>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 hidden-xs"></div>
+        <div class="col-md-8">
+          <div class="content">
+            <p class="dashboard-title">
+              COMITÊ
+            </p>
+
+            <div class="steps">
+              {% if not user.firstAccess %}
+                <div class="step-title">
+                  <i class="fas fa-check-circle check icons"></i>
+                  <p class="check-text">
+                    <b>1&deg;</b>
+                    REDEFINIR SENHA
+                  </p>
+                </div>
+              {% else %}
+                <div class="step-box">
+                  <div class="step-box-title">
+                    <i class="fas fa-times-circle not-check icons"></i>
+                    <p>
+                      <b>1&deg;</b>
+                      REDEFINIR SENHA
+                    </p>
+                  </div>
+                  <form class="form" action="/app/user/update/{{ user._id }}" method="POST">
+                    <div class="passwords">
+                      <input type="password" name="password" placeholder="Digite sua nova senha" id="pwd" class="pwd" required="required"/>
+                      <input type="password" placeholder="Repita sua nova senha" id="rpwd" class="pwd" required="required"/>
+                      <p id="pwd-error" style="color: #c73636; font-size: 17px; display: none">
+                        Por favor, confira as senhas!
+                      </p>
+                    </div>
+                    <div class="buttons">
+                      <div class="button-show">
+                        <button id="show-password">
+                          <i class="fas fa-eye"></i>
+                        </button>
+                        <p id="desc-show">Mostrar senha</p>
+                      </div>
+
+                      <button class="pwd-submit-button" type="submit">
+                        REDEFINIR
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              {% endif %}
+              {% if user.firstAccess %}
+                <div class="step-title" style="margin-top: 20px">
+                  <i class="fas fa-times-circle not-check icons"></i>
+                  <p>
+                    <b>2&deg;</b>
+                    CRIAR COMITÊ
+                  </p>
+                </div>
+              {% elif user.committe %}
+                <div class="step-title">
+                  <i class="fas fa-check-circle check icons"></i>
+                  <p class="check-text">
+                    <b>2&deg;</b>
+                    CRIAR COMITÊ
+                  </p>
+                </div>
+
+              {% else %}
+
+                <div class="step-box">
+                  <div class="step-box-title">
+                    <i class="fas fa-times-circle not-check icons"></i>
+                    <p>
+                      <b>2&deg;</b>
+                      CRIAR COMITÊ
+                    </p>
+                  </div>
+
+                  <form action="/app/committe/store/{{ user._id }}" method="POST" class="form">
+                    <div class="organs-list">
+                      <p>ESCOLHA O ÓRGÃO DO SEU COMITÊ:</p>
+                      <ul>
+                        {% for organ in organs %}
+
+                          <li>
+                            <div class="img-name">
+                              <img class="organ-img" src="../assets/organs/{{ organ.alias }}.png" alt="{{ organ.alias }} FLAG"/>
+                              <p>{{ organ.name }}
+                                ({{ organ.alias }})</p>
+                            </div>
+                            {% if loop.index == 1 %}
+                              <input class="form-radio" type="radio" name="organ_id" value="{{ organ._id }}" checked="checked"/>
+                            {% else %}
+                              <input class="form-radio" type="radio" name="organ_id" value="{{ organ._id }}"/>
+                            {% endif %}
+                          </li>
+
+                        {% endfor %}
+                      </ul>
+                    </div>
+
+                    <div class="name-year">
+                      <p>ESCOLHA O TÍTULO E O ANO:</p>
+                      <div class="name-year-inputs">
+                        <input name="title" class="title" type="text" placeholder="Digite o título" required="required"/>
+                        <input name="year" pattern="\d*" class="number" type="number" placeholder="Ano" min="1500" max="3000" required="required"/>
+                      </div>
+                    </div>
+
+                    <button type="submit">CRIAR COMITÊ</button>
+                  </form>
+                </div>
+
+              {% endif %}
+              {% if user.firstAccess or not user.committe %}
+                <div class="step-title" style="margin-top: 20px">
+                  <i class="fas fa-times-circle not-check icons"></i>
+                  <p>
+                    <b>3&deg;</b>
+                    ESCOLHER DELEGAÇÕES
+                  </p>
+                </div>
+              {% elif user.committe.delegations.length != 0 %}
+                <div class="step-title">
+                  <i class="fas fa-check-circle check icons"></i>
+                  <p class="check-text">
+                    <b>3&deg;</b>
+                    ESCOLHER DELEGAÇÕES
+                  </p>
+                </div>
+
+              {% else %}
+
+                <div class="botEscrever">
+                  <p class="delegations-number">0</p>
+                </div>
+
+                <div class="step-box">
+                  <div class="step-box-title delegations-title">
+                    <div class="i-name">
+                      <i class="fas fa-times-circle not-check icons"></i>
+                      <p>
+                        <b>3&deg;</b>
+                        ESCOLHER DELEGAÇÕES
+                      </p>
+                    </div>
+                    <p class="delegations-number">0</p>
+                  </div>
+                  <p style="margin-top: 5px; color: #999999">
+                    Dica: Utilize as teclas
+                    <b>CTRL + F</b>
+                    para encontrar as delegações com facilidade.
+                  </p>
+                  <form action="/app/committe/delegations/{{ user.committe._id }}" method="POST" class="form" id="delegations-form">
+                    <div class="delegations-list">
+                      <ul>
+                        {% for delegation in delegations %}
+                          <li>
+                            <div class="img-name">
+                              <img class="delegation-img" src="{{ delegation.flag }}" alt="{{ delegation.name }} FLAG"/>
+                              <p>{{ delegation.name }}</p>
+                            </div>
+
+                            <input class="form-radio delegation-checkbox" type="checkbox" name="delegations[]" value="{{ delegation._id }}"/>
+                          </li>
+
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </form>
+
+                  <div class="search-delegations">
+                    <div class="formToHide">
+                      <p>Não encontrou uma delegação?<br/></p>
+
+                      <p class="desc">
+                        Será feita uma busca por organizações ou empresas na internet. As chances do sistema acertar o que você procura são maiores colocando o site da delegação. Ex: uber.com, facebook.com, ifes.edu.br
+                      </p>
+                      <form class="form" id="search-form">
+                        <input type="text" placeholder="Digite o nome que procura..." id="search_companie_name" required="required"/>
+                        <button id="procurar" type="submit">PROCURAR</button>
+                      </form>
+                    </div>
+
+                    <div style="display: none" class="searchResult">
+                      <p>Selecione um dos resultados ou procure novamente:</p>
+                      <ul class="result-list"></ul>
+
+                      <div class="buttons">
+                        <button data-toggle="modal" data-target="#not_find" style="background: #c73636">
+                          NÃO ENCONTREI
+                        </button>
+                        <button onclick="returnSearch()">
+                          PROCURAR NOVAMENTE
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <button form="delegations-form" type="submit">
+                    ESCOLHER DELEGAÇÕES
+                  </button>
+                </div>
+
+                <div class="modal fade" id="not_find" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span >
+                        </button>
+                        <center>
+                          <h3 style="display: inline-block;">
+                            Solicitar Delegação
+                          </h3>
+                        </center>
+                      </div>
+                      <div class="modal-body">
+                        <p>
+                          Trabalhamos intensamente para lhes fornecer qualquer delegação que o comitê precise. Porém, é um trabalho muito difícil, visto que são milhares de organizações e empresas no mundo todo. Dessa forma, pedimos que nos informe a delegação que deseja, esta será adicionada o mais breve possível e automaticamente inserida em seu comitê. Obrigado pela compreensão!
+                        </p>
+
+                        <form action="" id="form-request">
+                          <input type="text" placeholder="Digite o nome da delegação" id="delegation-name" required="required"/>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default botPubWhite" data-dismiss="modal" style="background: #c73636">
+                          CANCELAR
+                        </button>
+                        <button class="btn btn-default" form="form-request" type="submit">
+                          ENVIAR
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              {% endif %}
+              {% if user.firstAccess or not user.committe or
+              user.committe.delegations.length == 0 %}
+
+                <div class="step-title" style="margin-top: 20px">
+                  <i class="fas fa-times-circle not-check icons"></i>
+                  <p>
+                    <b>4&deg;</b>
+                    TÓPICOS DA AGENDA
+                  </p>
+                </div>
+
+              {% elif user.committe.schedule.length > 0 %}
+
+                <div class="step-title">
+                  <i class="fas fa-check-circle check icons"></i>
+                  <p class="check-text">
+                    <b>4&deg;</b>
+                    TÓPICOS DA AGENDA
+                  </p>
+                </div>
+
+                {% if hasDependency %}
+                  <div class="dependecy">
+                    <p style="font-size: 22px">
+                      As próximas etapas serão liberadas assim que todas as pendências de delegações forem resolvidas.
+                    </p>
+                  </div>
+                {% else %}
+                  <div class="final">
+
+                    <div class="buttons">
+                      {% if user.committe.users %}
+                        <button onclick="window.location.href='/app/users'">VER USUÁRIOS</button>
+                      {% else %}
+                        <button onclick="generateUsers()">GERAR USUÁRIOS</button>
+                      {% endif %}
+
+                      <button onclick="window.location.href='/app/panel'">ACESSAR PAINEL</button>
+                    </div>
+                  </div>
+                {% endif %}
+              {% else %}
+
+                <div class="step-box">
+                  <div class="step-box-title">
+                    <i class="fas fa-times-circle not-check icons"></i>
+                    <p>
+                      <b>4&deg;</b>
+                      TÓPICOS DA AGENDA
+                    </p>
+                  </div>
+
+                  <div class="principal-topics">
+                    <p class="topics-title">TÓPICOS PRINCIPAIS:</p>
+
+                    <ul id="topics-list"></ul>
+
+                    <ul style="display: none" id="subtopics-list"></ul>
+
+                    <div class="plus">
+                      <div class="create">
+                        <button onclick="oneMoreTopic()">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                        <p>Criar tópico</p>
+                      </div>
+
+                      <button id="sub-button" onclick="setTopics()">
+                        SUBTÓPICOS
+                      </button>
+                      <button onclick="sendSchedule()" id="finish-button" style="display: none">
+                        FINALIZAR
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 hidden-xs"></div>
+      </div>
+    </div>
+
+    <script>
+      $("#body").hide();
+
+      var showing = false;
+
+      $(document).ready(function () {
+        $("#loaddesk").hide();
+        $("#loadmobile").hide();
+        $("#body").show();
+      });
+
+      $(".pwd").keyup(e => {
+        if ($("#pwd").val() != $("#rpwd").val()) {
+          $("#pwd-error").show();
+          $(".pwd-submit-button").attr("disabled", true);
+        } else {
+          $("#pwd-error").hide();
+          $(".pwd-submit-button").attr("disabled", false);
+        }
+      });
+
+      $("#show-password").click(e => {
+        showing = !showing;
+
+        if (showing) {
+          $("#pwd").attr("type", "text");
+          $("#rpwd").attr("type", "text");
+          $("#desc-show").html("Esconder senha");
+          $("#show-password").css("color", "#c73636");
+          $("#show-password").html('<i class="fas fa-eye-slash"></i>');
+        } else {
+          $("#pwd").attr("type", "password");
+          $("#rpwd").attr("type", "password");
+          $("#desc-show").html("Mostrar senha");
+          $("#show-password").css("color", "#36c1b6");
+          $("#show-password").html('<i class="fas fa-eye"></i>');
+        }
+      });
+    </script>
+
+    <script src="../script/dashboard.js"></script>
+  </body>
+</html>

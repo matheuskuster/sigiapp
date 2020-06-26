@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="imagens/faviconsinterativos/0.png" type="image/png">
+    <meta name="theme-color" content="#eeeeee">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="../script/mobilepc.js"></script>
+    <!--FONTES-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+    <!--STYLES-->
+    <link rel="stylesheet" href="../css/material_design.css">
+    <link rel="stylesheet" href="../css/feed.css">
+    <link rel="stylesheet" href="../css/panel.css">
+    <link rel="stylesheet" href="../css/speakers.css">
+    <link rel="stylesheet" href="../css/view.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <!--ICONES PARA MOBILE-->
+    <link href="../imagens/apple-touch-icon.png" rel="ícone do toque da maçã"/>
+    <link href="../imagens/apple-touch-icon-76x76.png" rel="apple-touch-icon" tamanhos="76x76"/>
+    <link href="../imagens/apple-touch-icon-120x120.png" rel="apple-touch-icon" tamanhos="120x120"/>
+    <link href="../imagens/apple-touch-icon-152x152.png" rel="apple-touch-icon" tamanhos="152x152"/>
+    <link href="../imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+
+  </head>
+  <script type="text/javascript" language="JavaScript">
+
+    var _gaq = [
+      [
+        '_setAccount', 'UA-6065217-11'
+      ],
+      ['_trackPageview']
+    ];
+    (function (d, t) {
+      var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+      g.src = 'https://www.google-analytics.com/ga.js';
+      s
+        .parentNode
+        .insertBefore(g, s);
+    })(document, 'script');
+  </script>
+  <body onload="getCommitteIdFromNJK('{{ committe._id }}')">
+
+    <div class="load hidden-sm hidden-xs" id="loaddesk"><img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+    <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%"><img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          {% if committe.crisis == null and committe.debate == null %}
+            <a href="/">
+              <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+              <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% else %}
+            <a href="/">
+              <img src="../imagens/iconebranco.png" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% endif %}
+        </center>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+    <div class="container">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <center><img src="../assets/organs/{{ committe.organ.alias }}.png" class="simboloComite" draggable="false"></center>
+          <div class="titulo">{{ committe.organ.alias | upper }}:
+            {{ committe.title | upper }}
+            -
+            {{ committe.year }}
+          </div>
+        </div>
+        {% if committe.lists | length == 0 %}
+          <div class="tituloAguardo">AGUARDANDO O INÍCIO DA SESSÃO</div>
+        {% else %}
+          <div class="apontamentos">
+              <div class="row">
+                <div class="col-md-4">
+                  <b>
+                    <center>QUÓRUM</center>
+                  </b>
+                  <div class="quantitativo" id="quorum">
+                    {{ presency.pv + presency.p }}/{{ presency.pv + presency.p + presency.a }}
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <b>
+                    <center>MAIORIA SIMPLES</center>
+                  </b>
+                  <div class="quantitativo" id="mSimples">
+                    {{ ((presency.pv + presency.p) // 2) + 1 }}
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <b>
+                    <center>MAIORIA QUALIFICADA</center>
+                  </b>
+                  <div class="quantitativo" id="mQualificada">
+                    {{ (presency.vc // 3) * 2 }}
+                  </div>
+                </div>
+            </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if committe.lists | length != 0 and committe.crisis == null and not committe.showingSchedule and committe.debate == null %}
+      <div class="row">
+        <p class="emptyList">
+          LISTA DE ORADORES VAZIA
+        </p>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <div id="delegacaoFalando"></div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+          <div class="espacador"></div>
+
+          <div id="listaOradores"></div>
+
+          <br>
+
+          <div class="espacadorBaixo"></div>
+
+        </div>
+
+      </div>
+    {% elif committe.crisis != null and not committe.showingSchedule %}
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <p class="crisisTitle">
+            COMITÊ EM CRISE
+          </p>
+
+          <p class="crisisText">
+            {{ committe.crisis.text }}
+          </p>
+
+            <div class="timer">
+              <p id="minutes">00</p>
+              <p>:</p>
+              <p id="seconds">00</p>
+            </div>
+        </div> 
+        <div class="col-md-1"></div>
+    {% elif committe.showingSchedule %}
+          <div class="col-md-2"></div>
+          <div style="margin-top: 50px" class="col-md-8">
+            {% for topic in committe.schedule %}
+
+              <div class="topic">
+                <div class="title">
+                  <p class="number">{{ loop.index }}.</p>
+                  <p>{{ topic.name }}</p>
+                </div>
+
+                <ul>
+                  {% set topicIndex = loop.index %}
+                  {% for sub in topic.subTopics %}
+                    <li>
+                      <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
+                      <p>{{ sub }}</p>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+            {% endfor %}
+          </div>
+          <div class="col-md-2"></div>
+
+      {% elif committe.debate != null %}        
+        <div class="row">
+          <p class="debate" style="font-size: 60px;">
+            COMITÊ EM DEBATE
+          </p>
+
+          <div class="timer">
+              <p id="minutes">00</p>
+              <p>:</p>
+              <p id="seconds">00</p>
+            </div>          
+        </div>       
+
+    {% endif %}
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $('#loaddesk').hide();
+      $('#loadmobile').hide();
+    });
+  </script>
+
+  <script src="../script/socket.io.js"></script>
+  <script src="../script/moment.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="../script/speakers.js"></script>
+  <script src="../script/view.js"></script>
+  
+
+  {% if committe.crisis != null %}
+
+    <script>
+      setCrisis()
+      initTimer('{{ committe.crisis.time }}', '{{ committe.crisis.createdAt }}')
+    </script>
+  
+  {% elif committe.debate != null %}
+
+    <script>
+      setDebate()
+      initTimer('{{ committe.debate.time }}', '{{ committe.debate.createdAt }}')
+    </script>
+
+  {% endif %}
+</body>
+</html>

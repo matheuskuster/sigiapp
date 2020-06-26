@@ -1,0 +1,34 @@
+.crisisTitle {
+  text-align: center;
+  font-size: 30px;
+  font-family: "Quicksand", sans-serif;
+  margin-top: 20px;
+}
+
+.crisisText {
+  text-align: justify;
+  font-size: 28px;
+  font-family: "Quicksand", sans-serif;
+  margin-top: 20px;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 80px;
+  font-family: Digital;
+  color: #ff3838;
+
+  margin-top: 40px;
+}
+
+.title {
+  align-items: center;
+  justify-content: center;
+}
+
+.topic > ul li {
+  justify-content: center;
+}

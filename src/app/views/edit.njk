@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="imagens/favicon.ico">
+    <meta name="theme-color" content="#eeeeee">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Francois+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700&display=swap" rel="stylesheet">
+    <!--STYLES-->
+
+    <link rel="stylesheet" href="/css/material_design.css">
+    <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/news-model.css">
+    <link rel="stylesheet" href="/css/material.css">
+    <link rel="stylesheet" type="text/css" href="/css/simditor.css"/>
+    <script src="/script/mobilepc.js"></script>
+    <script src="/script/material.js"></script>
+    <script src="/script/news-model.js"></script>
+    <script src="/script/hide-button.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet">
+    <!--ICONES PARA MOBILE-->
+    <link href="../imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+    <link href="../imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          <a href="/">
+            <img src="/imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="/imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
+        </center>
+        <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/">Feed</a>
+          </li>
+          <li class="activeNavIcon">
+            <a style="color: #36C1B6;" href="/news">Notícias</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app">Lista de Oradores</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app/profile">Perfil</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12" id="banner" style="
+                  background: url('{{ news.image }}');
+                  background-attachment: fixed;
+                  background-position: top;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  min-height: 500px;
+                  border-radius: 5px 5px 0 0;
+                  display: block;
+                  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
+                  filter: blur(0);"></div>
+
+      </div>
+    </div>
+    <div class="container">
+      <form method="POST" action="/app/edit/{{ news._id }}">
+        <div class="tituloNoticiaModel" style="margin-bottom: 20px;">
+          {{ news.title }}
+        </div>
+        <textarea name="subtitle" id="editor-sub" required="required">
+          {{ news.lead }}
+        </textarea>
+        <div class="news-information">
+          <b>{{ news.name }}</b>, Diplomata
+        </div>
+        <div class="news-information" style="margin-top: 0px; margin-bottom: 20px; ">
+          {{ news.date }}
+          •
+          {{ news.hour }}
+        </div>
+        <textarea name="body" id="editor" required="required">
+          {{ news.body }}
+        </textarea>
+        <br>
+        <button type="submit" class="btn btn-default botPub" style="float: right">SALVAR</button>
+      </form>
+    </div>
+    <div class="espacadorBaixo"></div>
+    <div class="container-fluid navembaixo hidden-md hidden-lg">
+      <div class="row">
+        <div class="col-md-12 icones hidden-md hidden-lg">
+          <a href="/">
+            <i class="material-icons-outlined naveg" style="font-size: 38px;">home</i>
+          </a>
+          <a href="/news">
+            <i class="material-icons naveg">receipt</i>
+          </a>
+          <a href="/app">
+            <i class="material-icons-outlined naveg">view_list</i>
+          </a>
+          <a href="/app/profile">
+            <i class="material-icons-outlined naveg2">person</i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript" src="/script/module.js"></script>
+  <script type="text/javascript" src="/script/hotkeys.js"></script>
+  <script type="text/javascript" src="/script/simditor.js"></script>
+  <script src="/script/material.js"></script>
+
+  <script>
+    var editor = new Simditor({
+      textarea: $('#editor-sub'),
+      placeholder: "Digite o subtítulo da notícia"
+    });
+
+    var editor = new Simditor({
+      textarea: $('#editor'),
+      placeholder: "Digite o corpo da notícia"
+    });
+  </script>
+</html>

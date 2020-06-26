@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="imagens/favicon.ico">
+    <meta name="theme-color" content="#eeeeee">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Francois+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700&display=swap" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <!--STYLES-->
+    <link rel="stylesheet" href="/css/sweetalert2.min.css"/>
+    <link rel="stylesheet" href="/css/jquery-fab-button.css">
+    <link rel="stylesheet" href="/css/material_design.css">
+    <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/news-model.css">
+    <link rel="stylesheet" href="/css/material.css">
+    <script src="/script/mobilepc.js"></script>
+    <script src="/script/material.js"></script>
+    <script src="/script/news-model.js"></script>
+    <script src="/script/hide-button.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet">
+    <!--ICONES PARA MOBILE-->
+    <link href="imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+    <link href="imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+
+    <!-- Open Graph Tags -->
+    <meta property="og:type" content="website"/>
+    <!-- Título da noticia -->
+    <meta property="og:title" content='{{ news.title }}'/>
+    <!-- lead da noticia -->
+    <meta property="og:description" content='"{{ news.lead }}'/>
+    <!-- LINK DA NOTÍCIA -->
+    <meta property="og:url" content="http://sigiapp.serra.ifes.edu.br"/>
+    <!-- INALTERÁVEL -->
+    <meta property="og:site_name" content="SiGIAPP - O DIPLOMATA"/>
+    <!-- imagem da noticia -->
+    <meta property="og:image" content="{{ news.image }}"/>
+    <!-- INALTERÁVEL -->
+    <meta property="og:image:alt" content="img-dip-pub"/>
+    <meta property="og:locale" content="pt_BR"/>
+    <!-- TWITTER -->
+
+    <!-- Título da noticia -->
+    <meta name="twitter:text:title" content="{{ news.title }}"/>
+    <!-- INALTERÁVEL -->
+    <meta name="twitter:card" content="summary"/>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          <a href="/">
+            <img src="/imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="/imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
+        </center>
+        <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+          <li class="itemNav ">
+            <a style="color: #ffffff;" href="/">Feed</a>
+          </li>
+          <li class="activeNavIcon">
+            <a style="color: #36C1B6;" href="/news">Notícias</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app">Lista de Oradores</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app/profile">Perfil</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12" id="banner" style="
+                  background: url('{{ news.image }}');
+                  background-attachment: fixed;
+                  background-position: top;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  min-height: 500px;
+                  border-radius: 5px 5px 0 0;
+                  display: block;
+                  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
+                  filter: blur(0);"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="col-xs-12">
+        <div class="tituloNoticiaModel">
+          {{ news.title }}
+        </div>
+        <div class="leadModel"></div>
+        <div class="news-information">
+          <b>{{ news.name }}</b>, Diplomata
+        </div>
+        <div class="news-information" style="margin-top: 0px; ">
+          {{ news.date }}
+          •
+          {{ news.hour }}
+        </div>
+        <div class="textNewsModel"></div>
+        <br>
+        <br>
+      </div>
+      <br>
+    </div>
+
+    {% if user and user.isDiplomata %}
+      <div class="fixed-action-btn horizontal" style="bottom: 60px; right: 24px">
+        <a class="btn-floating btn-large red" style="background: #36c1b6">
+          <i class="large material-icons" style="font-size: 22px;">mode_edit</i>
+        </a>
+        <ul>
+          {% if news.body and news.lead %}
+
+            {% if news.see %}
+              <li>
+                <a id="first-fab" href="/app/diplomata/{{ news._id }}?see=false" class="btn-floating" data-fabcolor="#45d1ff">
+                  <i class="material-icons">visibility_off</i>
+                </a>
+              </li>
+            {% else %}
+              <li>
+                <a id="first-fab" href="/app/diplomata/{{ news._id }}?see=true" class="btn-floating" data-fabcolor="#45d1ff">
+                  <i class="material-icons">visibility</i>
+                </a>
+              </li>
+            {% endif %}
+
+          {% endif %}
+          <li>
+            <a id="second-fab" href="/app/edit?n={{ news._id }}" class="btn-floating" data-fabcolor=" #7345ff" ="#7345ff" ">
+              <i class="material-icons">mode_edit</i>
+            </a>
+          </li>
+          <li>
+            <a id="fourth-fab" href="/app/diplomata/{{ news._id }}?delete=true" class="btn-floating" data-fabcolor="#ff7345">
+              <i class="material-icons">delete</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    {% endif %}
+
+    <div class="espacadorBaixo"></div>
+    <div class="container-fluid navembaixo hidden-md hidden-lg">
+      <div class="row">
+        <div class="col-md-12 icones hidden-md hidden-lg">
+          <a href="/">
+            <i class="material-icons-outlined naveg" style="font-size: 38px;">home</i>
+          </a>
+          <a href="/news">
+            <i class="material-icons naveg">receipt</i>
+          </a>
+          <a href="/app">
+            <i class="material-icons-outlined naveg">view_list</i>
+          </a>
+          <a href="/app/profile">
+            <i class="material-icons-outlined naveg2">person</i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="/script/jquery-fab-button.min.js"></script>
+  <script src="/script/material.js"></script>
+
+  <script>
+    const encondedSub = '{{ news.lead }}'
+    const decodedSub = $('<div />')
+      .html(encondedSub)
+      .text();
+    $('.leadModel').append(decodedSub)
+
+    const encondedBody = '{{ news.body }}'
+    const decodedBody = $('<div />')
+      .html(encondedBody)
+      .text();
+    $('.textNewsModel').append(decodedBody)
+  </script>
+
+  {% if user and user.isDiplomata %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.min.js"></script>
+    {% if not news.see %}
+      <script>
+        Swal.fire({title: 'Aviso', text: 'Essa notícia não está disponível para o público', type: 'warning', confirmButtonColor: '#36c1b6', confirmButtonText: 'Fechar'})
+      </script>
+    {% else %}
+      <script>
+        const url = new URL(window.location);
+        const see = url
+          .searchParams
+          .get("see") || false
+        console.log(see)
+
+        if (see == 'true') {
+          Swal.fire({title: 'Sucesso', text: 'Agora todos podem acessar essa notícia :)', type: 'success', confirmButtonColor: '#36c1b6', confirmButtonText: 'Fechar'})
+        }
+      </script>
+    {% endif %}
+  {% endif %}
+</html>

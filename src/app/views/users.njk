@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="imagens/favicon.ico"/>
+    <meta name="theme-color" content="#36C1B6 "/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.33.1/dist/sweetalert2.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/sweetalert2.min.css"/>
+    <link rel="stylesheet" href="/css/navbar.css"/>
+    <link rel="stylesheet" href="/css/admin.css"/>
+    <link rel="stylesheet" href="/css/users.css"/>
+    <script src="/script/mobilepc.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Abel|Dosis|Montserrat|Open+Sans|Open+Sans+Condensed:300|Rajdhani" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!--ICONES PARA MOBILE-->
+    <link href="/imagens/apple-touch-icon.png" rel="ícone do toque da maçã"/>
+    <link href="/imagens/apple-touch-icon-120x120.png" rel="apple-touch-icon" tamanhos="120x120"/>
+    <link href="/imagens/apple-touch-icon-76x76.png" rel="apple-touch-icon" tamanhos="76x76"/>
+    <link href="/imagens/apple-touch-icon-152x152.png" rel="apple-touch-icon" tamanhos="152x152"/>
+    <link href="/imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+    <link href="/imagens/icon-normal.png" rel="icon" tamanhos="128x128"/>
+  </head>
+
+  <body>
+    <div class="load hidden-sm hidden-xs" id="loaddesk">
+      <img src="/imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"/>
+    </div>
+    <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%">
+      <img src="/imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"/>
+    </div>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          <a href="/">
+            <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+          </a>
+        </center>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2 hidden-xs"></div>
+        <div class="col-md-8">
+          <div class="content">
+            <p class="dashboard-title">
+              USUÁRIOS
+            </p>
+
+            <div class="user-box">
+              <table>
+                <tr>
+                  <th>DELEGAÇÃO</th>
+                  <th>LOGIN</th>
+                  <th>SENHA</th>
+
+                  {% if committe.currentSession > 1 %}
+                    {% for delegate in delegates %}
+                      {% for x in delegate.presency %}
+                        {% if loop.index < committe.currentSession %}
+                          <th>{{ loop.index }}</th>
+                        {% endif %}
+                      {% endfor %}
+                    {% endfor %}
+                  {% endif %}
+
+                </tr>
+
+                {% for delegate in delegates %}
+                  <tr>
+                    <td>
+                      <a href="/app/user/{{ delegate._id }}" target="_blank">{{ delegate.delegation.name | upper }}</a>
+                    </td>
+                    <td>{{ delegate.login }}</td>
+                    <td>{{ delegate.password }}</td>
+
+                    {% if committe.currentSession > 1 %}
+                      {% for delegate in delegates %}
+                        {% for x in delegate.presency %}
+                          {% if loop.index < committe.currentSession %}
+                            {% if x %}
+                              <td>P</td>
+                            {% else %}
+                              <td>A</td>
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endfor %}
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+              </table>
+
+              <div class="download">
+                <p>DOWNLOAD</p>
+                <a href="/app/sheet/{{ sheet._id }}" target="blank">
+                  <i class="fas fa-file-download"></i >
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 hidden-xs"></div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#loaddesk").hide();
+        $("#loadmobile").hide();
+      });
+    </script>
+  </body>
+</html>

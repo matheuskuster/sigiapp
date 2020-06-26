@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>SiGIAPP</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="imagens/faviconsinterativos/0.png" type="image/png">
+    <meta name="theme-color" content="#eeeeee">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <!--FONTES-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp">
+    <!--STYLES-->
+    <link rel="stylesheet" href="../css/material_design.css">
+    <link rel="stylesheet" href="../css/feed.css">
+    <link rel="stylesheet" href="../css/panel.css">
+    <link rel="stylesheet" href="../css/speakers.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    <!--ICONES PARA MOBILE-->
+    <link href="../imagens/apple-touch-icon.png" rel="ícone do toque da maçã"/>
+    <link href="../imagens/apple-touch-icon-76x76.png" rel="apple-touch-icon" tamanhos="76x76"/>
+    <link href="../imagens/apple-touch-icon-120x120.png" rel="apple-touch-icon" tamanhos="120x120"/>
+    <link href="../imagens/apple-touch-icon-152x152.png" rel="apple-touch-icon" tamanhos="152x152"/>
+    <link href="../imagens/apple-touch-icon-180x180.png" rel="apple-touch-icon" tamanhos="180x180"/>
+
+  </head>
+  <script type="text/javascript" language="JavaScript">
+    document.head || (document.head = document.getElementsByTagName('head')[0]);
+
+    function changeFavicon(src) {
+      var link = document.createElement('link'),
+        oldLink = document.getElementById('dynamic-favicon');
+      link.id = 'dynamic-favicon';
+      link.rel = 'icon';
+      link.href = src;
+      if (oldLink) {
+        document
+          .head
+          .removeChild(oldLink);
+      }
+      document
+        .head
+        .appendChild(link);
+    }
+
+    function order() {
+      posLista++;
+      document.title = ("(" + posLista + ") SiGIAPP");
+      if (posLista == 1) {
+        changeFavicon('../imagens/faviconsinterativos/1.png');
+      }
+      if (posLista == 2) {
+        changeFavicon('../imagens/faviconsinterativos/2.png');
+      }
+      if (posLista == 3) {
+        changeFavicon('../imagens/faviconsinterativos/3.png');
+      }
+      if (posLista == 4) {
+        changeFavicon('../imagens/faviconsinterativos/4.png');
+      }
+      if (posLista == 5) {
+        changeFavicon('../imagens/faviconsinterativos/5.png');
+      }
+      if (posLista == 6) {
+        changeFavicon('../imagens/faviconsinterativos/6.png');
+      }
+      if (posLista == 7) {
+        changeFavicon('../imagens/faviconsinterativos/7.png');
+      }
+      if (posLista == 8) {
+        changeFavicon('../imagens/faviconsinterativos/8.png');
+      }
+      if (posLista == 9) {
+        changeFavicon('../imagens/faviconsinterativos/9.png');
+      }
+      if (posLista >= 10) {
+        changeFavicon('../imagens/faviconsinterativos/9plus.png');
+      }
+      if (posLista == 0) {
+        changeFavicon('../imagens/faviconsinterativos/0.png');
+      }
+    };
+
+    var _gaq = [
+      [
+        '_setAccount', 'UA-6065217-11'
+      ],
+      ['_trackPageview']
+    ];
+    (function (d, t) {
+      var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+      g.src = 'https://www.google-analytics.com/ga.js';
+      s
+        .parentNode
+        .insertBefore(g, s);
+    })(document, 'script');
+  </script>
+  <body onload="getCommitteIdFromNJK('{{ committe._id }}'); getUserIdFromNJK('{{ user._id }}')">
+
+    <div class="load hidden-sm hidden-xs" id="loaddesk"><img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+    <div class="load hidden-md hidden-lg" id="loadmobile" style="left: 38%"><img src="../imagens/gif-carregamento.gif" style="height: 100px; width: 100px;"></div>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <center>
+          {% if committe.crisis == null and committe.debate == null %}
+            <a href="/">
+              <img src="../imagens/iconebranco.png" class="hidden-xs hidden-sm" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+              <img src="../imagens/sigilogo.png" class="hidden-md hidden-lg" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% else %}
+            <a href="/">
+              <img src="../imagens/iconebranco.png" style="height: 50px; width: 50px; top: 5px; position: absolute; margin-left: -25px;">
+            </a>
+          {% endif %}
+        </center>
+        <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/">Feed</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/news">
+              Notícias</a>
+          </li>
+          <li class="activeNavIcon">
+            <a style="color: #36C1B6;" href="/app/speakers">Lista de Oradores</a>
+          </li>
+          <li class="itemNav">
+            <a style="color: #ffffff;" href="/app/profile">Perfil</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="espacadorCima"></div>
+    <div class="container">
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <center><img src="../assets/organs/{{ committe.organ.alias }}.png" class="simboloComite" draggable="false"></center>
+          <div class="titulo">{{ committe.organ.alias | upper }}:
+            {{ committe.title | upper }}
+            -
+            {{ committe.year }}
+          </div>
+        </div>
+        {% if committe.lists | length == 0 %}
+          <div class="tituloAguardo">AGUARDANDO O INÍCIO DA SESSÃO</div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if committe.lists | length != 0 and committe.debate == null %}
+      <div class="row">
+        <p class="emptyList">
+          LISTA DE ORADORES VAZIA
+        </p>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <div id="delegacaoFalando"></div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+          <div class="espacador"></div>
+
+          <div id="listaOradores"></div>
+
+          <br>
+
+          <div class="espacadorBaixo"></div>
+
+        </div>
+
+        <!--DISPOSITIVOS PEQUENOS-->
+
+        <div class="col-xs-12 col-sm-12">
+          <button type="button" class="btn btn-default botControlesMobile" id="botOrPeq" onclick="getIn()">+<i class="fas fa-bullhorn"></i>
+          </button>
+          <div class="botControlesMobile notselectable" id="posicaoLiPeq" style="font-size: 30px; text-align: center; padding-top: 9px; padding-left: 3px;">X</div>
+          <div type="button" class="btn btn-default botExtraOptions" id="botOrPeq" data-toggle="modal" data-target="#optionsModal">
+            <span class="glyphicon glyphicon-option-vertical" aria-hidden="true" style="margin-bottom: 2px"></span>
+          </div>
+        </div>
+
+      </div>
+    {% elif committe.debate != null %}
+
+      <div class="row">
+        <p class="debate" style="font-size: 60px;">
+          COMITÊ EM DEBATE
+        </p>
+
+        <div class="timer">
+          <p id="minutes">00</p>
+          <p>:</p>
+          <p id="seconds">00</p>
+        </div>
+
+        <div class="espacadorBaixo"></div>
+      </div>
+
+    {% endif %}
+  </div>
+
+  <div class="modal fade" id="optionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+          <center>
+            <h3 style="display: inline-block;">OPÇÕES</h3>
+          </center>
+        </div>
+        <div class="modal-body">
+
+          <div type="button" class="btn btn-default botPainel" id="insertDelegation" data-dismiss="modal" data-toggle="modal" aria-label="Close" data-target="#schedule">
+            <i class="fas fa-list-ol"></i>
+            AGENDA
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="schedule" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="overflow-y: visible;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+          <center>
+            <h3 style="display: inline-block;">AGENDA</h3>
+          </center>
+        </div>
+        <div class="modal-body">
+
+          {% for topic in committe.schedule %}
+
+            <div class="topic">
+              <div class="title">
+                <p class="number">{{ loop.index }}.</p>
+                <p>{{ topic.name }}</p>
+              </div>
+
+              <ul>
+                {% set topicIndex = loop.index %}
+                {% for sub in topic.subTopics %}
+                  <li>
+                    <p class="number">{{ topicIndex }}.{{ loop.index }}</p>
+                    <p>{{ sub }}</p>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+          {% endfor %}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default botPubWhite" style="border-radius: 20px; border: none;" data-dismiss="modal" data-toggle="modal" data-target="#optionsModal">VOLTAR</button>
+          <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Explicação Favicons Interativos-->
+  <div class="modal fade" id="faviconGuide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" style="font-size: 30px; font-family: 'Open Sans Condensed', sans-serif;">&times;</span></button>
+          <center>
+            <h3>Favicons Interativos!</h3>
+          </center>
+        </div>
+        <div class="modal-body">
+          <div class="description">
+            Para facilitar sua navegação entre abas temos os favicons interativos(esse icone que é exibido ao lado do nome do site). Dessa forma você pode pesquisar informações dentro do navegador sem se preocupar em perder sua vez de falar!
+          </div>
+          <img class="img-responsive" src="../imagens/faviconsinterativos/gif-faviconinterativo.gif" draggable="false">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default botPub" data-dismiss="modal">FECHAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid navembaixo hidden-md hidden-lg">
+    <div class="row">
+      <div class="col-md-12 icones hidden-md hidden-lg">
+        <a href="/">
+          <i class="material-icons-outlined naveg">home</i>
+        </a>
+        <a href="/news">
+          <i class="material-icons-outlined naveg">receipt</i>
+        </a>
+        <a href="/app/speakers">
+          <i class="material-icons naveg">view_list</i>
+        </a>
+        <a href="/app/profile">
+          <i class="material-icons-outlined naveg2">person</i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $('#loaddesk').hide();
+      $('#loadmobile').hide();
+    });
+  </script>
+
+  <script src="../script/mobilepc.js"></script>
+  <script src="../script/socket.io.js"></script>
+  <script src="../script/moment.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="../script/speakers.js"></script>
+
+  {% if committe.crisis != null and committe.debate == null %}
+
+    <script>
+      setCrisis()
+    </script>
+
+  {% elif committe.debate != null %}
+    <script>
+      setDebate()
+      initDebateTimer('{{ committe.debate.time }}', '{{ committe.debate.createdAt }}')
+    </script>
+  {% endif %}
+</body>
+</html>

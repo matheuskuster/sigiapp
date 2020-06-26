@@ -1,0 +1,577 @@
+/**********CRONOMETRO***********/
+body,
+html {
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@font-face {
+  font-family: Digital;
+  src: url(../fontes/DJB-Get-Digital.ttf);
+}
+
+h3 {
+  font-family: "Quicksand", sans-serif;
+}
+
+.description {
+  font-family: "Open Sans Condensed", sans-serif;
+  font-size: 18px;
+  text-align: justify;
+}
+
+.nomeTitulo {
+  font-family: "Open Sans Condensed", sans-serif;
+  font-size: 22px;
+  text-align: center;
+}
+
+#pauseBox {
+  display: none;
+}
+
+#pauseBoxMob {
+  display: none;
+}
+
+.painelCronometro {
+  color: #ffffff;
+  color: red;
+  width: 130px;
+  height: 60px;
+  font-size: 40px;
+  border: none;
+  font-family: Digital;
+  text-align: center;
+  padding-top: 0px;
+  margin: 0px;
+  background-color: #f5f7f7;
+}
+
+.tempoTitulo {
+  font-size: 35px;
+  color: black;
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+}
+
+/************PAINEL*************/
+
+.emptyList {
+  text-align: center;
+  font-size: 24px;
+  font-family: "Quicksand", sans-serif;
+  margin-top: 20px;
+}
+
+.debate {
+  text-align: center;
+  font-size: 24px;
+  font-family: "Quicksand", sans-serif;
+  margin-top: 20px;
+}
+
+.titulo {
+  font-size: 25px;
+  color: black;
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.tituloFC {
+  font-size: 30px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.simboloComite {
+  float: center;
+  height: 75px;
+  width: 75px;
+}
+
+.tituloPeq {
+  font-size: 20px;
+  color: black;
+  text-align: center;
+  padding-left: 20px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.apontamentos {
+  font-size: 18px;
+  color: black;
+  text-align: center;
+  padding-left: 20px;
+  font-family: "Quicksand", sans-serif;
+}
+
+.espacador {
+  height: 35px;
+}
+
+.bandeira1 {
+  max-height: 140px;
+  margin-top: 35px;
+}
+
+.nome1 {
+  font-size: 52px;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  text-align: center;
+}
+
+.nomeDefault {
+  font-size: 20px;
+  padding-left: 5px;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+}
+
+.bandDefault {
+  max-height: 35px;
+}
+
+.flex-item-box {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 5px;
+}
+
+.quantitativo {
+  font-size: 24px;
+  font-family: "Quicksand", cursive;
+}
+
+.ordemDefault {
+  padding-right: 5px;
+  font-size: 24px;
+  color: black;
+  font-family: "Quicksand", sans-serif;
+  display: inline-block;
+  padding-left: 10px;
+}
+
+.painelLateral {
+  position: fixed;
+  right: 0px;
+  bottom: 94px;
+  width: 15px;
+  height: 120px;
+  background-color: #36c1b6;
+}
+
+.painelLateral:hover {
+  position: absolute;
+  bottom: 94px;
+  width: 300px;
+  height: 120px;
+  background-color: #36c1b6;
+}
+
+.botMoreOptions {
+  background-color: #ffffff;
+  color: #000000;
+  border: 0;
+  height: 45px !important;
+  width: 50px !important;
+  font-size: 22px;
+  border-radius: 50px;
+  font-family: "Quicksand", sans-serif;
+  margin-bottom: -10px;
+  padding-top: 8px;
+  outline: 0;
+}
+
+.botMoreOptionsMobile {
+  background-color: #36c1b6;
+  color: #ffffff;
+  border: 0;
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+  border-radius: 100%;
+  font-family: "Quicksand", sans-serif;
+  outline: 0;
+  margin-bottom: 40px !important;
+}
+
+.botControles {
+  background-color: #ffffff;
+  color: #000000;
+  border: 0;
+  width: 18%;
+  height: 45px;
+  font-size: 20px;
+  border-radius: 20px;
+  font-family: "Quicksand", sans-serif;
+  outline: 0;
+  padding-top: 10px;
+  margin-bottom: -10px;
+}
+
+.centralizador {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.botControlesMobile {
+  background-color: #36c1b6;
+  color: #ffffff;
+  border: 0;
+  width: 60px;
+  height: 60px;
+  font-size: 25px;
+  border-radius: 100%;
+  font-family: "Quicksand", sans-serif;
+  margin-bottom: 40px;
+  outline: 0;
+  padding-top: 12px;
+}
+
+.botControles:hover,
+.botMoreOptions:hover {
+  background-color: #dddddd;
+  color: #000000;
+}
+
+.botControlesMobile:hover,
+.botMoreOptionsMobile:hover {
+  background-color: #36c1b6;
+  color: #ffffff;
+}
+
+.paineldeControle {
+  position: fixed;
+  bottom: 70px;
+  background-color: #36c1b6;
+  height: 65px;
+  width: 100%;
+  z-index: 200;
+}
+
+.botPainel {
+  display: inline-block;
+  width: 100%;
+  background-color: #eee;
+  color: #36c1b6;
+  border: 1px solid #36c1b6;
+  height: 50px;
+  font-size: 24px;
+  font-family: "Quicksand", sans-serif;
+  border: 0;
+  border-radius: 40px;
+  outline: 0;
+  margin-bottom: 5px;
+  padding-top: 8px;
+}
+
+.botPainel:hover {
+  background-color: #36c1b6; /*#3ea597*/
+  color: #ffffff;
+  transition: all ease 0.2s;
+}
+
+.paineldeControleMobile {
+  position: fixed;
+  bottom: 50px;
+  background-color: rgba(245, 247, 247, 0.8) !important;
+  height: 70px;
+  width: 100%;
+  z-index: 200;
+  padding: 5px;
+}
+
+.tituloAguardo {
+  font-size: 40px;
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+}
+/******EVITAR QUE A BARRA DE BAIXO CUBRA O CONTEUDO********/
+.espacadorBaixo {
+  height: 110px;
+}
+
+.options {
+  display: inline;
+}
+
+.stateOpt {
+  display: inline;
+}
+
+.nD {
+  display: inline;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+}
+
+.numerosD {
+  font-size: 20px;
+  font-family: "Open Sans Condensed", sans-serif;
+  text-align: center;
+}
+
+.numerosR {
+  font-size: 28px;
+  font-family: "Open Sans Condensed", sans-serif;
+  text-align: center;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+}
+
+.line:nth-child(2n) {
+  background-color: rgba(54, 193, 182, 0.08);
+}
+
+.stateId1 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 18px;
+}
+.stateId2 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 26px;
+}
+.stateId3 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 18px;
+}
+
+.votId1 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 6px;
+}
+.votId2 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 11px;
+}
+.votId3 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 8px;
+}
+.votId4 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 12px;
+}
+.votId5 {
+  display: inline-block;
+  font-size: 25px;
+  font-family: "Open Sans Condensed", sans-serif;
+  padding-right: 12px;
+}
+
+.central {
+  width: 70px;
+  margin-right: 18px;
+}
+
+.removeMargin {
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+/***CHECKBOX PERSONALIZADO***/
+
+.checkNec {
+  display: inline-block;
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  top: -15px;
+}
+
+.checkNec input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  background-color: #000;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 3px;
+  /*border: 1px solid #36C1B6;*/
+}
+
+/* On mouse-over, add a grey background color */
+.checkNec:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkNec input:checked ~ .checkmark {
+  background-color: #36c1b6;
+  transition: all 0.2s ease;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkNec input:checked ~ .checkmark:after {
+  display: inline;
+}
+
+/* Style the checkmark/indicator */
+.checkNec .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 8px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topic {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  font-family: 'Quicksand', sans-serif;
+  margin-bottom: 20px;
+}
+
+.topic .number {
+  margin-right: 10px;
+}
+
+.topic .title {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+
+  font-size: 28px;
+}
+
+.topic > ul {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.topic > ul li {
+  display: flex;
+  align-items: center;
+
+  margin: 0;
+  padding: 0;
+
+  margin-left: 20px;
+  font-size: 22px;
+}
+
+.topic > ul li > .number {
+  font-size: 18px;
+}
+
+#info {
+  font-family: 'Quicksand', sans-serif;
+  margin-top: 120px;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+#info .maiority {
+  font-size: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#rights {
+  font-family: 'Quicksand', sans-serif;
+  margin-top: 50px;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+}
+
+#rights .right-content {
+  font-size: 14px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#rights .right-content .rights-title {
+  font-size: 18px;
+}
+
+#rights .right-content ul {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 80px;
+  font-family: Digital;
+  color: #ff3838;
+
+  margin-top: 40px;
+}
